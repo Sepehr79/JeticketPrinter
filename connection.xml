@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<connectionProperties>
+    <address>localhost</address>
+    <anbar></anbar>
+    <databaseName></databaseName>
+    <password></password>
+    <port>1433</port>
+    <userName></userName>
+</connectionProperties>
