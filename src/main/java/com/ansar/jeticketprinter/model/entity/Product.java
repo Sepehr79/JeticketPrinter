@@ -2,25 +2,25 @@ package com.ansar.jeticketprinter.model.entity;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.util.Objects;
 import java.util.logging.Logger;
 
 public class Product {
 
     private static final Logger logger = Logger.getLogger(Product.class.getName());
 
-    private String barcode;
+
     private BigDecimal highPrice;
     private BigDecimal lowPrice;
     private BigDecimal count;
     private String name;
+    private String barcode;
 
     public Product(String barcode, String name, String highPrice, String lowPrice, String count) {
-        this.barcode = barcode.trim();
-        this.highPrice = new BigDecimal(highPrice.trim());
-        this.lowPrice = new BigDecimal(lowPrice.trim());
-        this.count = new BigDecimal(count.trim());
-        this.name = name.trim();
+        setBarcode(barcode);
+        setHighPrice(highPrice);
+        setLowPrice(lowPrice);
+        setCount(count);
+        setName(name);
     }
 
     public String getBarcode() {
@@ -28,26 +28,33 @@ public class Product {
     }
 
     public void setBarcode(String barcode) {
-        this.barcode = barcode;
+        if (barcode == null)
+            this.barcode = "";
+        else
+            this.barcode = barcode.trim();
     }
 
     public String getHighPrice() {
-        return highPrice.toString();
+        return highPrice.multiply(count).toString();
     }
 
     public void setHighPrice(String highPrice) {
-        if (highPrice.trim().matches("[0-9]*\\.?[0-9]*"))
+        if (highPrice == null)
+            this.highPrice = new BigDecimal("0");
+        else if (highPrice.trim().matches("[0-9]*\\.?[0-9]*"))
             this.highPrice = new BigDecimal(highPrice.trim());
         else
             throw new IllegalArgumentException("You must enter a number");
     }
 
     public String getLowPrice() {
-        return lowPrice.toString();
+        return lowPrice.multiply(count).toString();
     }
 
     public void setLowPrice(String lowPrice) {
-        if (lowPrice.trim().matches("[0-9]*\\.?[0-9]*"))
+        if (lowPrice == null)
+            this.lowPrice = new BigDecimal("0");
+        else if (lowPrice.trim().matches("[0-9]*\\.?[0-9]*"))
             this.lowPrice = new BigDecimal(lowPrice.trim());
         else
             throw new IllegalArgumentException("You must enter a number");
@@ -58,15 +65,20 @@ public class Product {
     }
 
     public void setName(String name) {
-        this.name = name;
+        if (name == null)
+            this.name = "";
+        else
+            this.name = name.trim();
     }
 
-    public BigDecimal getCount() {
-        return count;
+    public String getCount() {
+        return count.toString();
     }
 
     public void setCount(String count) {
-        if (count.trim().matches("[0-9]*\\.?[0-9]*"))
+        if (count == null)
+            this.count = new BigDecimal("1");
+        else if (count.trim().matches("[0-9]*\\.?[0-9]*"))
             this.count = new BigDecimal(count.trim());
         else
             throw new IllegalArgumentException("You must enter a number");
@@ -95,11 +107,10 @@ public class Product {
             logger.info("Final: " + calculating);
 
             return String.valueOf(calculating.intValue());
-        }catch (NumberFormatException exception){
-            exception.printStackTrace();
-            logger.info("Exception in calculating discount");
+        }catch (ArithmeticException exception){
+            logger.info("Exception in calculating discount: Arithmetic exception");
         }
-        return "-1";
+        return "";
     }
 
     @Override
@@ -113,5 +124,17 @@ public class Product {
     @Override
     public int hashCode() {
         return this.barcode.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "barcode='" + getBarcode() + '\'' +
+                ", highPrice=" + getHighPrice() +
+                ", lowPrice=" + getLowPrice() +
+                ", count=" + getCount() +
+                ", name='" + getName() + '\'' +
+                ", discount='" + getDiscount() + '\'' +
+                '}';
     }
 }

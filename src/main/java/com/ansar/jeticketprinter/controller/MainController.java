@@ -1,7 +1,9 @@
 package com.ansar.jeticketprinter.controller;
 
+import com.ansar.jeticketprinter.model.database.api.OpenedDatabaseApi;
 import com.ansar.jeticketprinter.model.entity.ConnectionProperties;
 import com.ansar.jeticketprinter.model.entity.Product;
+import com.sun.javafx.collections.ImmutableObservableList;
 import com.sun.javafx.scene.control.skin.TableViewSkin;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -16,10 +18,13 @@ import javafx.scene.control.cell.TextFieldTableCell;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.*;
 
 public class MainController implements Initializable {
+
 
     @FXML private TextField address;
     @FXML private TextField port;
@@ -35,6 +40,7 @@ public class MainController implements Initializable {
     @FXML private TableColumn<Product, String> highPrice;
     @FXML private TableColumn<Product, String> name;
     @FXML private TableColumn<Product, String> id;
+    @FXML private TableColumn<Product, String> count;
 
     // Data
     private ConnectionProperties properties;
@@ -45,8 +51,6 @@ public class MainController implements Initializable {
         loadData();
         // Setup columns of table to the Product fields
         mapColumnsToProduct();
-        // Add rows just for see results and testing
-        setItems(Collections.singletonList(new Product("4645", "sepehr", "5000", "4000", "1")));
     }
 
     public void clear(ActionEvent actionEvent) {
@@ -58,8 +62,20 @@ public class MainController implements Initializable {
 
         String[] barcodes = searchField.getText().split("\n");
 
-        for (String barcode: barcodes){
+        OpenedDatabaseApi api = OpenedDatabaseApi.getInstance();
 
+        try {
+            api.openConnection(properties);
+
+            Set<Product> products = api.getProductsById(barcodes);
+
+            api.closeConnection();
+
+            table.getItems().clear();
+            table.getItems().addAll(products);
+            table.refresh();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         }
 
         ConnectionProperties.serializeToXml(properties);
@@ -67,17 +83,33 @@ public class MainController implements Initializable {
 
 
     private void mapColumnsToProduct(){
+        // Readable
         name.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
         id.setCellValueFactory(new PropertyValueFactory<Product, String>("barcode"));
         highPrice.setCellValueFactory(new PropertyValueFactory<Product, String>("highPrice"));
         lowPrice.setCellValueFactory(new PropertyValueFactory<Product, String>("lowPrice"));
         discount.setCellValueFactory(new PropertyValueFactory<Product, String>("discount"));
+        count.setCellValueFactory(new PropertyValueFactory<Product, String>("count"));
 
+        // Writable
         name.setCellFactory(TextFieldTableCell.forTableColumn());
         name.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Product, String>>() {
             @Override
             public void handle(TableColumn.CellEditEvent<Product, String> event) {
                 event.getRowValue().setName(event.getNewValue());
+
+                OpenedDatabaseApi api = OpenedDatabaseApi.getInstance();
+
+                try {
+                    api.openConnection(readProperties());
+
+                    api.updateName(event.getNewValue().trim(), event.getRowValue().getBarcode());
+
+                    api.closeConnection();
+                } catch (SQLException exception) {
+                    exception.printStackTrace();
+                }
+
                 event.getTableView().refresh();
             }
         });
@@ -96,6 +128,15 @@ public class MainController implements Initializable {
             @Override
             public void handle(TableColumn.CellEditEvent<Product, String> event) {
                 event.getRowValue().setLowPrice(event.getNewValue());
+                event.getTableView().refresh();
+            }
+        });
+
+        count.setCellFactory(TextFieldTableCell.forTableColumn());
+        count.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Product, String>>() {
+            @Override
+            public void handle(TableColumn.CellEditEvent<Product, String> event) {
+                event.getRowValue().setCount(event.getNewValue());
                 event.getTableView().refresh();
             }
         });
