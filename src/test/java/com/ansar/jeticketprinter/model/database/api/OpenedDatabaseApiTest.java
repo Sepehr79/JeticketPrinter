@@ -73,13 +73,14 @@ public class OpenedDatabaseApiTest {
         api.closeConnection();
     }
 
+    /*
     @Test
     public void testChangeName() throws SQLException {
         OpenedDatabaseApi api = OpenedDatabaseApi.getInstance();
 
         api.openConnection(properties);
 
-        System.out.println(api.updateName("اسکاچ سوپر", "1122339003022"));
+        System.out.println(api.update(OpenedDatabaseApi.UPDATE_NAME ,"اسکاچ سوپر", "1122339003022"));
 
         api.closeConnection();
     }
@@ -90,7 +91,7 @@ public class OpenedDatabaseApiTest {
 
         api.openConnection(properties);
 
-        System.out.println(api.updatePriceForosh("44000", "1122339003022"));
+        System.out.println(api.update(OpenedDatabaseApi.UPDATE_PRICE_FOROSH ,"44000", "1122339003022"));
 
         api.closeConnection();
     }
@@ -101,9 +102,9 @@ public class OpenedDatabaseApiTest {
 
         api.openConnection(properties);
 
-        System.out.println(api.updatePriceConsumer("50000", "1122339003022"));
+        System.out.println(api.update(OpenedDatabaseApi.UPDATE_PRICE_CONSUMER ,"50000", "1122339003022"));
 
         api.closeConnection();
     }
-
+    */
 }

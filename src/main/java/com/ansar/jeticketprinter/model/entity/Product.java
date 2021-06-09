@@ -8,7 +8,6 @@ public class Product {
 
     private static final Logger logger = Logger.getLogger(Product.class.getName());
 
-
     private BigDecimal highPrice;
     private BigDecimal lowPrice;
     private BigDecimal count;
@@ -35,7 +34,7 @@ public class Product {
     }
 
     public String getHighPrice() {
-        return highPrice.multiply(count).toString();
+        return String.valueOf(highPrice.multiply(count).intValue());
     }
 
     public void setHighPrice(String highPrice) {
@@ -48,7 +47,7 @@ public class Product {
     }
 
     public String getLowPrice() {
-        return lowPrice.multiply(count).toString();
+        return String.valueOf(lowPrice.multiply(count).intValue());
     }
 
     public void setLowPrice(String lowPrice) {
@@ -61,7 +60,13 @@ public class Product {
     }
 
     public String getName() {
-        return name;
+        float count = this.count.floatValue();
+        if (count > 1)
+            return name + " " + this.count.intValue() + " عددی ";
+        else if (count < 1)
+            return name + " " + (int)(count * 1000) + " گرمی ";
+        else
+            return name;
     }
 
     public void setName(String name) {
@@ -96,19 +101,16 @@ public class Product {
 
             BigDecimal calculating = highPrice.subtract(lowPrice);
 
-            logger.info("Subtracted price:" + calculating);
-
             calculating = calculating.divide(highPrice, MathContext.DECIMAL128);
-
-            logger.info("Divided price: " + calculating);
 
             calculating = calculating.multiply(new BigDecimal("100"));
 
             logger.info("Final: " + calculating);
 
             return String.valueOf(calculating.intValue());
-        }catch (ArithmeticException exception){
-            logger.info("Exception in calculating discount: Arithmetic exception");
+        }catch (Exception exception){
+            logger.info("Exception in calculating discount: " + exception.getMessage());
+            exception.printStackTrace();
         }
         return "";
     }

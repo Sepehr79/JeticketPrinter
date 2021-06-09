@@ -9,15 +9,22 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.logging.Logger;
 
-public class OpenedDatabaseApi {
+public class OpenedDatabaseApi implements IReadable {
+
+    private static final Logger logger = Logger.getLogger(OpenedDatabaseApi.class.getName());
+
+    public static final Integer UPDATE_NAME = 1;
+    public static final Integer UPDATE_PRICE_FOROSH = 2;
+    public static final Integer UPDATE_PRICE_CONSUMER = 3;
 
     private Connection connection;
 
     private PreparedStatement selectStatement;
-    private PreparedStatement updateNameStatement;
-    private PreparedStatement updatePriceForoshStatement;
-    private PreparedStatement updatePriceConsumerStatement;
+//    private PreparedStatement updateNameStatement;
+//    private PreparedStatement updatePriceForoshStatement;
+//    private PreparedStatement updatePriceConsumerStatement;
 
     private boolean isOpened = false;
 
@@ -47,18 +54,19 @@ public class OpenedDatabaseApi {
                     "on P.ID1 = T.K_Code where (ID1 = ? or K_Code_B = ? or Barcode = ?) and A_Code = ?;");
             selectStatement.setString(4, properties.getAnbar().trim());
 
-            updatePriceForoshStatement = connection.prepareStatement("update Anbar set Price_Forosh = ? where K_Code = ? and A_Code = ?");
-            updatePriceForoshStatement.setString(3, properties.getAnbar());
+            //updatePriceForoshStatement = connection.prepareStatement("update Anbar set Price_Forosh = ? where K_Code = ? and A_Code = ?");
+            //updatePriceForoshStatement.setString(3, properties.getAnbar());
 
-            updatePriceConsumerStatement = connection.prepareStatement("update anbar set Price_Consumer = ? where K_Code = ? and A_Code = ?");
-            updatePriceConsumerStatement.setString(3, properties.getAnbar());
+            //updatePriceConsumerStatement = connection.prepareStatement("update anbar set Price_Consumer = ? where K_Code = ? and A_Code = ?");
+            //updatePriceConsumerStatement.setString(3, properties.getAnbar());
 
-            updateNameStatement = connection.prepareStatement("update kalaid set name1 = ? where K_Code = ?");
+            //updateNameStatement = connection.prepareStatement("update kalaid set name1 = ? where K_Code = ?");
 
             isOpened = true;
         }
     }
 
+    @Override
     public Set<Product> getProductsById(String ...barcodes) throws SQLException {
         // If connection is opened
         if (isOpened){
@@ -87,7 +95,24 @@ public class OpenedDatabaseApi {
         throw new SQLException("Cant execute query: connection is closed");
     }
 
-    public int updateName(String newName, String id) throws SQLException {
+    public void closeConnection(){
+        // If connection is opened
+        if (isOpened){
+            try {
+                selectStatement.close();
+                connection.close();
+                isOpened = false;
+            } catch (SQLException exception) {
+                logger.info("Exception on close connection");
+                exception.printStackTrace();
+            }
+        }
+    }
+
+
+    /*
+    @Deprecated
+    private Integer updateName(String newName, String id) throws SQLException {
         if (isOpened){
             updateNameStatement.setString(1, newName);
             updateNameStatement.setString(2, id);
@@ -97,7 +122,8 @@ public class OpenedDatabaseApi {
         return 0;
     }
 
-    public int updatePriceForosh(String newPrice, String id) throws SQLException {
+    @Deprecated
+    private int updatePriceForosh(String newPrice, String id) throws SQLException {
         if (isOpened){
             updatePriceForoshStatement.setString(1, newPrice);
             updatePriceForoshStatement.setString(2, id);
@@ -107,7 +133,8 @@ public class OpenedDatabaseApi {
         return 0;
     }
 
-    public int updatePriceConsumer(String newPrice, String id) throws SQLException {
+    @Deprecated
+    private int updatePriceConsumer(String newPrice, String id) throws SQLException {
         if (isOpened){
             updatePriceConsumerStatement.setString(1, newPrice);
             updatePriceConsumerStatement.setString(2, id);
@@ -117,15 +144,22 @@ public class OpenedDatabaseApi {
         return 0;
     }
 
-    public void closeConnection() throws SQLException {
-        // If connection is opened
-        if (isOpened){
-            connection.close();
-            isOpened = false;
+    @Override
+    @Deprecated
+    public Integer update(Integer updateType, String newValue, String id) throws SQLException {
+        switch (updateType){
+            case 1:
+                return updateName(newValue, id);
+            case 2:
+                return updatePriceForosh(newValue, id);
+            case 3:
+                return updatePriceConsumer(newValue, id);
         }
+        return 0;
     }
 
-    public PreparedStatement getUpdateNameStatement() {
-        return updateNameStatement;
-    }
+
+     */
+
+
 }

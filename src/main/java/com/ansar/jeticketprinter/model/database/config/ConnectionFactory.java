@@ -3,13 +3,14 @@ package com.ansar.jeticketprinter.model.database.config;
 import com.ansar.jeticketprinter.model.entity.ConnectionProperties;
 import org.apache.commons.dbcp.BasicDataSource;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.net.Socket;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
-public class ConnectionFactory {
+public class ConnectionFactory  {
 
     // Logger for see results and debugging
     private static final Logger logger = Logger.getLogger(ConnectionFactory.class.getName());

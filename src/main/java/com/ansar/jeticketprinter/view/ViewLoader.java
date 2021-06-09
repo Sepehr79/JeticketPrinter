@@ -16,4 +16,8 @@ public class ViewLoader {
         return FXMLLoader.load(Objects.requireNonNull(ViewLoader.class.getResource("MainPage.fxml")));
     }
 
+    public static Parent getSettingsPage() throws IOException {
+        return FXMLLoader.load(Objects.requireNonNull(ViewLoader.class.getResource("Settings.fxml")));
+    }
+
 }

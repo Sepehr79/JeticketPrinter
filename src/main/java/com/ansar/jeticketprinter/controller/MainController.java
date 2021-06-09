@@ -3,27 +3,36 @@ package com.ansar.jeticketprinter.controller;
 import com.ansar.jeticketprinter.model.database.api.OpenedDatabaseApi;
 import com.ansar.jeticketprinter.model.entity.ConnectionProperties;
 import com.ansar.jeticketprinter.model.entity.Product;
-import com.sun.javafx.collections.ImmutableObservableList;
-import com.sun.javafx.scene.control.skin.TableViewSkin;
+import com.ansar.jeticketprinter.view.ViewLoader;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.stage.Stage;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.math.BigDecimal;
+import javax.print.PrintService;
+import java.awt.print.PrinterJob;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.List;
+import java.util.logging.Logger;
 
 public class MainController implements Initializable {
+
+    private static final Logger logger = Logger.getLogger(MainController.class.getName());
+
 
 
     @FXML private TextField address;
@@ -33,6 +42,8 @@ public class MainController implements Initializable {
     @FXML private TextField database;
     @FXML private TextField anbar;
     @FXML private PasswordField password;
+    @FXML private ChoiceBox<PrintService> printer;
+
 
     @FXML private TableView<Product> table;
     @FXML private TableColumn<Product, String> discount;
@@ -40,7 +51,7 @@ public class MainController implements Initializable {
     @FXML private TableColumn<Product, String> highPrice;
     @FXML private TableColumn<Product, String> name;
     @FXML private TableColumn<Product, String> id;
-    @FXML private TableColumn<Product, String> count;
+
 
     // Data
     private ConnectionProperties properties;
@@ -51,6 +62,8 @@ public class MainController implements Initializable {
         loadData();
         // Setup columns of table to the Product fields
         mapColumnsToProduct();
+
+        setPrinters();
     }
 
     public void clear(ActionEvent actionEvent) {
@@ -75,10 +88,26 @@ public class MainController implements Initializable {
             table.getItems().addAll(products);
             table.refresh();
         } catch (SQLException exception) {
+            logger.info("Exception on opening connection");
+            alert("Connection problem!", "Please check your connection fields.");
             exception.printStackTrace();
         }
 
         ConnectionProperties.serializeToXml(properties);
+    }
+
+    public void printResult(ActionEvent actionEvent) {
+    }
+
+    public void openSettings(ActionEvent actionEvent) throws IOException {
+        Parent root = ViewLoader.getSettingsPage();
+
+        Scene scene = new Scene(root);
+
+        Stage settings = new Stage();
+        settings.setScene(scene);
+        settings.setResizable(false);
+        settings.show();
     }
 
 
@@ -89,7 +118,7 @@ public class MainController implements Initializable {
         highPrice.setCellValueFactory(new PropertyValueFactory<Product, String>("highPrice"));
         lowPrice.setCellValueFactory(new PropertyValueFactory<Product, String>("lowPrice"));
         discount.setCellValueFactory(new PropertyValueFactory<Product, String>("discount"));
-        count.setCellValueFactory(new PropertyValueFactory<Product, String>("count"));
+        discount.setSortable(false);
 
         // Writable
         name.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -97,19 +126,6 @@ public class MainController implements Initializable {
             @Override
             public void handle(TableColumn.CellEditEvent<Product, String> event) {
                 event.getRowValue().setName(event.getNewValue());
-
-                OpenedDatabaseApi api = OpenedDatabaseApi.getInstance();
-
-                try {
-                    api.openConnection(readProperties());
-
-                    api.updateName(event.getNewValue().trim(), event.getRowValue().getBarcode());
-
-                    api.closeConnection();
-                } catch (SQLException exception) {
-                    exception.printStackTrace();
-                }
-
                 event.getTableView().refresh();
             }
         });
@@ -118,7 +134,12 @@ public class MainController implements Initializable {
         highPrice.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Product, String>>() {
             @Override
             public void handle(TableColumn.CellEditEvent<Product, String> event) {
-                event.getRowValue().setHighPrice(event.getNewValue());
+                try {
+                    event.getRowValue().setHighPrice(event.getNewValue());
+                }catch (IllegalArgumentException exception){
+                    exception.printStackTrace();
+                    alert("Illegal input error!", "Please enter a valid number.");
+                }
                 event.getTableView().refresh();
             }
         });
@@ -127,16 +148,12 @@ public class MainController implements Initializable {
         lowPrice.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Product, String>>() {
             @Override
             public void handle(TableColumn.CellEditEvent<Product, String> event) {
-                event.getRowValue().setLowPrice(event.getNewValue());
-                event.getTableView().refresh();
-            }
-        });
-
-        count.setCellFactory(TextFieldTableCell.forTableColumn());
-        count.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Product, String>>() {
-            @Override
-            public void handle(TableColumn.CellEditEvent<Product, String> event) {
-                event.getRowValue().setCount(event.getNewValue());
+                try {
+                    event.getRowValue().setLowPrice(event.getNewValue());
+                }catch (IllegalArgumentException exception){
+                    exception.printStackTrace();
+                    alert("Illegal input error!", "Please enter a valid number.");
+                }
                 event.getTableView().refresh();
             }
         });
@@ -185,4 +202,47 @@ public class MainController implements Initializable {
         anbar.setText(properties.getAnbar());
         password.setText(properties.getPassword());
     }
+
+    private void setPrinters(){
+        PrintService[] services = PrinterJob.lookupPrintServices();
+        printer.setItems(FXCollections.observableArrayList(services));
+        if (services.length > 0)
+            printer.setValue(services[0]);
+        else
+            alert("No printers found!", "Please call developer");
+    }
+
+    /*
+     * Update fields in database
+     * @param updateType type of update(NAME_UPDATE, UPDATE_PRICE_FOROSH, UPDATE_PRICE_CONSUMER)
+     * @param newValue newValue of field
+     * @param id primary key
+     */
+//    @Deprecated
+//    private void update(Integer updateType, String newValue, String id){
+//        OpenedDatabaseApi api = OpenedDatabaseApi.getInstance();
+//
+//        try {
+//            api.openConnection(readProperties());
+//
+//            logger.info("Rows updated:" +
+//                    "------------------------------------------------------------------------------> "
+//                    + api.update(updateType, newValue, id));
+//        } catch (SQLException exception) {
+//            logger.info("Exception on SQL processing");
+//            alert("Connection problem!", "Please check your connection fields.");
+//            exception.printStackTrace();
+//        }finally {
+//            api.closeConnection();
+//        }
+//    }
+
+    private void alert(String header, String footer){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText(header);
+        alert.setContentText(footer);
+        alert.showAndWait();
+    }
+
+
 }
