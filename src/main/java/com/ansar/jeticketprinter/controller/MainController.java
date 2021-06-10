@@ -1,15 +1,13 @@
 package com.ansar.jeticketprinter.controller;
 
 import com.ansar.jeticketprinter.model.database.api.OpenedDatabaseApi;
-import com.ansar.jeticketprinter.model.entity.ConnectionProperties;
-import com.ansar.jeticketprinter.model.entity.Product;
+import com.ansar.jeticketprinter.model.entity.*;
 import com.ansar.jeticketprinter.view.ViewLoader;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -21,6 +19,8 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 
 import javax.print.PrintService;
+import java.awt.print.PrinterAbortException;
+import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.io.IOException;
 import java.net.URL;
@@ -52,6 +52,7 @@ public class MainController implements Initializable {
     @FXML private TableColumn<Product, String> name;
     @FXML private TableColumn<Product, String> id;
 
+    private static final Stage settingsWindow = new Stage();
 
     // Data
     private ConnectionProperties properties;
@@ -89,7 +90,7 @@ public class MainController implements Initializable {
             table.refresh();
         } catch (SQLException exception) {
             logger.info("Exception on opening connection");
-            alert("Connection problem!", "Please check your connection fields.");
+            alert("Connection problem!", "Please check your connection fields.", Alert.AlertType.ERROR);
             exception.printStackTrace();
         }
 
@@ -97,17 +98,37 @@ public class MainController implements Initializable {
     }
 
     public void printResult(ActionEvent actionEvent) {
+        List<Product> products = table.getItems().subList(0, table.getItems().size());
+        PrintService printService = printer.getValue();
+        PrintProperties printProperties = PrintProperties.deserializeFromXml();
+
+        if (printService != null){
+            ProductPrinter printer = new ProductPrinter(new ProductPaper(products, printProperties), printService);
+            try {
+                printer.print();
+            }catch (PrinterAbortException exception){
+                logger.info("Printer aborted");
+                exception.printStackTrace();
+            } catch (PrinterException exception) {
+                alert("An error while printing", "Please call developer", Alert.AlertType.ERROR);
+                exception.printStackTrace();
+            }
+        }else
+            alert("No printers selected", "Please select a printer and continue", Alert.AlertType.WARNING);
+
+
     }
 
     public void openSettings(ActionEvent actionEvent) throws IOException {
         Parent root = ViewLoader.getSettingsPage();
-
         Scene scene = new Scene(root);
 
-        Stage settings = new Stage();
-        settings.setScene(scene);
-        settings.setResizable(false);
-        settings.show();
+        if (!settingsWindow.isShowing()){
+            settingsWindow.setScene(scene);
+            settingsWindow.setResizable(false);
+            settingsWindow.show();
+        }
+
     }
 
 
@@ -138,7 +159,7 @@ public class MainController implements Initializable {
                     event.getRowValue().setHighPrice(event.getNewValue());
                 }catch (IllegalArgumentException exception){
                     exception.printStackTrace();
-                    alert("Illegal input error!", "Please enter a valid number.");
+                    alert("Illegal input error!", "Please enter a valid number.", Alert.AlertType.ERROR);
                 }
                 event.getTableView().refresh();
             }
@@ -152,24 +173,12 @@ public class MainController implements Initializable {
                     event.getRowValue().setLowPrice(event.getNewValue());
                 }catch (IllegalArgumentException exception){
                     exception.printStackTrace();
-                    alert("Illegal input error!", "Please enter a valid number.");
+                    alert("Illegal input error!", "Please enter a valid number.", Alert.AlertType.ERROR);
                 }
                 event.getTableView().refresh();
             }
         });
 
-    }
-
-    /**
-     * Set new rows of table
-     * @param products list of products that will set to the current table
-     */
-    private void setItems(List<Product> products){
-        ObservableList<Product> data =
-                FXCollections.observableArrayList(products);
-
-        table.setItems(data);
-        table.refresh();
     }
 
     /**
@@ -205,11 +214,10 @@ public class MainController implements Initializable {
 
     private void setPrinters(){
         PrintService[] services = PrinterJob.lookupPrintServices();
-        printer.setItems(FXCollections.observableArrayList(services));
-        if (services.length > 0)
-            printer.setValue(services[0]);
+        if (services.length < 1)
+            alert("No printers found", "Please call check your printers", Alert.AlertType.ERROR);
         else
-            alert("No printers found!", "Please call developer");
+            printer.setItems(FXCollections.observableArrayList(services));
     }
 
     /*
@@ -237,8 +245,8 @@ public class MainController implements Initializable {
 //        }
 //    }
 
-    private void alert(String header, String footer){
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+    private void alert(String header, String footer, Alert.AlertType type){
+        Alert alert = new Alert(type);
         alert.setHeaderText(header);
         alert.setContentText(footer);
         alert.showAndWait();
