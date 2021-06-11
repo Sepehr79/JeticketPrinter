@@ -84,7 +84,14 @@ public class OpenedDatabaseApi implements IReadable {
                     String highPrice = resultSet.getString("Price_Consumer");
                     String lowPrice = resultSet.getString("Price_Forosh");
                     String count = resultSet.getString("K_Qty1");
-                    String id = resultSet.getString("ID1");
+
+                    String id = "";
+                    if (!resultSet.getString("Barcode").equals(""))
+                        id = resultSet.getString("Barcode");
+                    else if (!resultSet.getString("K_Code_B").equals("0"))
+                        id = resultSet.getString("K_Code_B");
+                    else
+                        id = resultSet.getString("ID1");
 
                     Product product = new Product(id, name, highPrice, lowPrice, count);
                     products.add(product);

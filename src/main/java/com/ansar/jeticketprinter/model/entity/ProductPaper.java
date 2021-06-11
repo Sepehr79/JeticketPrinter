@@ -1,7 +1,10 @@
 package com.ansar.jeticketprinter.model.entity;
 
+import com.github.mfathi91.time.PersianDate;
+
 import java.awt.*;
 import java.awt.print.PageFormat;
+import java.awt.print.Paper;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.time.LocalTime;
@@ -26,6 +29,12 @@ public class ProductPaper implements Printable {
         Graphics2D g2d = (Graphics2D)graphics;
         g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
 
+        // Get current jalali date
+        PersianDate persianDate = PersianDate.now();
+        int year = persianDate.getYear();
+        int month = persianDate.getMonthValue();
+        int day = persianDate.getDayOfMonth();
+
         int paperSize = 0;
         for (Product product:products){
             g2d.setFont(new Font("B Nazanin", Font.PLAIN, printProperties.getNameFont()));
@@ -41,7 +50,7 @@ public class ProductPaper implements Printable {
             g2d.drawString(product.getLowPrice(), printProperties.getLowPriceX(), printProperties.getLowPriceY() + paperSize);
 
             g2d.setFont(new Font("B Nazanin", Font.PLAIN, printProperties.getDateFont()));
-            g2d.drawString(LocalTime.now().toString(), printProperties.getDateX(), printProperties.getDateY());
+            g2d.drawString(year + "/" + month + "/" + day, printProperties.getDateX(), printProperties.getDateY() + paperSize);
 
             paperSize += printProperties.getPaperHeight();
         }

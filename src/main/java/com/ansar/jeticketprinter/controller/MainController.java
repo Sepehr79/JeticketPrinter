@@ -24,6 +24,7 @@ import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.List;
@@ -73,28 +74,34 @@ public class MainController implements Initializable {
 
     public void search(ActionEvent actionEvent) {
         properties = readProperties();
+        if (properties != null){
+            String[] barcodes = searchField.getText().split("\n");
+            OpenedDatabaseApi api = OpenedDatabaseApi.getInstance();
 
-        String[] barcodes = searchField.getText().split("\n");
+            try {
+                api.openConnection(properties);
 
-        OpenedDatabaseApi api = OpenedDatabaseApi.getInstance();
+                Set<Product> products = api.getProductsById(barcodes);
 
-        try {
-            api.openConnection(properties);
 
-            Set<Product> products = api.getProductsById(barcodes);
 
-            api.closeConnection();
+                table.getItems().clear();
+                table.getItems().addAll(products);
+                table.refresh();
+            } catch (SQLException exception) {
+                logger.info("Exception on opening connection");
+                alert("Connection problem!", "Please check your connection fields.", Alert.AlertType.ERROR);
+                exception.printStackTrace();
+            }finally {
+                api.closeConnection();
+            }
 
-            table.getItems().clear();
-            table.getItems().addAll(products);
-            table.refresh();
-        } catch (SQLException exception) {
-            logger.info("Exception on opening connection");
-            alert("Connection problem!", "Please check your connection fields.", Alert.AlertType.ERROR);
-            exception.printStackTrace();
+            ConnectionProperties.serializeToXml(properties);
+        }else {
+            alert("Empty field", "Please fill in all blanks", Alert.AlertType.ERROR);
         }
 
-        ConnectionProperties.serializeToXml(properties);
+
     }
 
     public void printResult(ActionEvent actionEvent) {
@@ -186,20 +193,24 @@ public class MainController implements Initializable {
      * @return properties of inputs
      */
     private ConnectionProperties readProperties(){
-        String address = this.address.getText().trim();
-        String port = this.port.getText().trim();
-        String userName = this.userName.getText().trim();
-        String password = this.password.getText().trim();
-        String dataBase = this.database.getText().trim();
-        String anbar = this.anbar.getText().trim();
+        String address = this.address.getText();
+        String port = this.port.getText();
+        String userName = this.userName.getText();
+        String password = this.password.getText();
+        String dataBase = this.database.getText();
+        String anbar = this.anbar.getText();
 
-        return new ConnectionProperties.Builder().
-                address(address).
-                port(port).
-                userName(userName).
-                password(password).
-                databaseName(dataBase).
-                anbar(anbar).build();
+        if (address != null && port != null && userName != null && password != null && dataBase != null && anbar != null){
+            return new ConnectionProperties.Builder().
+                    address(address.trim()).
+                    port(port.trim()).
+                    userName(userName.trim()).
+                    password(password.trim()).
+                    databaseName(dataBase.trim()).
+                    anbar(anbar.trim()).build();
+        }
+
+        return null;
     }
 
     private void loadData(){

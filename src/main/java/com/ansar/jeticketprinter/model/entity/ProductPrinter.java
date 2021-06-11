@@ -3,8 +3,6 @@ package com.ansar.jeticketprinter.model.entity;
 import javax.print.PrintService;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ProductPrinter {
 
