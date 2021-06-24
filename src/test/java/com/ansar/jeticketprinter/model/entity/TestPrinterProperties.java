@@ -1,5 +1,6 @@
 package com.ansar.jeticketprinter.model.entity;
 
+import com.ansar.jeticketprinter.model.entity.printer.PrintProperties;
 import org.junit.Assert;
 import org.junit.Test;
 

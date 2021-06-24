@@ -1,13 +1,12 @@
-package com.ansar.jeticketprinter.model.entity;
+package com.ansar.jeticketprinter.model.entity.printer;
 
+import com.ansar.jeticketprinter.model.entity.Product;
 import com.github.mfathi91.time.PersianDate;
 
 import java.awt.*;
 import java.awt.print.PageFormat;
-import java.awt.print.Paper;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
-import java.time.LocalTime;
 import java.util.List;
 
 public class ProductPaper implements Printable {
@@ -29,28 +28,27 @@ public class ProductPaper implements Printable {
         Graphics2D g2d = (Graphics2D)graphics;
         g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
 
-        // Get current jalali date
         PersianDate persianDate = PersianDate.now();
-        int year = persianDate.getYear();
         int month = persianDate.getMonthValue();
         int day = persianDate.getDayOfMonth();
 
         int paperSize = 0;
+
         for (Product product:products){
-            g2d.setFont(new Font("B Nazanin", Font.PLAIN, printProperties.getNameFont()));
-            g2d.drawString(product.getName(), printProperties.getNameX(), printProperties.getNameY() + paperSize);
+            g2d.setFont(new Font("B Yekan", Font.PLAIN, printProperties.getNameFont()));
+            g2d.drawString(product.getName(), printProperties.getNameX() - g2d.getFontMetrics().stringWidth(product.getName()), printProperties.getNameY() + paperSize);
 
-            g2d.setFont(new Font("B Nazanin", Font.PLAIN, printProperties.getDiscountFont()));
-            g2d.drawString(product.getDiscount(), printProperties.getDiscountX(), printProperties.getDiscountY() + paperSize);
+            g2d.setFont(new Font("B Yekan", Font.PLAIN, printProperties.getDiscountFont()));
+            g2d.drawString(product.getDiscount(), printProperties.getDiscountX() - g2d.getFontMetrics().stringWidth(product.getDiscount()), printProperties.getDiscountY() + paperSize);
 
-            g2d.setFont(new Font("B Nazanin", Font.PLAIN, printProperties.getHighPriceFont()));
-            g2d.drawString(product.getHighPrice(), printProperties.getHighPriceX(), printProperties.getHighPriceY() + paperSize);
+            g2d.setFont(new Font("B Yekan", Font.PLAIN, printProperties.getHighPriceFont()));
+            g2d.drawString(product.getHighPrice(), printProperties.getHighPriceX() - g2d.getFontMetrics().stringWidth(product.getHighPrice()), printProperties.getHighPriceY() + paperSize);
 
-            g2d.setFont(new Font("B Nazanin", Font.PLAIN, printProperties.getLowPriceFont()));
-            g2d.drawString(product.getLowPrice(), printProperties.getLowPriceX(), printProperties.getLowPriceY() + paperSize);
+            g2d.setFont(new Font("B Yekan", Font.PLAIN, printProperties.getLowPriceFont()));
+            g2d.drawString(product.getLowPrice(), printProperties.getLowPriceX() - g2d.getFontMetrics().stringWidth(product.getLowPrice()), printProperties.getLowPriceY() + paperSize);
 
-            g2d.setFont(new Font("B Nazanin", Font.PLAIN, printProperties.getDateFont()));
-            g2d.drawString(year + "/" + month + "/" + day, printProperties.getDateX(), printProperties.getDateY() + paperSize);
+            g2d.setFont(new Font("B Yekan", Font.PLAIN, printProperties.getDateFont()));
+            g2d.drawString( + month + "/" + day, printProperties.getDateX() - g2d.getFontMetrics().stringWidth(month + "/" + day), printProperties.getDateY() + paperSize);
 
             paperSize += printProperties.getPaperHeight();
         }

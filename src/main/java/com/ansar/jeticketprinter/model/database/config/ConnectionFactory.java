@@ -1,9 +1,8 @@
 package com.ansar.jeticketprinter.model.database.config;
 
-import com.ansar.jeticketprinter.model.entity.ConnectionProperties;
+import com.ansar.jeticketprinter.model.database.api.ConnectionProperties;
 import org.apache.commons.dbcp.BasicDataSource;
 
-import java.io.Closeable;
 import java.io.IOException;
 import java.net.Socket;
 import java.sql.Connection;

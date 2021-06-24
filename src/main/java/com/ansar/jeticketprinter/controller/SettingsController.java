@@ -1,6 +1,10 @@
 package com.ansar.jeticketprinter.controller;
 
 import com.ansar.jeticketprinter.model.entity.*;
+import com.ansar.jeticketprinter.model.entity.printer.PrintProperties;
+import com.ansar.jeticketprinter.model.entity.printer.ProductPaper;
+import com.ansar.jeticketprinter.model.entity.printer.ProductPrinter;
+import com.ansar.jeticketprinter.view.IntegerInputSpinner;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 
 import javax.print.PrintService;
 import java.awt.print.PrinterAbortException;
@@ -41,6 +46,8 @@ public class SettingsController implements Initializable {
     private IntegerInputSpinner dateFont;
 
     private IntegerInputSpinner paperHeight;
+
+    static final Text test = new Text("این یک تست است.");
 
 
     @Override
@@ -129,7 +136,7 @@ public class SettingsController implements Initializable {
         PrintService printService = printers.getValue();
         if (printService != null){
             PrintProperties properties = getPrintProperties();
-            Product product = new Product("111", "این یک تست است", "5000", "4000", "1");
+            Product product = new Product("111", test.getText(), "5000", "4000", "1");
             List<Product> products = new ArrayList<Product>(Collections.singletonList(product));
             ProductPrinter printer = new ProductPrinter(new ProductPaper(products, properties), printService);
             try {
@@ -143,7 +150,7 @@ public class SettingsController implements Initializable {
                 exception.printStackTrace();
             }
         }else {
-            alert("No printers selected!", "Please select a printer and continue", Alert.AlertType.WARNING);
+            alert("پرینتر انتخاب نشد!", "Please select a printer and continue", Alert.AlertType.WARNING);
         }
     }
 

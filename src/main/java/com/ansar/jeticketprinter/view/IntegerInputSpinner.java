@@ -1,4 +1,4 @@
-package com.ansar.jeticketprinter.model.entity;
+package com.ansar.jeticketprinter.view;
 
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;

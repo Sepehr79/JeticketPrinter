@@ -1,6 +1,9 @@
-package com.ansar.jeticketprinter.model.entity;
+package com.ansar.jeticketprinter.model.entity.printer;
 
 import javax.print.PrintService;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.standard.MediaPrintableArea;
+import javax.print.attribute.standard.MediaSize;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 
@@ -15,12 +18,19 @@ public class ProductPrinter {
     }
 
     public void print() throws PrinterException {
+
         PrinterJob printerJob = PrinterJob.getPrinterJob();
+
+        int width = Math.round(MediaSize.ISO.A5.getX(MediaSize.MM));
+        int height = Math.round(MediaSize.ISO.A5.getY(MediaSize.MM));
+
+        HashPrintRequestAttributeSet attr = new HashPrintRequestAttributeSet();
+        attr.add(new MediaPrintableArea(0, 0, width, height, MediaPrintableArea.MM));
 
         printerJob.setPrintable(productPaper);
         printerJob.setPrintService(printService);
 
-        printerJob.print();
+        printerJob.print(attr);
     }
 
     public ProductPaper getProductPaper() {

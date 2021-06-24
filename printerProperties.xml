@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<printProperties>
+    <dateFont>20</dateFont>
+    <dateX>5</dateX>
+    <dateY>5</dateY>
+    <discountFont>20</discountFont>
+    <discountX>15</discountX>
+    <discountY>10</discountY>
+    <highPriceFont>24</highPriceFont>
+    <highPriceX>300</highPriceX>
+    <highPriceY>50</highPriceY>
+    <lowPriceFont>24</lowPriceFont>
+    <lowPriceX>300</lowPriceX>
+    <lowPriceY>80</lowPriceY>
+    <nameFont>20</nameFont>
+    <nameX>300</nameX>
+    <nameY>20</nameY>
+    <paperHeight>108</paperHeight>
+</printProperties>

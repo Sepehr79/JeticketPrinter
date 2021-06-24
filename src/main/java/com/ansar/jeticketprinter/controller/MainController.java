@@ -1,10 +1,13 @@
 package com.ansar.jeticketprinter.controller;
 
+import com.ansar.jeticketprinter.model.database.api.ConnectionProperties;
 import com.ansar.jeticketprinter.model.database.api.OpenedDatabaseApi;
 import com.ansar.jeticketprinter.model.entity.*;
+import com.ansar.jeticketprinter.model.entity.printer.PrintProperties;
+import com.ansar.jeticketprinter.model.entity.printer.ProductPaper;
+import com.ansar.jeticketprinter.model.entity.printer.ProductPrinter;
 import com.ansar.jeticketprinter.view.ViewLoader;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -24,7 +27,6 @@ import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.List;
@@ -82,8 +84,6 @@ public class MainController implements Initializable {
                 api.openConnection(properties);
 
                 Set<Product> products = api.getProductsById(barcodes);
-
-
 
                 table.getItems().clear();
                 table.getItems().addAll(products);

@@ -1,7 +1,6 @@
 package com.ansar.jeticketprinter.model.database.api;
 
 import com.ansar.jeticketprinter.model.database.config.ConnectionFactory;
-import com.ansar.jeticketprinter.model.entity.ConnectionProperties;
 import com.ansar.jeticketprinter.model.entity.Product;
 
 import java.sql.Connection;
@@ -15,9 +14,9 @@ public class OpenedDatabaseApi implements IReadable {
 
     private static final Logger logger = Logger.getLogger(OpenedDatabaseApi.class.getName());
 
-    public static final Integer UPDATE_NAME = 1;
-    public static final Integer UPDATE_PRICE_FOROSH = 2;
-    public static final Integer UPDATE_PRICE_CONSUMER = 3;
+//    public static final Integer UPDATE_NAME = 1;
+//    public static final Integer UPDATE_PRICE_FOROSH = 2;
+//    public static final Integer UPDATE_PRICE_CONSUMER = 3;
 
     private Connection connection;
 
