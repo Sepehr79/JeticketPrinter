@@ -36,19 +36,29 @@ public class ProductPaper implements Printable {
 
         for (Product product:products){
             g2d.setFont(new Font("B Yekan", Font.PLAIN, printProperties.getNameFont()));
-            g2d.drawString(product.getName(), printProperties.getNameX() - g2d.getFontMetrics().stringWidth(product.getName()), printProperties.getNameY() + paperSize);
+            g2d.drawString(product.getName(),
+                    printProperties.getNameX() - g2d.getFontMetrics().stringWidth(product.getName()),
+                    printProperties.getNameY() + paperSize);
 
             g2d.setFont(new Font("B Yekan", Font.PLAIN, printProperties.getDiscountFont()));
-            g2d.drawString(product.getDiscount(), printProperties.getDiscountX() - g2d.getFontMetrics().stringWidth(product.getDiscount()), printProperties.getDiscountY() + paperSize);
+            g2d.drawString(product.getDiscount(),
+                    printProperties.getDiscountX() - g2d.getFontMetrics().stringWidth(product.getDiscount()),
+                    printProperties.getDiscountY() + paperSize);
 
             g2d.setFont(new Font("B Yekan", Font.PLAIN, printProperties.getHighPriceFont()));
-            g2d.drawString(product.getHighPrice(), printProperties.getHighPriceX() - g2d.getFontMetrics().stringWidth(product.getHighPrice()), printProperties.getHighPriceY() + paperSize);
+            g2d.drawString(product.getHighPrice(),
+                    printProperties.getHighPriceX() - g2d.getFontMetrics().stringWidth(product.getHighPrice()),
+                    printProperties.getHighPriceY() + paperSize);
 
             g2d.setFont(new Font("B Yekan", Font.PLAIN, printProperties.getLowPriceFont()));
-            g2d.drawString(product.getLowPrice(), printProperties.getLowPriceX() - g2d.getFontMetrics().stringWidth(product.getLowPrice()), printProperties.getLowPriceY() + paperSize);
+            g2d.drawString(product.getLowPrice(),
+                    printProperties.getLowPriceX() - g2d.getFontMetrics().stringWidth(product.getLowPrice()),
+                    printProperties.getLowPriceY() + paperSize);
 
             g2d.setFont(new Font("B Yekan", Font.PLAIN, printProperties.getDateFont()));
-            g2d.drawString( + month + "/" + day, printProperties.getDateX() - g2d.getFontMetrics().stringWidth(month + "/" + day), printProperties.getDateY() + paperSize);
+            g2d.drawString( + month + "/" + day,
+                    printProperties.getDateX() - g2d.getFontMetrics().stringWidth(month + "/" + day),
+                    printProperties.getDateY() + paperSize);
 
             paperSize += printProperties.getPaperHeight();
         }

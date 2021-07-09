@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="900.0" stylesheets="@css/style.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8.0.261" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ansar.jeticketprinter.controller.MainController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="900.0" stylesheets="@css/style.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ansar.jeticketprinter.controller.MainController">
   <tabs>
     <Tab text="پرینتر">
          <content>
@@ -15,6 +15,7 @@
                      <children>
                         <TableView fx:id="table" editable="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columns>
+                              <TableColumn fx:id="delete" prefWidth="75.0" style="-fx-alignment: center;" styleClass="persianFont" text="حذف" />
                             <TableColumn fx:id="discount" prefWidth="75.0" style="-fx-alignment: center;" styleClass="persianFont" text="درصد تخفیف" />
                               <TableColumn fx:id="highPrice" prefWidth="77.5999755859375" style="-fx-alignment: center;" styleClass="persianFont" text="قیمت مصرف کننده" />
                             <TableColumn fx:id="lowPrice" prefWidth="115.20001220703125" style="-fx-alignment: center;" styleClass="persianFont" text="قیمت فروشگاه" />

@@ -6,7 +6,10 @@ import com.ansar.jeticketprinter.model.entity.*;
 import com.ansar.jeticketprinter.model.entity.printer.PrintProperties;
 import com.ansar.jeticketprinter.model.entity.printer.ProductPaper;
 import com.ansar.jeticketprinter.model.entity.printer.ProductPrinter;
+import com.ansar.jeticketprinter.view.ButtonCell;
 import com.ansar.jeticketprinter.view.ViewLoader;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -20,6 +23,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import javax.print.PrintService;
 import java.awt.print.PrinterAbortException;
@@ -35,7 +39,6 @@ import java.util.logging.Logger;
 public class MainController implements Initializable {
 
     private static final Logger logger = Logger.getLogger(MainController.class.getName());
-
 
 
     @FXML private TextField address;
@@ -54,6 +57,8 @@ public class MainController implements Initializable {
     @FXML private TableColumn<Product, String> highPrice;
     @FXML private TableColumn<Product, String> name;
     @FXML private TableColumn<Product, String> id;
+    @FXML private TableColumn<Product, Boolean> delete;
+
 
     private static final Stage settingsWindow = new Stage();
 
@@ -90,7 +95,7 @@ public class MainController implements Initializable {
                 table.refresh();
             } catch (SQLException exception) {
                 logger.info("Exception on opening connection");
-                alert("Connection problem!", "Please check your connection fields.", Alert.AlertType.ERROR);
+                alert("خطا در اتصال", "لطفا تنظیمات اتصال خود را چک کنید", Alert.AlertType.ERROR);
                 exception.printStackTrace();
             }finally {
                 api.closeConnection();
@@ -98,7 +103,7 @@ public class MainController implements Initializable {
 
             ConnectionProperties.serializeToXml(properties);
         }else {
-            alert("Empty field", "Please fill in all blanks", Alert.AlertType.ERROR);
+            alert("فیلد خالی", "لطفا تمام ورودی ها را تکمیل کنید", Alert.AlertType.ERROR);
         }
 
 
@@ -117,11 +122,11 @@ public class MainController implements Initializable {
                 logger.info("Printer aborted");
                 exception.printStackTrace();
             } catch (PrinterException exception) {
-                alert("An error while printing", "Please call developer", Alert.AlertType.ERROR);
+                alert("خظایی در اتصال با پرینتر رخ داد", "لطفا با توسعه دهنده تماس بگیرید", Alert.AlertType.ERROR);
                 exception.printStackTrace();
             }
         }else
-            alert("No printers selected", "Please select a printer and continue", Alert.AlertType.WARNING);
+            alert("هیچ پرینتری انتخاب نشده است", "لطفا ابتدا یک پرینتر را انتخاب کرده و دوباره تلاش کنید", Alert.AlertType.WARNING);
 
 
     }
@@ -146,46 +151,40 @@ public class MainController implements Initializable {
         highPrice.setCellValueFactory(new PropertyValueFactory<Product, String>("highPrice"));
         lowPrice.setCellValueFactory(new PropertyValueFactory<Product, String>("lowPrice"));
         discount.setCellValueFactory(new PropertyValueFactory<Product, String>("discount"));
-        discount.setSortable(false);
+        delete.setSortable(false);
+
+        // Delete button
+        delete.setCellValueFactory(p -> new SimpleBooleanProperty(p.getValue() != null));
+        delete.setCellFactory(p -> new ButtonCell(table));
 
         // Writable
         name.setCellFactory(TextFieldTableCell.forTableColumn());
-        name.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Product, String>>() {
-            @Override
-            public void handle(TableColumn.CellEditEvent<Product, String> event) {
-                event.getRowValue().setName(event.getNewValue());
-                event.getTableView().refresh();
-            }
+        name.setOnEditCommit(event -> {
+            event.getRowValue().setName(event.getNewValue());
+            event.getTableView().refresh();
         });
 
         highPrice.setCellFactory(TextFieldTableCell.forTableColumn());
-        highPrice.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Product, String>>() {
-            @Override
-            public void handle(TableColumn.CellEditEvent<Product, String> event) {
-                try {
-                    event.getRowValue().setHighPrice(event.getNewValue());
-                }catch (IllegalArgumentException exception){
-                    exception.printStackTrace();
-                    alert("Illegal input error!", "Please enter a valid number.", Alert.AlertType.ERROR);
-                }
-                event.getTableView().refresh();
+        highPrice.setOnEditCommit(event -> {
+            try {
+                event.getRowValue().setHighPrice(event.getNewValue());
+            }catch (IllegalArgumentException exception){
+                exception.printStackTrace();
+                alert("Illegal input error!", "Please enter a valid number.", Alert.AlertType.ERROR);
             }
+            event.getTableView().refresh();
         });
 
         lowPrice.setCellFactory(TextFieldTableCell.forTableColumn());
-        lowPrice.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Product, String>>() {
-            @Override
-            public void handle(TableColumn.CellEditEvent<Product, String> event) {
-                try {
-                    event.getRowValue().setLowPrice(event.getNewValue());
-                }catch (IllegalArgumentException exception){
-                    exception.printStackTrace();
-                    alert("Illegal input error!", "Please enter a valid number.", Alert.AlertType.ERROR);
-                }
-                event.getTableView().refresh();
+        lowPrice.setOnEditCommit(event -> {
+            try {
+                event.getRowValue().setLowPrice(event.getNewValue());
+            }catch (IllegalArgumentException exception){
+                exception.printStackTrace();
+                alert("Illegal input error!", "Please enter a valid number.", Alert.AlertType.ERROR);
             }
+            event.getTableView().refresh();
         });
-
     }
 
     /**
@@ -226,7 +225,7 @@ public class MainController implements Initializable {
     private void setPrinters(){
         PrintService[] services = PrinterJob.lookupPrintServices();
         if (services.length < 1)
-            alert("No printers found", "Please call check your printers", Alert.AlertType.ERROR);
+            alert("هیچ پرینتری یافت نشد", "لطفا اتصال پرینتر های خودرا بررسی کنید", Alert.AlertType.ERROR);
         else
             printer.setItems(FXCollections.observableArrayList(services));
     }
@@ -258,8 +257,9 @@ public class MainController implements Initializable {
 
     private void alert(String header, String footer, Alert.AlertType type){
         Alert alert = new Alert(type);
-        alert.setHeaderText(header);
-        alert.setContentText(footer);
+
+        alert.setHeaderText(String.valueOf(header));
+        alert.setContentText(String.valueOf(footer));
         alert.showAndWait();
     }
 
