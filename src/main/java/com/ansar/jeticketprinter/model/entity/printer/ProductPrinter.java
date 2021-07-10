@@ -25,8 +25,20 @@ public class ProductPrinter {
 
         PrinterJob printerJob = PrinterJob.getPrinterJob();
 
-        int width = Math.round(MediaSize.ISO.A5.getX(MediaSize.MM));
-        int height = Math.round(MediaSize.ISO.A5.getY(MediaSize.MM));
+        int width =  0;
+        int height = 0;
+
+        switch (productPaper.getPrintProperties().getPaperType()){
+            case A5:
+                width = Math.round(MediaSize.ISO.A5.getX(MediaSize.MM));
+                height = Math.round(MediaSize.ISO.A5.getY(MediaSize.MM));
+                break;
+            case A4:
+                width = Math.round(MediaSize.ISO.A4.getX(MediaSize.MM));
+                height = Math.round(MediaSize.ISO.A4.getY(MediaSize.MM));
+                break;
+        }
+
 
         HashPrintRequestAttributeSet attr = new HashPrintRequestAttributeSet();
         attr.add(new MediaPrintableArea(0, 0, width, height, MediaPrintableArea.MM));

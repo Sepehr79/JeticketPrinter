@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <printProperties>
     <dateFont>20</dateFont>
-    <dateX>5</dateX>
-    <dateY>5</dateY>
+    <dateX>30</dateX>
+    <dateY>9</dateY>
     <discountFont>20</discountFont>
-    <discountX>15</discountX>
-    <discountY>10</discountY>
-    <highPriceFont>24</highPriceFont>
-    <highPriceX>300</highPriceX>
-    <highPriceY>50</highPriceY>
-    <lowPriceFont>24</lowPriceFont>
-    <lowPriceX>300</lowPriceX>
-    <lowPriceY>80</lowPriceY>
+    <discountX>5</discountX>
+    <discountY>5</discountY>
+    <highPriceFont>20</highPriceFont>
+    <highPriceX>15</highPriceX>
+    <highPriceY>7</highPriceY>
+    <lowPriceFont>20</lowPriceFont>
+    <lowPriceX>20</lowPriceX>
+    <lowPriceY>8</lowPriceY>
     <nameFont>20</nameFont>
-    <nameX>300</nameX>
-    <nameY>20</nameY>
-    <paperHeight>108</paperHeight>
+    <nameX>10</nameX>
+    <nameY>6</nameY>
+    <paperType>A4</paperType>
+    <ticketHeight>10</ticketHeight>
 </printProperties>

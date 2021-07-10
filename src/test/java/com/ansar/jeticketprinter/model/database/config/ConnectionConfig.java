@@ -18,10 +18,8 @@ public class ConnectionConfig {
 
     @Test
     public void testConnection() throws SQLException {
-
         Connection connection = ConnectionFactory.openConnection(properties);
         connection.close();
-
     }
 
 }

@@ -1,16 +1,18 @@
 package com.ansar.jeticketprinter.controller;
 
 import com.ansar.jeticketprinter.model.entity.*;
+import com.ansar.jeticketprinter.model.entity.printer.PaperType;
 import com.ansar.jeticketprinter.model.entity.printer.PrintProperties;
 import com.ansar.jeticketprinter.model.entity.printer.ProductPaper;
 import com.ansar.jeticketprinter.model.entity.printer.ProductPrinter;
 import com.ansar.jeticketprinter.view.IntegerInputSpinner;
+import com.ansar.jeticketprinter.view.ViewLoader;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 
@@ -27,6 +29,9 @@ public class SettingsController implements Initializable {
 
     @FXML private GridPane gridPane;
     @FXML private ChoiceBox<PrintService> printers;
+
+    @FXML private RadioButton a4;
+    @FXML private RadioButton a5;
 
     private IntegerInputSpinner nameX;
     private IntegerInputSpinner nameY;
@@ -52,8 +57,9 @@ public class SettingsController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         // Load data
-        loadSpinners();
+        loadData();
 
         // Set system printers
         PrintService[] services = PrinterJob.lookupPrintServices();
@@ -61,74 +67,80 @@ public class SettingsController implements Initializable {
     }
 
     public void save(ActionEvent actionEvent) {
-        PrintProperties printProperties = getPrintProperties();
-
-        PrintProperties.serializeToXml(printProperties);
-
+        saveData();
         nameX.getScene().getWindow().hide();
     }
 
     public void reset(ActionEvent actionEvent) {
-        loadSpinners();
+        loadData();
     }
 
-    private void loadSpinners(){
+    private void loadData(){
         // Load data
         PrintProperties printProperties = PrintProperties.deserializeFromXml();
 
         // Discount
         discountFont = new IntegerInputSpinner(printProperties.getDiscountFont());
-        gridPane.add(discountFont, 1, 1);
+        gridPane.add(discountFont, 1, 2);
 
         discountY = new IntegerInputSpinner(printProperties.getDiscountY());
-        gridPane.add(discountY, 2, 1);
+        gridPane.add(discountY, 2, 2);
 
         discountX = new IntegerInputSpinner(printProperties.getDiscountX());
-        gridPane.add(discountX, 3, 1);
+        gridPane.add(discountX, 3, 2);
 
         // Name
         nameFont = new IntegerInputSpinner(printProperties.getNameFont());
-        gridPane.add(nameFont, 1, 2);
+        gridPane.add(nameFont, 1, 3);
 
         nameY = new IntegerInputSpinner(printProperties.getNameY());
-        gridPane.add(nameY, 2, 2);
+        gridPane.add(nameY, 2, 3);
 
         nameX = new IntegerInputSpinner(printProperties.getNameX());
-        gridPane.add(nameX, 3, 2);
+        gridPane.add(nameX, 3, 3);
 
         // High price
         highPriceFont = new IntegerInputSpinner(printProperties.getHighPriceFont());
-        gridPane.add(highPriceFont, 1, 3);
+        gridPane.add(highPriceFont, 1, 4);
 
         highPriceY = new IntegerInputSpinner(printProperties.getHighPriceY());
-        gridPane.add(highPriceY, 2, 3);
+        gridPane.add(highPriceY, 2, 4);
 
         highPriceX = new IntegerInputSpinner(printProperties.getHighPriceX());
-        gridPane.add(highPriceX, 3, 3);
+        gridPane.add(highPriceX, 3, 4);
 
         // Low price
         lowPriceFont = new IntegerInputSpinner(printProperties.getLowPriceFont());
-        gridPane.add(lowPriceFont, 1, 4);
+        gridPane.add(lowPriceFont, 1, 5);
 
         lowPriceY = new IntegerInputSpinner(printProperties.getLowPriceY());
-        gridPane.add(lowPriceY, 2, 4);
+        gridPane.add(lowPriceY, 2, 5);
 
         lowPriceX = new IntegerInputSpinner(printProperties.getLowPriceX());
-        gridPane.add(lowPriceX, 3, 4);
+        gridPane.add(lowPriceX, 3, 5);
 
         // Date
         dateFont = new IntegerInputSpinner(printProperties.getDateFont());
-        gridPane.add(dateFont, 1, 5);
+        gridPane.add(dateFont, 1, 6);
 
         dateY = new IntegerInputSpinner(printProperties.getDateY());
-        gridPane.add(dateY, 2, 5);
+        gridPane.add(dateY, 2, 6);
 
         dateX = new IntegerInputSpinner(printProperties.getDateX());
-        gridPane.add(dateX, 3, 5);
+        gridPane.add(dateX, 3, 6);
 
         // Paper height
-        paperHeight = new IntegerInputSpinner(printProperties.getPaperHeight());
+        paperHeight = new IntegerInputSpinner(printProperties.getTicketHeight());
         gridPane.add(paperHeight, 0, 1);
+
+        switch (printProperties.getPaperType()){
+            case A4:
+                a4.setSelected(true);
+                break;
+            case A5:
+                a5.setSelected(true);
+                break;
+        }
     }
 
 
@@ -150,8 +162,9 @@ public class SettingsController implements Initializable {
                 exception.printStackTrace();
             }
         }else {
-            alert("پرینتر انتخاب نشد!", "Please select a printer and continue", Alert.AlertType.WARNING);
+            alert("پرینتر انتخاب نشد!", "لطفا یک پرینتر را انتخاب کرده و دوباره تلاش کنید", Alert.AlertType.WARNING);
         }
+        saveData();
     }
 
     public PrintProperties getPrintProperties(){
@@ -177,7 +190,12 @@ public class SettingsController implements Initializable {
         printProperties.setDateX(dateX.getValue());
         printProperties.setDateY(dateY.getValue());
 
-        printProperties.setPaperHeight(paperHeight.getValue());
+        printProperties.setTicketHeight(paperHeight.getValue());
+
+        if (a5.isSelected())
+            printProperties.setPaperType(PaperType.A5);
+        else if (a4.isSelected())
+            printProperties.setPaperType(PaperType.A4);
 
         return printProperties;
     }
@@ -188,5 +206,11 @@ public class SettingsController implements Initializable {
         alert.setHeaderText(header);
         alert.setContentText(footer);
         alert.showAndWait();
+    }
+
+    private void saveData(){
+        PrintProperties printProperties = getPrintProperties();
+
+        PrintProperties.serializeToXml(printProperties);
     }
 }

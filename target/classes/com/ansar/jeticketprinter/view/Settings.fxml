@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="300.0" maxWidth="570.0" minHeight="300.0" minWidth="500.0" prefHeight="300.0" prefWidth="521.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ansar.jeticketprinter.controller.SettingsController">
+<AnchorPane maxHeight="370.0" maxWidth="600.0" minHeight="300.0" minWidth="500.0" prefHeight="370.0" prefWidth="565.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ansar.jeticketprinter.controller.SettingsController">
    <children>
       <GridPane fx:id="gridPane" alignment="CENTER" hgap="10.0" layoutX="150.0" layoutY="105.0" vgap="10.0" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
         <columnConstraints>
@@ -15,11 +16,12 @@
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
+            <RowConstraints maxHeight="18.4" minHeight="0.39999809265136577" prefHeight="5.399998092651366" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="48.40000190734863" minHeight="10.0" prefHeight="43.40000190734863" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
@@ -33,27 +35,27 @@
                   <Font name="B Nazanin Bold" size="25.0" />
                </font>
             </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="تخفیف" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="تخفیف" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                <font>
                   <Font name="B Nazanin" size="26.0" />
                </font>
             </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="نام" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="نام" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                <font>
                   <Font name="B Nazanin" size="26.0" />
                </font>
             </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="قیمت مصرف " GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="قیمت مصرف " GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
                <font>
                   <Font name="B Nazanin" size="26.0" />
                </font>
             </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="قیمت فروش" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="قیمت فروش" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
                <font>
                   <Font name="B Nazanin" size="26.0" />
                </font>
             </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="تاریخ چاپ" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="تاریخ چاپ" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="CENTER">
                <font>
                   <Font name="B Nazanin" size="26.0" />
                </font>
@@ -65,9 +67,20 @@
             </Text>
             <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#doTest" text="تست" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
             <ChoiceBox fx:id="printers" prefWidth="150.0" GridPane.rowIndex="3" />
+            <HBox alignment="CENTER" prefHeight="26.0" prefWidth="90.0" spacing="8.0" GridPane.rowIndex="4">
+               <children>
+                  <RadioButton fx:id="a4" mnemonicParsing="false" text="A4">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="p_size" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="a5" mnemonicParsing="false" selected="true" text="A5" toggleGroup="$p_size" />
+               </children></HBox>
+            <ImageView fx:id="leftToRight" fitHeight="45.0" fitWidth="98.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <ImageView fx:id="upToDown" fitHeight="45.0" fitWidth="98.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
          </children>
       </GridPane>
-      <Button layoutX="298.0" layoutY="251.0" mnemonicParsing="false" onAction="#save" prefWidth="80.0" text="اعمال" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="160.0" />
-      <Button layoutX="161.0" layoutY="251.0" mnemonicParsing="false" onAction="#reset" prefWidth="80.0" text="بازیابی" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="160.0" />
+      <Button layoutX="282.0" layoutY="254.0" mnemonicParsing="false" onAction="#save" prefWidth="80.0" text="اعمال" AnchorPane.bottomAnchor="20.399999999999977" AnchorPane.rightAnchor="203.0" />
+      <Button layoutX="203.0" layoutY="254.0" mnemonicParsing="false" onAction="#reset" prefWidth="80.0" text="بازیابی" AnchorPane.bottomAnchor="20.399999999999977" AnchorPane.leftAnchor="203.0" />
    </children>
 </AnchorPane>

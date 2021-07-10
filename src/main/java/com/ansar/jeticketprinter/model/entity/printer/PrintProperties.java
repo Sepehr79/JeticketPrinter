@@ -34,7 +34,17 @@ public class PrintProperties {
     private int lowPriceFont;
     private int dateFont;
 
-    private int paperHeight;
+    private int ticketHeight;
+
+    private PaperType paperType;
+
+    public PaperType getPaperType() {
+        return paperType;
+    }
+
+    public void setPaperType(PaperType paperType) {
+        this.paperType = paperType;
+    }
 
     public static void serializeToXml(PrintProperties properties){
         try(BufferedWriter writer = Files.newBufferedWriter(Paths.get("printerProperties.xml"))) {
@@ -53,7 +63,7 @@ public class PrintProperties {
             exception.printStackTrace();
         }
         PrintProperties properties = new PrintProperties();
-        properties.setPaperHeight(165);
+        properties.setTicketHeight(165);
 
         return properties;
     }
@@ -178,12 +188,12 @@ public class PrintProperties {
         this.dateFont = dateFont;
     }
 
-    public int getPaperHeight() {
-        return paperHeight;
+    public int getTicketHeight() {
+        return ticketHeight;
     }
 
-    public void setPaperHeight(int paperHeight) {
-        this.paperHeight = paperHeight;
+    public void setTicketHeight(int ticketHeight) {
+        this.ticketHeight = ticketHeight;
     }
 
     @Override
@@ -204,7 +214,7 @@ public class PrintProperties {
                 ", highPriceFont=" + highPriceFont +
                 ", lowPriceFont=" + lowPriceFont +
                 ", dateFont=" + dateFont +
-                ", paperHeight=" + paperHeight +
+                ", paperHeight=" + ticketHeight +
                 '}';
     }
 }

@@ -9,10 +9,8 @@ import com.ansar.jeticketprinter.model.entity.printer.ProductPrinter;
 import com.ansar.jeticketprinter.view.ButtonCell;
 import com.ansar.jeticketprinter.view.ViewLoader;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -23,7 +21,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
 import javax.print.PrintService;
 import java.awt.print.PrinterAbortException;
@@ -90,7 +87,7 @@ public class MainController implements Initializable {
 
                 Set<Product> products = api.getProductsById(barcodes);
 
-                table.getItems().clear();
+                //table.getItems().clear();
                 table.getItems().addAll(products);
                 table.refresh();
             } catch (SQLException exception) {
@@ -105,8 +102,6 @@ public class MainController implements Initializable {
         }else {
             alert("فیلد خالی", "لطفا تمام ورودی ها را تکمیل کنید", Alert.AlertType.ERROR);
         }
-
-
     }
 
     public void printResult(ActionEvent actionEvent) {
@@ -122,7 +117,7 @@ public class MainController implements Initializable {
                 logger.info("Printer aborted");
                 exception.printStackTrace();
             } catch (PrinterException exception) {
-                alert("خظایی در اتصال با پرینتر رخ داد", "لطفا با توسعه دهنده تماس بگیرید", Alert.AlertType.ERROR);
+                alert("خطایی در اتصال با پرینتر رخ داد", "لطفا با توسعه دهنده تماس بگیرید", Alert.AlertType.ERROR);
                 exception.printStackTrace();
             }
         }else
