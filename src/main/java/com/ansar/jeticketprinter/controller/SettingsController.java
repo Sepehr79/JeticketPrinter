@@ -51,6 +51,7 @@ public class SettingsController implements Initializable {
     private IntegerInputSpinner dateFont;
 
     private IntegerInputSpinner paperHeight;
+    private IntegerInputSpinner productCounter;
 
     static final Text test = new Text("این یک تست است.");
 
@@ -133,6 +134,9 @@ public class SettingsController implements Initializable {
         paperHeight = new IntegerInputSpinner(printProperties.getTicketHeight());
         gridPane.add(paperHeight, 0, 1);
 
+        productCounter = new IntegerInputSpinner(printProperties.getProductCounter());
+        gridPane.add(productCounter, 0, 3);
+
         switch (printProperties.getPaperType()){
             case A4:
                 a4.setSelected(true);
@@ -191,6 +195,8 @@ public class SettingsController implements Initializable {
         printProperties.setDateY(dateY.getValue());
 
         printProperties.setTicketHeight(paperHeight.getValue());
+
+        printProperties.setProductCounter(productCounter.getValue());
 
         if (a5.isSelected())
             printProperties.setPaperType(PaperType.A5);

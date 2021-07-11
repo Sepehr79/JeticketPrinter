@@ -60,13 +60,13 @@
                   <Font name="B Nazanin" size="26.0" />
                </font>
             </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="اندازه عمودی" wrappingWidth="93.76910400390625" GridPane.columnSpan="2" GridPane.valignment="CENTER">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="اندازه عمودی" textAlignment="CENTER" wrappingWidth="93.76910400390625" GridPane.columnSpan="2" GridPane.valignment="CENTER">
                <font>
-                  <Font name="B Nazanin Bold" size="19.0" />
+                  <Font name="B Nazanin Bold" size="18.0" />
                </font>
             </Text>
-            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#doTest" text="تست" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-            <ChoiceBox fx:id="printers" prefWidth="150.0" GridPane.rowIndex="3" />
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#doTest" text="تست" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="CENTER" />
+            <ChoiceBox fx:id="printers" prefWidth="150.0" GridPane.rowIndex="5" />
             <HBox alignment="CENTER" prefHeight="26.0" prefWidth="90.0" spacing="8.0" GridPane.rowIndex="4">
                <children>
                   <RadioButton fx:id="a4" mnemonicParsing="false" text="A4">
@@ -78,6 +78,11 @@
                </children></HBox>
             <ImageView fx:id="leftToRight" fitHeight="45.0" fitWidth="98.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
             <ImageView fx:id="upToDown" fitHeight="45.0" fitWidth="98.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="تعداد در هر صفحه" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+               <font>
+                  <Font name="B Nazanin Bold" size="18.0" />
+               </font>
+            </Text>
          </children>
       </GridPane>
       <Button layoutX="282.0" layoutY="254.0" mnemonicParsing="false" onAction="#save" prefWidth="80.0" text="اعمال" AnchorPane.bottomAnchor="20.399999999999977" AnchorPane.rightAnchor="203.0" />

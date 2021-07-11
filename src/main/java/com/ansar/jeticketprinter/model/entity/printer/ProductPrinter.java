@@ -39,7 +39,6 @@ public class ProductPrinter {
                 break;
         }
 
-
         HashPrintRequestAttributeSet attr = new HashPrintRequestAttributeSet();
         attr.add(new MediaPrintableArea(0, 0, width, height, MediaPrintableArea.MM));
 

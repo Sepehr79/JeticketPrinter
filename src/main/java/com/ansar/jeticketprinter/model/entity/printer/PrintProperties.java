@@ -36,7 +36,17 @@ public class PrintProperties {
 
     private int ticketHeight;
 
-    private PaperType paperType;
+    private int productCounter;
+
+    private PaperType paperType = PaperType.A5;
+
+    public int getProductCounter() {
+        return productCounter;
+    }
+
+    public void setProductCounter(int productCounter) {
+        this.productCounter = productCounter;
+    }
 
     public PaperType getPaperType() {
         return paperType;
@@ -63,7 +73,7 @@ public class PrintProperties {
             exception.printStackTrace();
         }
         PrintProperties properties = new PrintProperties();
-        properties.setTicketHeight(165);
+        properties.setTicketHeight(5);
 
         return properties;
     }
