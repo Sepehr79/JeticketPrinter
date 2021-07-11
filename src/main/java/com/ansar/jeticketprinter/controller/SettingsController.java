@@ -18,7 +18,6 @@ import java.awt.print.PrinterJob;
 import java.net.URL;
 import java.util.*;
 import java.util.logging.Logger;
-import java.util.stream.Stream;
 
 public class SettingsController implements Initializable {
 
@@ -76,57 +75,57 @@ public class SettingsController implements Initializable {
 
         // Discount
         discountFont = new NumberInputSpinner(printProperties.getDiscountFont());
-        gridPane.add(discountFont, 1, 2);
+        gridPane.add(discountFont, 2, 2);
 
         discountY = new NumberInputSpinner(printProperties.getDiscountY());
-        gridPane.add(discountY, 2, 2);
+        gridPane.add(discountY, 3, 2);
 
         discountX = new NumberInputSpinner(printProperties.getDiscountX());
-        gridPane.add(discountX, 3, 2);
+        gridPane.add(discountX, 4, 2);
 
         // Name
         nameFont = new NumberInputSpinner(printProperties.getNameFont());
-        gridPane.add(nameFont, 1, 3);
+        gridPane.add(nameFont, 2, 3);
 
         nameY = new NumberInputSpinner(printProperties.getNameY());
-        gridPane.add(nameY, 2, 3);
+        gridPane.add(nameY, 3, 3);
 
         nameX = new NumberInputSpinner(printProperties.getNameX());
-        gridPane.add(nameX, 3, 3);
+        gridPane.add(nameX, 4, 3);
 
         // High price
         highPriceFont = new NumberInputSpinner(printProperties.getHighPriceFont());
-        gridPane.add(highPriceFont, 1, 4);
+        gridPane.add(highPriceFont, 2, 4);
 
         highPriceY = new NumberInputSpinner(printProperties.getHighPriceY());
-        gridPane.add(highPriceY, 2, 4);
+        gridPane.add(highPriceY, 3, 4);
 
         highPriceX = new NumberInputSpinner(printProperties.getHighPriceX());
-        gridPane.add(highPriceX, 3, 4);
+        gridPane.add(highPriceX, 4, 4);
 
         // Low price
         lowPriceFont = new NumberInputSpinner(printProperties.getLowPriceFont());
-        gridPane.add(lowPriceFont, 1, 5);
+        gridPane.add(lowPriceFont, 2, 5);
 
         lowPriceY = new NumberInputSpinner(printProperties.getLowPriceY());
-        gridPane.add(lowPriceY, 2, 5);
+        gridPane.add(lowPriceY, 3, 5);
 
         lowPriceX = new NumberInputSpinner(printProperties.getLowPriceX());
-        gridPane.add(lowPriceX, 3, 5);
+        gridPane.add(lowPriceX, 4, 5);
 
         // Date
         dateFont = new NumberInputSpinner(printProperties.getDateFont());
-        gridPane.add(dateFont, 1, 6);
+        gridPane.add(dateFont, 2, 6);
 
         dateY = new NumberInputSpinner(printProperties.getDateY());
-        gridPane.add(dateY, 2, 6);
+        gridPane.add(dateY, 3, 6);
 
         dateX = new NumberInputSpinner(printProperties.getDateX());
-        gridPane.add(dateX, 3, 6);
+        gridPane.add(dateX, 4, 6);
 
         // Paper height
         paperHeight = new NumberInputSpinner(printProperties.getTicketHeight());
-        gridPane.add(paperHeight, 0, 1);
+        gridPane.add(paperHeight, 0, 2);
 
         productCounter = new NumberInputSpinner(printProperties.getProductCounter());
         gridPane.add(productCounter, 0, 3);

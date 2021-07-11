@@ -131,6 +131,7 @@ public class MainController implements Initializable {
         Scene scene = new Scene(root);
 
         if (!settingsWindow.isShowing()){
+            settingsWindow.setTitle(String.valueOf("تنظیمات"));
             settingsWindow.setScene(scene);
             settingsWindow.setResizable(false);
             settingsWindow.show();
