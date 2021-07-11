@@ -3,9 +3,9 @@ package com.ansar.jeticketprinter.view;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 
-public class IntegerInputSpinner extends Spinner<Integer> {
+public class NumberInputSpinner extends Spinner<Integer> {
 
-    public IntegerInputSpinner(Integer number){
+    public NumberInputSpinner(Integer number){
         setEditable(true);
 
         setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(-10000, 10000, number));

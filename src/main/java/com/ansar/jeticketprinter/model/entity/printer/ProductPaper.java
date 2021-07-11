@@ -8,14 +8,18 @@ import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class ProductPaper implements Printable {
+
+    private static final Logger logger = Logger.getLogger(ProductPaper.class.getName());
 
     private List<Product> products;
     private PrintProperties printProperties;
 
     private static final float CM_TO_PX =  37.795280352161f;
 
+    private static int index = 0;
 
     public ProductPaper(List<Product>  products, PrintProperties properties){
         this.products = products;
@@ -24,7 +28,11 @@ public class ProductPaper implements Printable {
 
     @Override
     public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
-        if (pageIndex  < (float) products.size() / printProperties.getProductCounter()){
+
+        //logger.info("pageIndex: " + pageIndex);
+        //logger.info("Cal: " + (float) products.size() / printProperties.getProductCounter());
+
+        if (pageIndex < (float) products.size() / printProperties.getProductCounter()){
             Graphics2D g2d = (Graphics2D)graphics;
             g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
 
@@ -34,7 +42,9 @@ public class ProductPaper implements Printable {
 
             int productLength = 0;
 
-           for (int i = 0; i < printProperties.getProductCounter() && i < products.size(); i++){
+            //logger.info("pageIndex: " + pageIndex);
+
+           for (int i = 0; i < printProperties.getProductCounter() && (pageIndex * printProperties.getProductCounter()) + i < products.size(); i++){
                 g2d.setFont(new Font("B Yekan", Font.PLAIN, printProperties.getNameFont()));
                 g2d.drawString(products.get(pageIndex * printProperties.getProductCounter() + i).getName(),
                         ((printProperties.getNameX() * CM_TO_PX - g2d.getFontMetrics().stringWidth(products.get(pageIndex * printProperties.getProductCounter() + i).getName()))),
@@ -62,6 +72,8 @@ public class ProductPaper implements Printable {
 
                 productLength += printProperties.getTicketHeight() * CM_TO_PX;
             }
+
+           index++;
 
             return PAGE_EXISTS;
         }

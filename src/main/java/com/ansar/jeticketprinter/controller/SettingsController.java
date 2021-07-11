@@ -5,14 +5,12 @@ import com.ansar.jeticketprinter.model.entity.printer.PaperType;
 import com.ansar.jeticketprinter.model.entity.printer.PrintProperties;
 import com.ansar.jeticketprinter.model.entity.printer.ProductPaper;
 import com.ansar.jeticketprinter.model.entity.printer.ProductPrinter;
-import com.ansar.jeticketprinter.view.IntegerInputSpinner;
-import com.ansar.jeticketprinter.view.ViewLoader;
+import com.ansar.jeticketprinter.view.NumberInputSpinner;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 
@@ -33,25 +31,25 @@ public class SettingsController implements Initializable {
     @FXML private RadioButton a4;
     @FXML private RadioButton a5;
 
-    private IntegerInputSpinner nameX;
-    private IntegerInputSpinner nameY;
-    private IntegerInputSpinner discountX;
-    private IntegerInputSpinner discountY;
-    private IntegerInputSpinner highPriceX;
-    private IntegerInputSpinner highPriceY;
-    private IntegerInputSpinner lowPriceX;
-    private IntegerInputSpinner lowPriceY;
-    private IntegerInputSpinner dateX;
-    private IntegerInputSpinner dateY;
+    private NumberInputSpinner nameX;
+    private NumberInputSpinner nameY;
+    private NumberInputSpinner discountX;
+    private NumberInputSpinner discountY;
+    private NumberInputSpinner highPriceX;
+    private NumberInputSpinner highPriceY;
+    private NumberInputSpinner lowPriceX;
+    private NumberInputSpinner lowPriceY;
+    private NumberInputSpinner dateX;
+    private NumberInputSpinner dateY;
 
-    private IntegerInputSpinner nameFont;
-    private IntegerInputSpinner discountFont;
-    private IntegerInputSpinner highPriceFont;
-    private IntegerInputSpinner lowPriceFont;
-    private IntegerInputSpinner dateFont;
+    private NumberInputSpinner nameFont;
+    private NumberInputSpinner discountFont;
+    private NumberInputSpinner highPriceFont;
+    private NumberInputSpinner lowPriceFont;
+    private NumberInputSpinner dateFont;
 
-    private IntegerInputSpinner paperHeight;
-    private IntegerInputSpinner productCounter;
+    private NumberInputSpinner paperHeight;
+    private NumberInputSpinner productCounter;
 
     static final Text test = new Text("این یک تست است.");
 
@@ -81,60 +79,60 @@ public class SettingsController implements Initializable {
         PrintProperties printProperties = PrintProperties.deserializeFromXml();
 
         // Discount
-        discountFont = new IntegerInputSpinner(printProperties.getDiscountFont());
+        discountFont = new NumberInputSpinner(printProperties.getDiscountFont());
         gridPane.add(discountFont, 1, 2);
 
-        discountY = new IntegerInputSpinner(printProperties.getDiscountY());
+        discountY = new NumberInputSpinner(printProperties.getDiscountY());
         gridPane.add(discountY, 2, 2);
 
-        discountX = new IntegerInputSpinner(printProperties.getDiscountX());
+        discountX = new NumberInputSpinner(printProperties.getDiscountX());
         gridPane.add(discountX, 3, 2);
 
         // Name
-        nameFont = new IntegerInputSpinner(printProperties.getNameFont());
+        nameFont = new NumberInputSpinner(printProperties.getNameFont());
         gridPane.add(nameFont, 1, 3);
 
-        nameY = new IntegerInputSpinner(printProperties.getNameY());
+        nameY = new NumberInputSpinner(printProperties.getNameY());
         gridPane.add(nameY, 2, 3);
 
-        nameX = new IntegerInputSpinner(printProperties.getNameX());
+        nameX = new NumberInputSpinner(printProperties.getNameX());
         gridPane.add(nameX, 3, 3);
 
         // High price
-        highPriceFont = new IntegerInputSpinner(printProperties.getHighPriceFont());
+        highPriceFont = new NumberInputSpinner(printProperties.getHighPriceFont());
         gridPane.add(highPriceFont, 1, 4);
 
-        highPriceY = new IntegerInputSpinner(printProperties.getHighPriceY());
+        highPriceY = new NumberInputSpinner(printProperties.getHighPriceY());
         gridPane.add(highPriceY, 2, 4);
 
-        highPriceX = new IntegerInputSpinner(printProperties.getHighPriceX());
+        highPriceX = new NumberInputSpinner(printProperties.getHighPriceX());
         gridPane.add(highPriceX, 3, 4);
 
         // Low price
-        lowPriceFont = new IntegerInputSpinner(printProperties.getLowPriceFont());
+        lowPriceFont = new NumberInputSpinner(printProperties.getLowPriceFont());
         gridPane.add(lowPriceFont, 1, 5);
 
-        lowPriceY = new IntegerInputSpinner(printProperties.getLowPriceY());
+        lowPriceY = new NumberInputSpinner(printProperties.getLowPriceY());
         gridPane.add(lowPriceY, 2, 5);
 
-        lowPriceX = new IntegerInputSpinner(printProperties.getLowPriceX());
+        lowPriceX = new NumberInputSpinner(printProperties.getLowPriceX());
         gridPane.add(lowPriceX, 3, 5);
 
         // Date
-        dateFont = new IntegerInputSpinner(printProperties.getDateFont());
+        dateFont = new NumberInputSpinner(printProperties.getDateFont());
         gridPane.add(dateFont, 1, 6);
 
-        dateY = new IntegerInputSpinner(printProperties.getDateY());
+        dateY = new NumberInputSpinner(printProperties.getDateY());
         gridPane.add(dateY, 2, 6);
 
-        dateX = new IntegerInputSpinner(printProperties.getDateX());
+        dateX = new NumberInputSpinner(printProperties.getDateX());
         gridPane.add(dateX, 3, 6);
 
         // Paper height
-        paperHeight = new IntegerInputSpinner(printProperties.getTicketHeight());
+        paperHeight = new NumberInputSpinner(printProperties.getTicketHeight());
         gridPane.add(paperHeight, 0, 1);
 
-        productCounter = new IntegerInputSpinner(printProperties.getProductCounter());
+        productCounter = new NumberInputSpinner(printProperties.getProductCounter());
         gridPane.add(productCounter, 0, 3);
 
         switch (printProperties.getPaperType()){
