@@ -20,6 +20,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import javax.print.PrintService;
@@ -37,11 +39,11 @@ public class MainController implements Initializable {
 
     private static final Logger logger = Logger.getLogger(MainController.class.getName());
 
-
     @FXML private TextField address;
     @FXML private TextField port;
     @FXML private TextField userName;
-    @FXML private TextArea searchField;
+    @FXML private TextArea barcodes;
+    @FXML private TextField barcode;
     @FXML private TextField database;
     @FXML private TextField anbar;
     @FXML private PasswordField password;
@@ -72,36 +74,20 @@ public class MainController implements Initializable {
         setPrinters();
     }
 
+    public void clearBarcode(KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.ENTER){
+            searchResultFrom(barcode);
+
+            barcode.clear();
+        }
+    }
+
     public void clear(ActionEvent actionEvent) {
         table.getItems().clear();
     }
 
     public void search(ActionEvent actionEvent) {
-        properties = readProperties();
-        if (properties != null){
-            String[] barcodes = searchField.getText().split("\n");
-            OpenedDatabaseApi api = OpenedDatabaseApi.getInstance();
-
-            try {
-                api.openConnection(properties);
-
-                Set<Product> products = api.getProductsById(barcodes);
-
-                //table.getItems().clear();
-                table.getItems().addAll(products);
-                table.refresh();
-            } catch (SQLException exception) {
-                logger.info("Exception on opening connection");
-                alert("خطا در اتصال", "لطفا تنظیمات اتصال خود را چک کنید", Alert.AlertType.ERROR);
-                exception.printStackTrace();
-            }finally {
-                api.closeConnection();
-            }
-
-            ConnectionProperties.serializeToXml(properties);
-        }else {
-            alert("فیلد خالی", "لطفا تمام ورودی ها را تکمیل کنید", Alert.AlertType.ERROR);
-        }
+        searchResultFrom(barcodes);
     }
 
     public void printResult(ActionEvent actionEvent) {
@@ -257,6 +243,35 @@ public class MainController implements Initializable {
         alert.setHeaderText(String.valueOf(header));
         alert.setContentText(String.valueOf(footer));
         alert.showAndWait();
+    }
+
+    private void searchResultFrom(TextInputControl textInputControl){
+        properties = readProperties();
+        if (properties != null){
+
+            String[] barcodes = textInputControl.getText().split("\n");
+            OpenedDatabaseApi api = OpenedDatabaseApi.getInstance();
+
+            try {
+                api.openConnection(properties);
+
+                Set<Product> products = api.getProductsById(barcodes);
+
+                //table.getItems().clear();
+                table.getItems().addAll(products);
+                table.refresh();
+            } catch (SQLException exception) {
+                logger.info("Exception on opening connection");
+                alert("خطا در اتصال", "لطفا تنظیمات اتصال خود را چک کنید", Alert.AlertType.ERROR);
+                exception.printStackTrace();
+            }finally {
+                api.closeConnection();
+            }
+
+            ConnectionProperties.serializeToXml(properties);
+        }else {
+            alert("فیلد خالی", "لطفا تمام ورودی ها را تکمیل کنید", Alert.AlertType.ERROR);
+        }
     }
 
 

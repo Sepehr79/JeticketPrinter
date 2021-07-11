@@ -52,17 +52,23 @@
                                           <Font name="B Nazanin Bold" size="20.0" />
                                        </font>
                                     </Text>
-                                    <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#printResult" text="چاپ" GridPane.columnSpan="2" GridPane.rowIndex="2" />
-                                    <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openSettings" text="تنظیمات" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+                                    <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#printResult" text="چاپ" GridPane.columnSpan="2" GridPane.rowIndex="2">
+                                       <font>
+                                          <Font name="B Yekan" size="18.0" />
+                                       </font></Button>
+                                    <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openSettings" text="تنظیمات" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                                       <font>
+                                          <Font name="B Yekan" size="18.0" />
+                                       </font></Button>
                                     <ChoiceBox fx:id="printer" maxWidth="1.7976931348623157E308" GridPane.columnSpan="2" GridPane.rowIndex="1" />
                                  </children>
                               </GridPane>
                               <GridPane alignment="CENTER_RIGHT" hgap="5.0" maxWidth="900.0" prefWidth="600.0" vgap="5.0">
                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="120.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="120.0" />
                                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="120.0" />
                                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="148.0" minWidth="10.0" prefWidth="148.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="120.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="120.0" />
                                 </columnConstraints>
                                 <rowConstraints>
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -71,19 +77,26 @@
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <TextField fx:id="address" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="آدرس" GridPane.columnIndex="3" />
-                                    <TextField fx:id="port" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="پورت" GridPane.columnIndex="2" />
-                                    <TextField fx:id="userName" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="نام کاربری" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                                    <Button alignment="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clear" text="پاکسازی" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="3" />
-                                    <TextArea fx:id="searchField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" promptText="Barcode(s)" GridPane.columnSpan="2" GridPane.rowSpan="3">
+                                    <TextField fx:id="address" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="آدرس" GridPane.columnIndex="1" />
+                                    <TextField fx:id="port" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="پورت" />
+                                    <TextField fx:id="userName" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="نام کاربری" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Button alignment="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clear" text="پاکسازی" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                                       <font>
+                                          <Font name="B Yekan" size="18.0" />
+                                       </font></Button>
+                                    <TextArea fx:id="barcodes" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" promptText="Barcodes" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2">
                                        <GridPane.margin>
                                           <Insets />
                                        </GridPane.margin>
                                     </TextArea>
-                                    <TextField fx:id="database" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="سال مالی" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                                    <TextField fx:id="anbar" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="انبار" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                                    <Button alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#search" text="جست و جو" textAlignment="CENTER" GridPane.columnSpan="2" GridPane.rowIndex="3" />
-                                    <PasswordField fx:id="password" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="رمز" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                    <TextField fx:id="database" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="سال مالی" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <TextField fx:id="anbar" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="انبار" GridPane.rowIndex="2" />
+                                    <Button alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#search" text="جست و جو" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                                       <font>
+                                          <Font name="B Yekan" size="18.0" />
+                                       </font></Button>
+                                    <PasswordField fx:id="password" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="رمز" GridPane.rowIndex="1" />
+                                    <TextField fx:id="barcode" onKeyPressed="#clearBarcode" promptText="Barcode" GridPane.columnIndex="2" GridPane.columnSpan="2" />
                                  </children>
                                  <HBox.margin>
                                     <Insets bottom="10.0" top="10.0" />
