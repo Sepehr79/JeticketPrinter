@@ -11,6 +11,10 @@ import java.util.logging.Logger;
 
 public class PrintProperties {
 
+    public static enum PaperType{
+        A1, A2, A3, A4, A5
+    }
+
     private static final Logger logger = Logger.getLogger(PrintProperties.class.getName());
 
     private int nameX;

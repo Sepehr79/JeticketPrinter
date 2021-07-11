@@ -19,8 +19,6 @@ public class ProductPaper implements Printable {
 
     private static final float MM_TO_PX =  3.7795280352161f;
 
-    private static int index = 0;
-
     public ProductPaper(List<Product>  products, PrintProperties properties){
         this.products = products;
         this.printProperties = properties;
@@ -67,8 +65,6 @@ public class ProductPaper implements Printable {
 
                 productLength += printProperties.getTicketHeight() * MM_TO_PX;
             }
-
-           index++;
 
             return PAGE_EXISTS;
         }

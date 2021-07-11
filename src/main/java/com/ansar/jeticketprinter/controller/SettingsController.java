@@ -1,7 +1,6 @@
 package com.ansar.jeticketprinter.controller;
 
 import com.ansar.jeticketprinter.model.entity.*;
-import com.ansar.jeticketprinter.model.entity.printer.PaperType;
 import com.ansar.jeticketprinter.model.entity.printer.PrintProperties;
 import com.ansar.jeticketprinter.model.entity.printer.ProductPaper;
 import com.ansar.jeticketprinter.model.entity.printer.ProductPrinter;
@@ -12,7 +11,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
 
 import javax.print.PrintService;
 import java.awt.print.PrinterAbortException;
@@ -20,6 +18,7 @@ import java.awt.print.PrinterJob;
 import java.net.URL;
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 
 public class SettingsController implements Initializable {
 
@@ -51,12 +50,9 @@ public class SettingsController implements Initializable {
     private NumberInputSpinner paperHeight;
     private NumberInputSpinner productCounter;
 
-    static final Text test = new Text("این یک تست است.");
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         // Load data
         loadData();
 
@@ -135,6 +131,7 @@ public class SettingsController implements Initializable {
         productCounter = new NumberInputSpinner(printProperties.getProductCounter());
         gridPane.add(productCounter, 0, 3);
 
+        // Radio buttons
         switch (printProperties.getPaperType()){
             case A4:
                 a4.setSelected(true);
@@ -147,11 +144,16 @@ public class SettingsController implements Initializable {
 
 
     public void doTest(ActionEvent actionEvent) {
+        // Get printer
         PrintService printService = printers.getValue();
+
         if (printService != null){
+            // Read printing data from scene
             PrintProperties properties = getPrintProperties();
-            Product product = new Product("111", test.getText(), "5000", "4000", "1");
-            List<Product> products = new ArrayList<Product>(Collections.singletonList(product));
+
+            Product product = new Product("111", String.valueOf("این یک تست است"), "5000", "4000", "1");
+            List<Product> products = getListOfDuplicateProducts(product, properties.getProductCounter());
+
             ProductPrinter printer = new ProductPrinter(new ProductPaper(products, properties), printService);
             try {
                 printer.print();
@@ -160,13 +162,13 @@ public class SettingsController implements Initializable {
                 exception.printStackTrace();
             }
             catch (Exception exception) {
-                alert("An error while printing!", "Please call developer", Alert.AlertType.ERROR);
+                // TODO working for alerting exception message
+                alert("خطایی هنگام عملیات رخ داد!", "لطفا متن خطا را چک کنید", Alert.AlertType.ERROR);
                 exception.printStackTrace();
             }
         }else {
             alert("پرینتر انتخاب نشد!", "لطفا یک پرینتر را انتخاب کرده و دوباره تلاش کنید", Alert.AlertType.WARNING);
         }
-        saveData();
     }
 
     public PrintProperties getPrintProperties(){
@@ -197,9 +199,9 @@ public class SettingsController implements Initializable {
         printProperties.setProductCounter(productCounter.getValue());
 
         if (a5.isSelected())
-            printProperties.setPaperType(PaperType.A5);
+            printProperties.setPaperType(PrintProperties.PaperType.A5);
         else if (a4.isSelected())
-            printProperties.setPaperType(PaperType.A4);
+            printProperties.setPaperType(PrintProperties.PaperType.A4);
 
         return printProperties;
     }
@@ -207,8 +209,8 @@ public class SettingsController implements Initializable {
     public void alert(String header, String footer, Alert.AlertType type){
         Alert alert = new Alert(Alert.AlertType.WARNING);
 
-        alert.setHeaderText(header);
-        alert.setContentText(footer);
+        alert.setHeaderText(String.valueOf(header));
+        alert.setContentText(String.valueOf(footer));
         alert.showAndWait();
     }
 
@@ -216,5 +218,17 @@ public class SettingsController implements Initializable {
         PrintProperties printProperties = getPrintProperties();
 
         PrintProperties.serializeToXml(printProperties);
+    }
+
+    private List<Product> getListOfDuplicateProducts(Product product, int size){
+        List<Product> products = new ArrayList<>();
+
+        for (int i = 0; i < size ; i++){
+            products.add(product);
+        }
+
+        return products;
+
+
     }
 }
