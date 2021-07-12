@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <printProperties>
     <dateFont>20</dateFont>
-    <dateX>150</dateX>
-    <dateY>25</dateY>
+    <dateX>80</dateX>
+    <dateY>30</dateY>
     <discountFont>20</discountFont>
-    <discountX>150</discountX>
-    <discountY>5</discountY>
+    <discountX>80</discountX>
+    <discountY>10</discountY>
     <highPriceFont>20</highPriceFont>
-    <highPriceX>150</highPriceX>
-    <highPriceY>15</highPriceY>
+    <highPriceX>80</highPriceX>
+    <highPriceY>20</highPriceY>
     <lowPriceFont>20</lowPriceFont>
-    <lowPriceX>150</lowPriceX>
-    <lowPriceY>20</lowPriceY>
+    <lowPriceX>80</lowPriceX>
+    <lowPriceY>25</lowPriceY>
     <nameFont>20</nameFont>
-    <nameX>150</nameX>
-    <nameY>10</nameY>
-    <paperType>A4</paperType>
-    <productCounter>5</productCounter>
-    <ticketHeight>30</ticketHeight>
+    <nameX>80</nameX>
+    <nameY>15</nameY>
+    <paperType>A5</paperType>
+    <productCounter>3</productCounter>
+    <ticketHeight>35</ticketHeight>
 </printProperties>

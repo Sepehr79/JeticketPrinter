@@ -1,4 +1,4 @@
-package com.ansar.jeticketprinter.model.entity.printer;
+package com.ansar.jeticketprinter.printer;
 
 import javax.print.PrintService;
 import javax.print.attribute.HashPrintRequestAttributeSet;

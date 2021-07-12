@@ -1,9 +1,9 @@
 package com.ansar.jeticketprinter.controller;
 
 import com.ansar.jeticketprinter.model.entity.*;
-import com.ansar.jeticketprinter.model.entity.printer.PrintProperties;
-import com.ansar.jeticketprinter.model.entity.printer.ProductPaper;
-import com.ansar.jeticketprinter.model.entity.printer.ProductPrinter;
+import com.ansar.jeticketprinter.printer.PrintProperties;
+import com.ansar.jeticketprinter.printer.ProductPaper;
+import com.ansar.jeticketprinter.printer.ProductPrinter;
 import com.ansar.jeticketprinter.view.NumberInputSpinner;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -60,14 +60,50 @@ public class SettingsController implements Initializable {
         printers.setItems(FXCollections.observableArrayList(services));
     }
 
+    ///////////////////////////////// Events ///////////////////////////////////////
+
     public void save(ActionEvent actionEvent) {
         saveData();
-        nameX.getScene().getWindow().hide();
+        nameX.getScene().getWindow().hide(); // Hide settings page
     }
 
     public void reset(ActionEvent actionEvent) {
         loadData();
     }
+
+    public void doTest(ActionEvent actionEvent) {
+        // Get printer
+        PrintService printService = printers.getValue();
+
+        if (printService != null){
+            // Read printing data from scene
+            PrintProperties properties = getPrintProperties();
+
+            // Testing product
+            Product product = new Product("111", String.valueOf("این یک تست است"), "5000", "4000", "1");
+
+            // Take a list of products based on product counter
+            List<Product> products = getListOfDuplicateProducts(product, properties.getProductCounter());
+
+            ProductPrinter printer = new ProductPrinter(new ProductPaper(products, properties), printService);
+            try {
+                printer.print();
+            }catch (PrinterAbortException exception){
+                logger.info("Printer aborted!");
+                exception.printStackTrace();
+            }
+            // Any exception
+            catch (Exception exception) {
+                // TODO working for alerting exception message later
+                alert("خطایی هنگام عملیات رخ داد!", "لطفا متن خطا را چک کنید", Alert.AlertType.ERROR);
+                exception.printStackTrace();
+            }
+        }else {
+            alert("پرینتر انتخاب نشد!", "لطفا یک پرینتر را انتخاب کرده و دوباره تلاش کنید", Alert.AlertType.WARNING);
+        }
+    }
+
+    //////// End of events
 
     private void loadData(){
         // Load data
@@ -141,35 +177,9 @@ public class SettingsController implements Initializable {
         }
     }
 
-
-    public void doTest(ActionEvent actionEvent) {
-        // Get printer
-        PrintService printService = printers.getValue();
-
-        if (printService != null){
-            // Read printing data from scene
-            PrintProperties properties = getPrintProperties();
-
-            Product product = new Product("111", String.valueOf("این یک تست است"), "5000", "4000", "1");
-            List<Product> products = getListOfDuplicateProducts(product, properties.getProductCounter());
-
-            ProductPrinter printer = new ProductPrinter(new ProductPaper(products, properties), printService);
-            try {
-                printer.print();
-            }catch (PrinterAbortException exception){
-                logger.info("Printer aborted!");
-                exception.printStackTrace();
-            }
-            catch (Exception exception) {
-                // TODO working for alerting exception message
-                alert("خطایی هنگام عملیات رخ داد!", "لطفا متن خطا را چک کنید", Alert.AlertType.ERROR);
-                exception.printStackTrace();
-            }
-        }else {
-            alert("پرینتر انتخاب نشد!", "لطفا یک پرینتر را انتخاب کرده و دوباره تلاش کنید", Alert.AlertType.WARNING);
-        }
-    }
-
+    /**
+     * @return properties based on text inputs
+     */
     public PrintProperties getPrintProperties(){
         PrintProperties printProperties = new PrintProperties();
 
@@ -205,6 +215,9 @@ public class SettingsController implements Initializable {
         return printProperties;
     }
 
+    /**
+     * Show message to the user
+     */
     public void alert(String header, String footer, Alert.AlertType type){
         Alert alert = new Alert(Alert.AlertType.WARNING);
 

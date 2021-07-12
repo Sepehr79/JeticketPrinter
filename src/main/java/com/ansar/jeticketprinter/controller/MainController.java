@@ -3,9 +3,9 @@ package com.ansar.jeticketprinter.controller;
 import com.ansar.jeticketprinter.model.database.api.ConnectionProperties;
 import com.ansar.jeticketprinter.model.database.api.OpenedDatabaseApi;
 import com.ansar.jeticketprinter.model.entity.*;
-import com.ansar.jeticketprinter.model.entity.printer.PrintProperties;
-import com.ansar.jeticketprinter.model.entity.printer.ProductPaper;
-import com.ansar.jeticketprinter.model.entity.printer.ProductPrinter;
+import com.ansar.jeticketprinter.printer.PrintProperties;
+import com.ansar.jeticketprinter.printer.ProductPaper;
+import com.ansar.jeticketprinter.printer.ProductPrinter;
 import com.ansar.jeticketprinter.view.ButtonCell;
 import com.ansar.jeticketprinter.view.ViewLoader;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -40,8 +40,6 @@ public class MainController implements Initializable {
 
     private static final Logger logger = Logger.getLogger(MainController.class.getName());
 
-
-
     @FXML private TextField address;
     @FXML private TextField port;
     @FXML private TextField userName;
@@ -63,7 +61,7 @@ public class MainController implements Initializable {
     @FXML private TableColumn<Product, String> id;
     @FXML private TableColumn<Product, Boolean> delete;
 
-
+    // Settings window
     private static final Stage settingsWindow = new Stage();
 
     // Data
@@ -71,18 +69,24 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // Load data
+        // Update properties
         loadData();
+
         // Setup columns of table to the Product fields
         mapColumnsToProduct();
 
+        // Read system printers
         setPrinters();
     }
 
+    //////////////////////////////////////////////// Events //////////////////////////////////////////////////
+
+    /**
+     * Single barcode reader
+     */
     public void clearBarcode(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER){
             searchResultFrom(barcode);
-
             barcode.clear();
         }
     }
@@ -96,18 +100,26 @@ public class MainController implements Initializable {
     }
 
     public void printResult(ActionEvent actionEvent) {
+        // Read products
         List<Product> products = table.getItems().subList(0, table.getItems().size());
+
+        // Use selected printer
         PrintService printService = printer.getValue();
+
+        // Read print properties
         PrintProperties printProperties = PrintProperties.deserializeFromXml();
 
+        // If a printer selected
         if (printService != null){
             ProductPrinter printer = new ProductPrinter(new ProductPaper(products, printProperties), printService);
             try {
                 printer.print();
             }catch (PrinterAbortException exception){
+                // When printing canceled
                 logger.info("Printer aborted");
                 exception.printStackTrace();
             } catch (PrinterException exception) {
+                // When any exception
                 alert("خطایی در اتصال با پرینتر رخ داد", "لطفا با توسعه دهنده تماس بگیرید", Alert.AlertType.ERROR);
                 exception.printStackTrace();
             }
@@ -117,6 +129,34 @@ public class MainController implements Initializable {
 
     }
 
+    public void doConnectionSettings(ActionEvent actionEvent) {
+        connectionView.setVisible(connectionSettings.isSelected());
+    }
+
+    public void testConnection(ActionEvent actionEvent) {
+        properties = readProperties();
+        if (properties != null){
+            OpenedDatabaseApi api = OpenedDatabaseApi.getInstance();
+            try {
+                api.openConnection(properties);
+
+                alert("پیام", "اتصال موفقیت آمیز بود", Alert.AlertType.INFORMATION);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                alert("پیام", "اتصال برقرار نشد لطفا تنظیمات خود را چک کنید", Alert.AlertType.ERROR);
+            }finally {
+                api.closeConnection();
+            }
+        }
+
+        ConnectionProperties.serializeToXml(properties);
+    }
+
+    ///// End of events /////
+
+    /**
+     * Open settings window
+     */
     public void openSettings(ActionEvent actionEvent) throws IOException {
         Parent root = ViewLoader.getSettingsPage();
         Scene scene = new Scene(root);
@@ -253,29 +293,40 @@ public class MainController implements Initializable {
         alert.showAndWait();
     }
 
+    /**
+     * Read properties from input field and update table
+     * @param textInputControl (TextFiled or TextArea)
+     */
     private void searchResultFrom(TextInputControl textInputControl){
+        // Update properties
         properties = readProperties();
         if (properties != null){
-
+            // Read barcode(s)
             String[] barcodes = textInputControl.getText().split("\n");
+
             OpenedDatabaseApi api = OpenedDatabaseApi.getInstance();
 
             try {
                 api.openConnection(properties);
 
+                // Read products based on their brocades
                 Set<Product> products = api.getProductsById(barcodes);
 
                 //table.getItems().clear();
+
+                // Add new products to the current table
                 table.getItems().addAll(products);
+
                 table.refresh();
             } catch (SQLException exception) {
+                // When properties not true
                 logger.info("Exception on opening connection");
                 alert("خطا در اتصال", "لطفا تنظیمات اتصال خود را چک کنید", Alert.AlertType.ERROR);
                 exception.printStackTrace();
             }finally {
                 api.closeConnection();
             }
-
+            // Save properties
             ConnectionProperties.serializeToXml(properties);
         }else {
             alert("فیلد خالی", "لطفا تمام ورودی ها را تکمیل کنید", Alert.AlertType.ERROR);
@@ -283,27 +334,4 @@ public class MainController implements Initializable {
     }
 
 
-    public void doConnectionSettings(ActionEvent actionEvent) {
-        connectionView.setVisible(connectionSettings.isSelected());
-    }
-
-    public void testConnection(ActionEvent actionEvent) {
-        properties = readProperties();
-        if (properties != null){
-            OpenedDatabaseApi api = OpenedDatabaseApi.getInstance();
-
-            try {
-                api.openConnection(properties);
-
-                alert("پیام", "اتصال موفقیت آمیز بود", Alert.AlertType.INFORMATION);
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-                alert("پیام", "اتصال برقرار نشد لطفا تنظیمات خود را چک کنید", Alert.AlertType.ERROR);
-            }finally {
-                api.closeConnection();
-            }
-        }
-
-        ConnectionProperties.serializeToXml(properties);
-    }
 }

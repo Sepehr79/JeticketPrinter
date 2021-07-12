@@ -1,4 +1,4 @@
-package com.ansar.jeticketprinter.model.entity.printer;
+package com.ansar.jeticketprinter.printer;
 
 import com.ansar.jeticketprinter.model.entity.Product;
 import com.github.mfathi91.time.PersianDate;
