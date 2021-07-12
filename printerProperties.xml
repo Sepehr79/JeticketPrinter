@@ -2,20 +2,20 @@
 <printProperties>
     <dateFont>20</dateFont>
     <dateX>80</dateX>
-    <dateY>30</dateY>
+    <dateY>25</dateY>
     <discountFont>20</discountFont>
     <discountX>80</discountX>
-    <discountY>10</discountY>
+    <discountY>5</discountY>
     <highPriceFont>20</highPriceFont>
     <highPriceX>80</highPriceX>
-    <highPriceY>20</highPriceY>
+    <highPriceY>15</highPriceY>
     <lowPriceFont>20</lowPriceFont>
     <lowPriceX>80</lowPriceX>
-    <lowPriceY>25</lowPriceY>
+    <lowPriceY>20</lowPriceY>
     <nameFont>20</nameFont>
     <nameX>80</nameX>
-    <nameY>15</nameY>
+    <nameY>10</nameY>
     <paperType>A5</paperType>
-    <productCounter>3</productCounter>
-    <ticketHeight>35</ticketHeight>
+    <productCounter>5</productCounter>
+    <ticketHeight>30</ticketHeight>
 </printProperties>

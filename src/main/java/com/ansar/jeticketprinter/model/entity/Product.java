@@ -62,9 +62,9 @@ public class Product {
     public String getName() {
         float count = this.count.floatValue();
         if (count > 1)
-            return String.valueOf(name + " " + this.count.intValue() + " عددی ");
+            return String.valueOf(name + " " + this.count.intValue() + String.valueOf(" عددی "));
         else if (count < 1)
-            return String.valueOf(name + " " + (int)(count * 1000) + " گرمی ");
+            return String.valueOf(name + " " + (int)(count * 1000) + String.valueOf(" گرمی "));
         else
             return name;
     }
