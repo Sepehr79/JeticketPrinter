@@ -22,6 +22,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import javax.print.PrintService;
@@ -39,6 +40,8 @@ public class MainController implements Initializable {
 
     private static final Logger logger = Logger.getLogger(MainController.class.getName());
 
+
+
     @FXML private TextField address;
     @FXML private TextField port;
     @FXML private TextField userName;
@@ -48,6 +51,8 @@ public class MainController implements Initializable {
     @FXML private TextField anbar;
     @FXML private PasswordField password;
     @FXML private ChoiceBox<PrintService> printer;
+    @FXML private CheckBox connectionSettings;
+    @FXML private GridPane connectionView;
 
 
     @FXML private TableView<Product> table;
@@ -179,16 +184,19 @@ public class MainController implements Initializable {
         String userName = this.userName.getText();
         String password = this.password.getText();
         String dataBase = this.database.getText();
-        String anbar = this.anbar.getText();
 
-        if (address != null && port != null && userName != null && password != null && dataBase != null && anbar != null){
+        String anbar = "";
+        if (this.anbar.getText() != null)
+            anbar = this.anbar.getText();
+
+        if (address != null && port != null && userName != null && password != null && dataBase != null){
             return new ConnectionProperties.Builder().
                     address(address.trim()).
                     port(port.trim()).
                     userName(userName.trim()).
                     password(password.trim()).
                     databaseName(dataBase.trim()).
-                    anbar(anbar.trim()).build();
+                    anbar(anbar).build();
         }
 
         return null;
@@ -275,4 +283,27 @@ public class MainController implements Initializable {
     }
 
 
+    public void doConnectionSettings(ActionEvent actionEvent) {
+        connectionView.setVisible(connectionSettings.isSelected());
+    }
+
+    public void testConnection(ActionEvent actionEvent) {
+        properties = readProperties();
+        if (properties != null){
+            OpenedDatabaseApi api = OpenedDatabaseApi.getInstance();
+
+            try {
+                api.openConnection(properties);
+
+                alert("پیام", "اتصال موفقیت آمیز بود", Alert.AlertType.INFORMATION);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                alert("پیام", "اتصال برقرار نشد لطفا تنظیمات خود را چک کنید", Alert.AlertType.ERROR);
+            }finally {
+                api.closeConnection();
+            }
+        }
+
+        ConnectionProperties.serializeToXml(properties);
+    }
 }
