@@ -52,7 +52,14 @@ public class ProductPaper implements Printable {
                 g2d.setFont(new Font("B Yekan", Font.PLAIN, printProperties.getHighPriceFont()));
                 g2d.drawString(managers.get(pageIndex * printProperties.getProductCounter() + i).getHighPrice(),
                         (printProperties.getHighPriceX() * MM_TO_PX - g2d.getFontMetrics().stringWidth(managers.get(pageIndex * printProperties.getProductCounter() + i).getHighPrice())) ,
-                        (printProperties.getHighPriceY() * MM_TO_PX + productLength) );
+                        (printProperties.getHighPriceY() * MM_TO_PX + productLength));
+
+
+               // Draw line on high price
+                int x1 = (int) (printProperties.getHighPriceX() * MM_TO_PX - g2d.getFontMetrics().stringWidth(managers.get(pageIndex * printProperties.getProductCounter() + i).getHighPrice()));
+                int x2 = (int) (printProperties.getHighPriceX() * MM_TO_PX);
+                int y = (int) (printProperties.getHighPriceY() * MM_TO_PX + productLength - (g2d.getFontMetrics().getHeight() / 6));
+                g2d.drawLine(x1, y, x2, y);
 
                 g2d.setFont(new Font("B Yekan", Font.PLAIN, printProperties.getLowPriceFont()));
                 g2d.drawString(managers.get(pageIndex * printProperties.getProductCounter() + i).getLowPrice(),

@@ -16,6 +16,6 @@
     <nameX>150</nameX>
     <nameY>10</nameY>
     <paperType>A4</paperType>
-    <productCounter>2</productCounter>
+    <productCounter>5</productCounter>
     <ticketHeight>30</ticketHeight>
 </printProperties>
