@@ -53,13 +53,13 @@ public class MainController implements Initializable {
     @FXML private GridPane connectionView;
 
 
-    @FXML private TableView<Product> table;
-    @FXML private TableColumn<Product, String> discount;
-    @FXML private TableColumn<Product, String> lowPrice;
-    @FXML private TableColumn<Product, String> highPrice;
-    @FXML private TableColumn<Product, String> name;
-    @FXML private TableColumn<Product, String> id;
-    @FXML private TableColumn<Product, Boolean> delete;
+    @FXML private TableView<ProductsManager> table;
+    @FXML private TableColumn<ProductsManager, String> discount;
+    @FXML private TableColumn<ProductsManager, String> lowPrice;
+    @FXML private TableColumn<ProductsManager, String> highPrice;
+    @FXML private TableColumn<ProductsManager, String> name;
+    @FXML private TableColumn<ProductsManager, String> id;
+    @FXML private TableColumn<ProductsManager, Boolean> delete;
 
     // Settings window
     private static final Stage settingsWindow = new Stage();
@@ -101,7 +101,7 @@ public class MainController implements Initializable {
 
     public void printResult(ActionEvent actionEvent) {
         // Read products
-        List<Product> products = table.getItems().subList(0, table.getItems().size());
+        List<ProductsManager> managers = table.getItems().subList(0, table.getItems().size());
 
         // Use selected printer
         PrintService printService = printer.getValue();
@@ -111,7 +111,7 @@ public class MainController implements Initializable {
 
         // If a printer selected
         if (printService != null){
-            ProductPrinter printer = new ProductPrinter(new ProductPaper(products, printProperties), printService);
+            ProductPrinter printer = new ProductPrinter(new ProductPaper(managers, printProperties), printService);
             try {
                 printer.print();
             }catch (PrinterAbortException exception){
@@ -173,11 +173,11 @@ public class MainController implements Initializable {
 
     private void mapColumnsToProduct(){
         // Readable
-        name.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
-        id.setCellValueFactory(new PropertyValueFactory<Product, String>("barcode"));
-        highPrice.setCellValueFactory(new PropertyValueFactory<Product, String>("highPrice"));
-        lowPrice.setCellValueFactory(new PropertyValueFactory<Product, String>("lowPrice"));
-        discount.setCellValueFactory(new PropertyValueFactory<Product, String>("discount"));
+        name.setCellValueFactory(new PropertyValueFactory<ProductsManager, String>("name"));
+        id.setCellValueFactory(new PropertyValueFactory<ProductsManager, String>("barcode"));
+        highPrice.setCellValueFactory(new PropertyValueFactory<ProductsManager, String>("highPrice"));
+        lowPrice.setCellValueFactory(new PropertyValueFactory<ProductsManager, String>("lowPrice"));
+        discount.setCellValueFactory(new PropertyValueFactory<ProductsManager, String>("discount"));
         delete.setSortable(false);
 
         // Delete button
@@ -310,7 +310,7 @@ public class MainController implements Initializable {
                 api.openConnection(properties);
 
                 // Read products based on their brocades
-                Set<Product> products = api.getProductsById(barcodes);
+                Set<ProductsManager> products = api.getProductsById(barcodes);
 
                 //table.getItems().clear();
 

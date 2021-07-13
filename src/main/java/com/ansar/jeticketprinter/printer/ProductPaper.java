@@ -1,6 +1,7 @@
 package com.ansar.jeticketprinter.printer;
 
 import com.ansar.jeticketprinter.model.entity.Product;
+import com.ansar.jeticketprinter.model.entity.ProductsManager;
 import com.github.mfathi91.time.PersianDate;
 
 import java.awt.*;
@@ -14,20 +15,20 @@ public class ProductPaper implements Printable {
 
     private static final Logger logger = Logger.getLogger(ProductPaper.class.getName());
 
-    private List<Product> products;
+    private List<ProductsManager> managers;
     private PrintProperties printProperties;
 
     private static final float MM_TO_PX =  3.7795280352161f;
 
-    public ProductPaper(List<Product>  products, PrintProperties properties){
-        this.products = products;
+    public ProductPaper(List<ProductsManager> managers, PrintProperties properties){
+        this.managers = managers;
         this.printProperties = properties;
     }
 
     @Override
     public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
 
-        if (pageIndex < (float) products.size() / printProperties.getProductCounter()){
+        if (pageIndex < (float) managers.size() / printProperties.getProductCounter()){
             Graphics2D g2d = (Graphics2D)graphics;
             g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
 
@@ -37,25 +38,25 @@ public class ProductPaper implements Printable {
 
             int productLength = 0;
 
-           for (int i = 0; i < printProperties.getProductCounter() && (pageIndex * printProperties.getProductCounter()) + i < products.size(); i++){
+           for (int i = 0; i < printProperties.getProductCounter() && (pageIndex * printProperties.getProductCounter()) + i < managers.size(); i++){
                 g2d.setFont(new Font("B Yekan", Font.PLAIN, printProperties.getNameFont()));
-                g2d.drawString(products.get(pageIndex * printProperties.getProductCounter() + i).getName(),
-                        ((printProperties.getNameX() * MM_TO_PX - g2d.getFontMetrics().stringWidth(products.get(pageIndex * printProperties.getProductCounter() + i).getName()))),
+                g2d.drawString(managers.get(pageIndex * printProperties.getProductCounter() + i).getName(),
+                        ((printProperties.getNameX() * MM_TO_PX - g2d.getFontMetrics().stringWidth(managers.get(pageIndex * printProperties.getProductCounter() + i).getName()))),
                         (printProperties.getNameY() * MM_TO_PX + productLength));
 
                 g2d.setFont(new Font("B Yekan", Font.PLAIN, printProperties.getDiscountFont()));
-                g2d.drawString(products.get(pageIndex * printProperties.getProductCounter() + i).getDiscount(),
-                        (printProperties.getDiscountX() * MM_TO_PX - g2d.getFontMetrics().stringWidth(products.get(pageIndex * printProperties.getProductCounter() + i).getDiscount())) ,
+                g2d.drawString(managers.get(pageIndex * printProperties.getProductCounter() + i).getDiscount(),
+                        (printProperties.getDiscountX() * MM_TO_PX - g2d.getFontMetrics().stringWidth(managers.get(pageIndex * printProperties.getProductCounter() + i).getDiscount())) ,
                         (printProperties.getDiscountY() * MM_TO_PX + productLength) );
 
                 g2d.setFont(new Font("B Yekan", Font.PLAIN, printProperties.getHighPriceFont()));
-                g2d.drawString(products.get(pageIndex * printProperties.getProductCounter() + i).getHighPrice(),
-                        (printProperties.getHighPriceX() * MM_TO_PX - g2d.getFontMetrics().stringWidth(products.get(pageIndex * printProperties.getProductCounter() + i).getHighPrice())) ,
+                g2d.drawString(managers.get(pageIndex * printProperties.getProductCounter() + i).getHighPrice(),
+                        (printProperties.getHighPriceX() * MM_TO_PX - g2d.getFontMetrics().stringWidth(managers.get(pageIndex * printProperties.getProductCounter() + i).getHighPrice())) ,
                         (printProperties.getHighPriceY() * MM_TO_PX + productLength) );
 
                 g2d.setFont(new Font("B Yekan", Font.PLAIN, printProperties.getLowPriceFont()));
-                g2d.drawString(products.get(pageIndex * printProperties.getProductCounter() + i).getLowPrice(),
-                        (printProperties.getLowPriceX() * MM_TO_PX - g2d.getFontMetrics().stringWidth(products.get(pageIndex * printProperties.getProductCounter() + i).getLowPrice())) ,
+                g2d.drawString(managers.get(pageIndex * printProperties.getProductCounter() + i).getLowPrice(),
+                        (printProperties.getLowPriceX() * MM_TO_PX - g2d.getFontMetrics().stringWidth(managers.get(pageIndex * printProperties.getProductCounter() + i).getLowPrice())) ,
                         (printProperties.getLowPriceY() * MM_TO_PX + productLength) );
 
                 g2d.setFont(new Font("B Yekan", Font.PLAIN, printProperties.getDateFont()));
@@ -72,12 +73,12 @@ public class ProductPaper implements Printable {
         return NO_SUCH_PAGE;
     }
 
-    public List<Product> getProducts() {
-        return products;
+    public List<ProductsManager> getProducts() {
+        return managers;
     }
 
-    public void setProducts(List<Product> products) {
-        this.products = products;
+    public void setProducts(List<ProductsManager> managers) {
+        this.managers = managers;
     }
 
     public PrintProperties getPrintProperties() {

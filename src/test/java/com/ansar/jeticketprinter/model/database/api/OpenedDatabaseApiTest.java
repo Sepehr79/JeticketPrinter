@@ -1,6 +1,6 @@
 package com.ansar.jeticketprinter.model.database.api;
 
-import com.ansar.jeticketprinter.model.entity.Product;
+import com.ansar.jeticketprinter.model.entity.ProductsManager;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -24,11 +24,11 @@ public class OpenedDatabaseApiTest {
 
         api.openConnection(properties);
 
-        Set<Product> products = api.getProductsById("6260001601000");
+        Set<ProductsManager> managers = api.getProductsById("6260001601000");
 
-        Assert.assertEquals(products.size(), 1);
+        Assert.assertEquals(managers.size(), 1);
 
-        System.out.println(products);
+        System.out.println(managers);
 
         api.closeConnection();
 
@@ -40,7 +40,7 @@ public class OpenedDatabaseApiTest {
 
         api.openConnection(properties);
 
-        Set<Product> products = api.getProductsById("6260009100185",
+        Set<ProductsManager> managers = api.getProductsById("6260009100185",
                 "6260009100314",
                 "6260009100321",
                 "6260009100482",
@@ -48,10 +48,10 @@ public class OpenedDatabaseApiTest {
                 "6260009100512"
         );
 
-        Assert.assertEquals(products.size(), 6);
+        Assert.assertEquals(managers.size(), 6);
 
-        for (Product product:products){
-            System.out.println(product);
+        for (ProductsManager manager:managers){
+            System.out.println(manager);
         }
 
         api.closeConnection();
@@ -63,7 +63,7 @@ public class OpenedDatabaseApiTest {
 
         api.openConnection(properties);
 
-        Set<Product> products = api.getProductsById("6261715203252");
+        Set<ProductsManager> products = api.getProductsById("6261715203252");
 
         System.out.println(products);
 

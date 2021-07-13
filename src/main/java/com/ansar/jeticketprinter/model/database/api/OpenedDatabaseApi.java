@@ -1,7 +1,7 @@
 package com.ansar.jeticketprinter.model.database.api;
 
 import com.ansar.jeticketprinter.model.database.config.ConnectionFactory;
-import com.ansar.jeticketprinter.model.entity.Product;
+import com.ansar.jeticketprinter.model.entity.ProductsManager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -66,10 +66,10 @@ public class OpenedDatabaseApi implements IReadable {
     }
 
     @Override
-    public Set<Product> getProductsById(String ...barcodes) throws SQLException {
+    public Set<ProductsManager> getProductsById(String ...barcodes) throws SQLException {
         // If connection is opened
         if (isOpened){
-            Set<Product> products = new HashSet<>();
+            Set<ProductsManager> managers = new HashSet<>();
 
             for (String barcode : barcodes) {
                 selectStatement.setString(1, barcode);
@@ -92,11 +92,11 @@ public class OpenedDatabaseApi implements IReadable {
                     else
                         id = resultSet.getString("ID1");
 
-                    Product product = new Product(id, name, highPrice, lowPrice, count);
-                    products.add(product);
+                    ProductsManager manager = new ProductsManager(id, name, highPrice, lowPrice, count);
+                    managers.add(manager);
                 }
             }
-            return products;
+            return managers;
         }
         throw new SQLException("Cant execute query: connection is closed");
     }

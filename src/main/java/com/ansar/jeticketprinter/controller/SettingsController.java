@@ -80,10 +80,10 @@ public class SettingsController implements Initializable {
             PrintProperties properties = getPrintProperties();
 
             // Testing product
-            Product product = new Product("111", String.valueOf("این یک تست است"), "5000", "4000", "1");
+            ProductsManager manager = new ProductsManager("111", String.valueOf("این یک تست است"), "5000", "4000", "1");
 
             // Take a list of products based on product counter
-            List<Product> products = getListOfDuplicateProducts(product, properties.getProductCounter());
+            List<ProductsManager> products = getListOfDuplicateProducts(manager, properties.getProductCounter());
 
             ProductPrinter printer = new ProductPrinter(new ProductPaper(products, properties), printService);
             try {
@@ -232,14 +232,14 @@ public class SettingsController implements Initializable {
         PrintProperties.serializeToXml(printProperties);
     }
 
-    private List<Product> getListOfDuplicateProducts(Product product, int size){
-        List<Product> products = new ArrayList<>();
+    private List<ProductsManager> getListOfDuplicateProducts(ProductsManager manager, int size){
+        List<ProductsManager> managers = new ArrayList<>();
 
         for (int i = 0; i < size ; i++){
-            products.add(product);
+            managers.add(manager);
         }
 
-        return products;
+        return managers;
 
 
     }

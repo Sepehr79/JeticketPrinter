@@ -1,16 +1,17 @@
 package com.ansar.jeticketprinter.view;
 
-import com.ansar.jeticketprinter.model.entity.Product;
+
+import com.ansar.jeticketprinter.model.entity.ProductsManager;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableView;
 
-public class ButtonCell extends TableCell<Product, Boolean> {
+public class ButtonCell extends TableCell<ProductsManager, Boolean> {
     final Button cellButton = new Button(String.valueOf("×"));
 
-    public ButtonCell(final TableView<Product> tblView) {
+    public ButtonCell(TableView<ProductsManager> tblView) {
 
         cellButton.setOnAction(new EventHandler<ActionEvent>() {
 
