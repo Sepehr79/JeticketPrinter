@@ -10,10 +10,10 @@ public class Product {
     private String barcode;
 
     public Product(String barcode, String name, BigDecimal highPrice, BigDecimal lowPrice) {
-        setBarcode(barcode);
-        setHighPrice(highPrice);
-        setLowPrice(lowPrice);
-        setName(name);
+       this.barcode = barcode;
+       this.name = name;
+       this.highPrice = highPrice;
+       this.lowPrice = lowPrice;
     }
 
     public Product(){

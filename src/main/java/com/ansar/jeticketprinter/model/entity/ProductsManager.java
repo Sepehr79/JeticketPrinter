@@ -4,14 +4,10 @@ import java.math.BigDecimal;
 
 public class ProductsManager {
 
-    private final Products products = new Products();
+    private final Products products;
 
     public ProductsManager(String barcode, String name, String highPrice, String lowPrice, String count){
-        setBarcode(barcode);
-        setName(name);
-        setHighPrice(highPrice);
-        setLowPrice(lowPrice);
-        setCount(count);
+        products = new Products(barcode, name, highPrice, lowPrice, new BigDecimal(count));
     }
 
     public String getBarcode() {

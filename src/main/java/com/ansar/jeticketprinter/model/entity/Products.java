@@ -8,19 +8,15 @@ public class Products {
 
     private static final Logger logger = Logger.getLogger(Products.class.getName());
 
-    private final Product product = new Product();
+    private final Product product;
     private BigDecimal count;
 
+    private boolean highPriceSetterUsed = false;
+    private boolean lowPriceSetterUsed = false;
+
     public Products(String barcode, String name, String highPrice, String lowPrice, BigDecimal count) {
-        setBarcode(barcode);
-        setName(name);
-        setHighPrice(highPrice);
-        setLowPrice(lowPrice);
+        product = new Product(barcode, name, new BigDecimal(highPrice), new BigDecimal(lowPrice));
         setCount(count);
-    }
-
-    public Products(){
-
     }
 
     public String getBarcode() {
@@ -32,10 +28,13 @@ public class Products {
     }
 
     public String getHighPrice() {
-        return String.valueOf(product.getHighPrice().multiply(count).intValue());
+        if (!highPriceSetterUsed)
+            return String.valueOf(product.getHighPrice().multiply(count).intValue());
+        return String.valueOf(product.getHighPrice());
     }
 
     public void setHighPrice(String highPrice) {
+        highPriceSetterUsed = true;
         if (highPrice == null)
             this.product.setHighPrice(new BigDecimal("0"));
         else if (highPrice.trim().matches("[0-9]*\\.?[0-9]*"))
@@ -45,10 +44,13 @@ public class Products {
     }
 
     public String getLowPrice() {
-        return String.valueOf(product.getLowPrice().multiply(count).intValue());
+        if (!lowPriceSetterUsed)
+            return String.valueOf(product.getLowPrice().multiply(count).intValue());
+        return String.valueOf(product.getLowPrice());
     }
 
     public void setLowPrice(String lowPrice) {
+        lowPriceSetterUsed = true;
         if (lowPrice == null)
             this.product.setLowPrice(new BigDecimal("0"));
         else if (lowPrice.trim().matches("[0-9]*\\.?[0-9]*"))
@@ -86,12 +88,15 @@ public class Products {
      * Calculates discount
      */
     public String getDiscount()  {
-        logger.info("High price: " + product.getHighPrice());
-        logger.info("Low price: " + product.getLowPrice());
+        BigDecimal highPrice = new BigDecimal(getHighPrice());
+        BigDecimal lowPrice = new BigDecimal(getLowPrice());
 
-        BigDecimal calculating = product.getHighPrice().subtract(product.getLowPrice());
+        logger.info("High price: " + highPrice.intValue());
+        logger.info("Low price: " +  lowPrice.intValue());
 
-        calculating = calculating.divide(product.getHighPrice(), MathContext.DECIMAL128);
+        BigDecimal calculating =  highPrice.subtract(lowPrice); // product.getHighPrice().subtract(product.getLowPrice());
+
+        calculating = calculating.divide( highPrice , MathContext.DECIMAL128);
 
         calculating = calculating.multiply(new BigDecimal("100"));
 
