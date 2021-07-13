@@ -11,8 +11,10 @@ public class Products {
     private final Product product;
     private BigDecimal count;
 
+    // Change table fields by the user
     private boolean highPriceSetterUsed = false;
     private boolean lowPriceSetterUsed = false;
+    private boolean nameSetterUsed = false;
 
     public Products(String barcode, String name, String highPrice, String lowPrice, BigDecimal count) {
         product = new Product(barcode, name, new BigDecimal(highPrice), new BigDecimal(lowPrice));
@@ -30,6 +32,7 @@ public class Products {
     public String getHighPrice() {
         if (!highPriceSetterUsed)
             return String.valueOf(product.getHighPrice().multiply(count).intValue());
+        // If user changes the field then return value without any processing
         return String.valueOf(product.getHighPrice());
     }
 
@@ -46,6 +49,7 @@ public class Products {
     public String getLowPrice() {
         if (!lowPriceSetterUsed)
             return String.valueOf(product.getLowPrice().multiply(count).intValue());
+        // If user changes the field then return value without any processing
         return String.valueOf(product.getLowPrice());
     }
 
@@ -60,6 +64,10 @@ public class Products {
     }
 
     public String getName() {
+        // If user changes the field then return value without any processing
+        if (nameSetterUsed)
+            return String.valueOf(product.getName());
+
         float count = this.count.floatValue();
         if (count > 1)
             return String.valueOf(product.getName() + " " + this.count.intValue() + String.valueOf(" عددی "));
@@ -70,6 +78,7 @@ public class Products {
     }
 
     public void setName(String name) {
+        nameSetterUsed = true;
         if (name == null)
             this.product.setName("");
         else
