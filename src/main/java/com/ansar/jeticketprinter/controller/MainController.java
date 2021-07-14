@@ -96,7 +96,12 @@ public class MainController implements Initializable {
     }
 
     public void search(ActionEvent actionEvent) {
-        searchResultFrom(barcodes);
+        try {
+            searchResultFrom(barcodes);
+        }catch (NullPointerException exception){
+            logger.info("Null pointer cause no arg on barcodes label");
+        }
+
     }
 
     public void printResult(ActionEvent actionEvent) {

@@ -39,7 +39,7 @@ public class ProductPaper implements Printable {
             int productLength = 0;
 
            for (int i = 0; i < printProperties.getProductCounter() && (pageIndex * printProperties.getProductCounter()) + i < managers.size(); i++){
-                g2d.setFont(new Font("B Yekan", Font.PLAIN, printProperties.getNameFont()));
+                g2d.setFont(FontLoader.getBYekan());
                 g2d.drawString(managers.get(pageIndex * printProperties.getProductCounter() + i).getName(),
                         ((printProperties.getNameX() * MM_TO_PX - g2d.getFontMetrics().stringWidth(managers.get(pageIndex * printProperties.getProductCounter() + i).getName()))),
                         (printProperties.getNameY() * MM_TO_PX + productLength));

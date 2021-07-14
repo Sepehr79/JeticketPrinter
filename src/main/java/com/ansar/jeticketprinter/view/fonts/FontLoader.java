@@ -14,7 +14,7 @@ public class FontLoader {
 
     public static Font getBYekan(){
         PrintProperties properties = PrintProperties.deserializeFromXml();
-        Font font = new Font(FontLoader.class.getResource("myYekn.ttf").toExternalForm() , Font.PLAIN, properties.getNameFont());
+        Font font = new Font(FontLoader.class.getResource("Yekan.ttf").toExternalForm() , Font.PLAIN, properties.getNameFont());
         return font;
     }
 

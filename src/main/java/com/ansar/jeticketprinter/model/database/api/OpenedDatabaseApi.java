@@ -79,10 +79,10 @@ public class OpenedDatabaseApi implements IReadable {
                 ResultSet resultSet = selectStatement.executeQuery();
 
                 while (resultSet.next()){
-                    String name = resultSet.getString("Name1");
-                    String highPrice = resultSet.getString("Price_Consumer");
-                    String lowPrice = resultSet.getString("Price_Forosh");
-                    String count = resultSet.getString("K_Qty1");
+                    String name = (resultSet.getString("Name1") == null) ? " " : (resultSet.getString("Name1"));
+                    String highPrice = (resultSet.getString("Price_Consumer") == null) ? "0" :  (resultSet.getString("Price_Consumer"));
+                    String lowPrice = (resultSet.getString("Price_Forosh") == null) ? "0" :  (resultSet.getString("Price_Forosh"));
+                    String count = (resultSet.getString("K_Qty1") == null) ? "1" :   (resultSet.getString("K_Qty1"));
 
                     String id = "";
                     if (!resultSet.getString("Barcode").equals(""))
