@@ -48,7 +48,10 @@ public class ProductPaper implements Printable {
                    }else {
                        g2d.setFont(new Font("B Yekan", Font.PLAIN, printProperties.getNameFont()));
                    }
-                   names[j] = names[j] + " " ;
+                   if(j > 0 && names[j-1].matches(".*[0-9].*"))
+                       names[j] = " " + names[j] + " ";
+                   else
+                       names[j] = names[j] + " ";
                    g2d.drawString(names[j],
                            ((x - g2d.getFontMetrics().stringWidth(names[j]))),
                            (printProperties.getNameY() * MM_TO_PX + productLength));
