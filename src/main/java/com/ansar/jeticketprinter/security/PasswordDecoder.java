@@ -1,11 +1,11 @@
-package com.ansar.jeticketprinter.model.database.api;
+package com.ansar.jeticketprinter.security;
 
 
 import java.util.Base64;
 
-public class TextDecoder {
+public class PasswordDecoder {
 
-    private TextDecoder(){
+    private PasswordDecoder(){
 
     }
 

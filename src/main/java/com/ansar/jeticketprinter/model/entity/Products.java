@@ -105,7 +105,14 @@ public class Products {
 
         BigDecimal calculating =  highPrice.subtract(lowPrice); // product.getHighPrice().subtract(product.getLowPrice());
 
-        calculating = calculating.divide( highPrice , MathContext.DECIMAL128);
+        try {
+            calculating = calculating.divide( highPrice , MathContext.DECIMAL128);
+        }catch (ArithmeticException | NumberFormatException exception){
+            logger.info("Exception on calculating discount");
+           // exception.printStackTrace();
+            calculating = new BigDecimal("0");
+        }
+
 
         calculating = calculating.multiply(new BigDecimal("100"));
 

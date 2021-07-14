@@ -1,6 +1,7 @@
 package com.ansar.jeticketprinter.model.entity;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 public class ProductsManager {
 
@@ -62,4 +63,16 @@ public class ProductsManager {
         return products.getDiscount();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductsManager manager = (ProductsManager) o;
+        return Objects.equals(products.getBarcode(), manager.products.getBarcode());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(products.getBarcode());
+    }
 }

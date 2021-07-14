@@ -50,7 +50,7 @@ public class OpenedDatabaseApi implements IReadable {
                     "(select k_Code, '0' as K_Code_B, 1 as K_Qty1 from KalaId left join (select K_Code as ID ,'0' as k_code_B, 1 as K_Qty1 from TblBasket_Kala) P on K_Code = P.ID\n" +
                     "union all\n" +
                     "select K_Code as ID2,  K_Code_B, K_Qty1 from TblBasket_Kala) T\n" +
-                    "on P.ID1 = T.K_Code where (ID1 = ? or K_Code_B = ? or Barcode = ?) and A_Code = ?;");
+                    "on P.ID1 = T.K_Code where ((ID1 = ? and K_Code_B = '0') or K_Code_B = ? or Barcode = ?) and A_Code = ?;");
             selectStatement.setString(4, properties.getAnbar().trim());
 
             //updatePriceForoshStatement = connection.prepareStatement("update Anbar set Price_Forosh = ? where K_Code = ? and A_Code = ?");

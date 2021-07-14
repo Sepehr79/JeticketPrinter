@@ -1,5 +1,7 @@
 package com.ansar.jeticketprinter.model.database.api;
 
+import com.ansar.jeticketprinter.security.PasswordDecoder;
+
 import javax.xml.bind.JAXB;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -106,7 +108,7 @@ public class ConnectionProperties {
 
         try(BufferedWriter writer = Files.newBufferedWriter(Paths.get("connection.xml"))) {
 
-            properties.setPassword(TextDecoder.encode(properties.getPassword(), 5));
+            properties.setPassword(PasswordDecoder.encode(properties.getPassword(), 5));
 
             JAXB.marshal(properties, writer);
         }catch (Exception exception){
@@ -118,7 +120,7 @@ public class ConnectionProperties {
         try (BufferedReader reader = Files.newBufferedReader(Paths.get("connection.xml"))){
             ConnectionProperties properties = JAXB.unmarshal(reader, ConnectionProperties.class);
 
-            properties.setPassword(TextDecoder.decode(properties.getPassword(), 5));
+            properties.setPassword(PasswordDecoder.decode(properties.getPassword(), 5));
 
             return properties;
         }catch (NoSuchFileException exception){
