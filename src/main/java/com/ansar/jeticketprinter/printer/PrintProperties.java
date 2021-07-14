@@ -17,30 +17,30 @@ public class PrintProperties {
 
     private static final Logger logger = Logger.getLogger(PrintProperties.class.getName());
 
-    private int nameX;
-    private int nameY;
+    private int nameX = 84;
+    private int nameY = 5;
 
-    private int highPriceX;
-    private int highPriceY;
+    private int highPriceX = 70;
+    private int highPriceY = 14;
 
-    private int lowPriceX;
-    private int lowPriceY;
+    private int lowPriceX = 70;
+    private int lowPriceY = 22;
 
-    private int discountX;
-    private int discountY;
+    private int discountX = 22;
+    private int discountY = 18;
 
-    private int dateX;
-    private int dateY;
+    private int dateX = 15;
+    private int dateY = 25;
 
-    private int nameFont;
-    private int discountFont;
-    private int highPriceFont;
-    private int lowPriceFont;
-    private int dateFont;
+    private int nameFont = 16;
+    private int discountFont = 20;
+    private int highPriceFont = 25;
+    private int lowPriceFont = 25;
+    private int dateFont = 10;
 
-    private int ticketHeight;
+    private int ticketHeight = 29;
 
-    private int productCounter;
+    private int productCounter = 5;
 
     private PaperType paperType = PaperType.A5;
 

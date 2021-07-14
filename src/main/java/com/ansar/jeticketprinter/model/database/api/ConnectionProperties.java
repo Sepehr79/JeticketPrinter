@@ -24,12 +24,12 @@ public class ConnectionProperties {
 
     public static class Builder{
 
-        private String address;
-        private String port;
-        private String databaseName;
-        private String userName;
+        private String address = "192.168.1.10";
+        private String port = "1433";
+        private String databaseName = "1400";
+        private String userName = "master";
         private String password;
-        private String anbar;
+        private String anbar = "120";
 
         public Builder(){
 
@@ -129,8 +129,7 @@ public class ConnectionProperties {
         } catch (IOException exception){
             exception.printStackTrace();
         }
-        return new ConnectionProperties.Builder().address("").port("").databaseName("").userName("").password("").
-                build();
+        return new ConnectionProperties.Builder().build();
     }
 
     public String getAddress() {
