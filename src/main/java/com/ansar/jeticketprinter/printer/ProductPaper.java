@@ -39,10 +39,21 @@ public class ProductPaper implements Printable {
             int productLength = 0;
 
            for (int i = 0; i < printProperties.getProductCounter() && (pageIndex * printProperties.getProductCounter()) + i < managers.size(); i++){
-                g2d.setFont(FontLoader.getBYekan());
-                g2d.drawString(managers.get(pageIndex * printProperties.getProductCounter() + i).getName(),
-                        ((printProperties.getNameX() * MM_TO_PX - g2d.getFontMetrics().stringWidth(managers.get(pageIndex * printProperties.getProductCounter() + i).getName()))),
-                        (printProperties.getNameY() * MM_TO_PX + productLength));
+               String name = managers.get(pageIndex * printProperties.getProductCounter() + i).getName();
+               String[] names = name.split(" ");
+               int x = (int) (printProperties.getNameX() * MM_TO_PX);
+               for (int j = 0; j < names.length; j++){
+                   if (names[j].matches(".*[a-zA-Z].*")){
+                       g2d.setFont(new Font("Serif", Font.PLAIN, printProperties.getNameFont()));
+                   }else {
+                       g2d.setFont(new Font("B Yekan", Font.PLAIN, printProperties.getNameFont()));
+                   }
+                   names[j] = names[j] + " " ;
+                   g2d.drawString(names[j],
+                           ((x - g2d.getFontMetrics().stringWidth(names[j]))),
+                           (printProperties.getNameY() * MM_TO_PX + productLength));
+                   x -= g2d.getFontMetrics().stringWidth(names[j]);
+               }
 
                 g2d.setFont(new Font("B Yekan", Font.PLAIN, printProperties.getDiscountFont()));
                 g2d.drawString(managers.get(pageIndex * printProperties.getProductCounter() + i).getDiscount(),
