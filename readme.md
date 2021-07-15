@@ -1,5 +1,5 @@
 ## Jeticket Printer
-Simple database application that <u>reads</u> data from sql server and print result
+Simple database software that reads the data from the SQL server and prints the result
 
 ![JeticketPrinter](pictures/Screenshot%20(156)_LI.jpg)
 
