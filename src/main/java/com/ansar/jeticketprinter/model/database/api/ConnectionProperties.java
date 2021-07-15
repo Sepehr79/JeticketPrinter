@@ -28,7 +28,7 @@ public class ConnectionProperties {
         private String port = "1433";
         private String databaseName = "1400";
         private String userName = "master";
-        private String password;
+        private String password = "";
         private String anbar = "120";
 
         public Builder(){

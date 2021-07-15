@@ -219,10 +219,10 @@ public class SettingsController implements Initializable {
      * Show message to the user
      */
     public void alert(String header, String footer, Alert.AlertType type){
-        Alert alert = new Alert(Alert.AlertType.WARNING);
+        Alert alert = new Alert(type);
 
-        alert.setHeaderText(String.valueOf(header));
-        alert.setContentText(String.valueOf(footer));
+        alert.setHeaderText((header));
+        alert.setContentText((footer));
         alert.showAndWait();
     }
 

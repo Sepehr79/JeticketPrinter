@@ -77,7 +77,6 @@ public class PrintProperties {
             exception.printStackTrace();
         }
         PrintProperties properties = new PrintProperties();
-        properties.setTicketHeight(5);
 
         return properties;
     }

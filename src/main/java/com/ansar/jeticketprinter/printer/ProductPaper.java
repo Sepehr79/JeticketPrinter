@@ -1,14 +1,16 @@
 package com.ansar.jeticketprinter.printer;
 
 import com.ansar.jeticketprinter.model.entity.ProductsManager;
-import com.ansar.jeticketprinter.view.fonts.FontLoader;
 import com.github.mfathi91.time.PersianDate;
 
 import java.awt.*;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.logging.Logger;
 
 public class ProductPaper implements Printable {
@@ -37,10 +39,9 @@ public class ProductPaper implements Printable {
             int day = persianDate.getDayOfMonth();
 
             int productLength = 0;
-
            for (int i = 0; i < printProperties.getProductCounter() && (pageIndex * printProperties.getProductCounter()) + i < managers.size(); i++){
                String name = managers.get(pageIndex * printProperties.getProductCounter() + i).getName();
-               String[] names = name.split(" ");
+               String[] names = name.split("(?<=[^a-zA-Z])\\s");
                int x = (int) (printProperties.getNameX() * MM_TO_PX);
                for (int j = 0; j < names.length; j++){
                    if (names[j].matches(".*[a-zA-Z].*")){
@@ -76,10 +77,9 @@ public class ProductPaper implements Printable {
                     g2d.drawLine(x1, y, x2, y);
                 }else {
                     String message = "بدون قیمت";
-                    g2d.drawString(String.valueOf(message),
+                    g2d.drawString((message),
                             printProperties.getHighPriceX() * MM_TO_PX - g2d.getFontMetrics().stringWidth(message),
                             printProperties.getHighPriceY() * MM_TO_PX + productLength);
-
                 }
 
 

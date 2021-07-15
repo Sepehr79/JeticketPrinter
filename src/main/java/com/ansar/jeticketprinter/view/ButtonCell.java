@@ -8,7 +8,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableView;
 
 public class ButtonCell extends TableCell<ProductsManager, Boolean> {
-    final Button cellButton = new Button(String.valueOf("×"));
+    final Button cellButton = new Button("×");
 
     public ButtonCell(TableView<ProductsManager> tblView) {
 

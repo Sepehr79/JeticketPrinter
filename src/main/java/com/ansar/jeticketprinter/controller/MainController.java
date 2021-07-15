@@ -147,13 +147,12 @@ public class MainController implements Initializable {
 
                 alert("پیام", "اتصال موفقیت آمیز بود", Alert.AlertType.INFORMATION);
             } catch (SQLException throwables) {
-                throwables.printStackTrace();
+                //throwables.printStackTrace();
                 alert("پیام", "اتصال برقرار نشد لطفا تنظیمات خود را چک کنید", Alert.AlertType.ERROR);
             }finally {
                 api.closeConnection();
             }
         }
-
         ConnectionProperties.serializeToXml(properties);
     }
 
