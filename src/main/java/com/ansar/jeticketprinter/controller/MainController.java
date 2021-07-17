@@ -8,6 +8,8 @@ import com.ansar.jeticketprinter.printer.ProductPaper;
 import com.ansar.jeticketprinter.printer.ProductPrinter;
 import com.ansar.jeticketprinter.view.ButtonCell;
 import com.ansar.jeticketprinter.view.ViewLoader;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -22,6 +24,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
@@ -105,6 +108,7 @@ public class MainController implements Initializable {
     }
 
     public void printResult(ActionEvent actionEvent) {
+
         // Read products
         List<ProductsManager> managers = table.getItems().subList(0, table.getItems().size());
 
@@ -155,6 +159,8 @@ public class MainController implements Initializable {
         }
         ConnectionProperties.serializeToXml(properties);
     }
+
+
 
     ///// End of events /////
 
@@ -257,11 +263,24 @@ public class MainController implements Initializable {
     }
 
     private void setPrinters(){
+        // Add event when printer selected
+        printer.getSelectionModel().selectedIndexProperty().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+                int index = printer.getSelectionModel().getSelectedIndex();
+                properties.setPrinterIndex(index);
+                ConnectionProperties.serializeToXml(properties);
+            }
+        });
+
+
         PrintService[] services = PrinterJob.lookupPrintServices();
         if (services.length < 1)
             alert("هیچ پرینتری یافت نشد", "لطفا اتصال پرینتر های خودرا بررسی کنید", Alert.AlertType.ERROR);
-        else
+        else{
             printer.setItems(FXCollections.observableArrayList(services));
+            printer.getSelectionModel().select(properties.getPrinterIndex());
+        }
     }
 
     /*
@@ -338,4 +357,7 @@ public class MainController implements Initializable {
     }
 
 
+    public void updateIndex(MouseEvent mouseEvent) {
+        System.out.println("Update");
+    }
 }
