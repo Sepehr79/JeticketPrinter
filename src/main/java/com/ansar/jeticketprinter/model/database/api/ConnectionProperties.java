@@ -21,15 +21,7 @@ public class ConnectionProperties {
     private String userName;
     private String password;
     private String anbar;
-    private int printerIndex;
 
-    public int getPrinterIndex() {
-        return printerIndex;
-    }
-
-    public void setPrinterIndex(int printerIndex) {
-        this.printerIndex = printerIndex;
-    }
 
     public static class Builder{
 
@@ -39,7 +31,6 @@ public class ConnectionProperties {
         private String userName = "master";
         private String password = "";
         private String anbar = "120";
-        private int printerIndex = 0;
 
         public Builder(){
 

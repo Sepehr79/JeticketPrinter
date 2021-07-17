@@ -15,7 +15,7 @@
     <nameFont>16</nameFont>
     <nameX>84</nameX>
     <nameY>5</nameY>
-    <paperType>A4</paperType>
+    <paperType>A5</paperType>
     <productCounter>5</productCounter>
-    <ticketHeight>29</ticketHeight>
+    <ticketHeight>3</ticketHeight>
 </printProperties>

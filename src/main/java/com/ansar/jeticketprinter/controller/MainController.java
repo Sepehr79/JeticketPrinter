@@ -268,8 +268,7 @@ public class MainController implements Initializable {
             @Override
             public void invalidated(Observable observable) {
                 int index = printer.getSelectionModel().getSelectedIndex();
-                properties.setPrinterIndex(index);
-                ConnectionProperties.serializeToXml(properties);
+                System.out.println(index);
             }
         });
 
@@ -279,7 +278,7 @@ public class MainController implements Initializable {
             alert("هیچ پرینتری یافت نشد", "لطفا اتصال پرینتر های خودرا بررسی کنید", Alert.AlertType.ERROR);
         else{
             printer.setItems(FXCollections.observableArrayList(services));
-            printer.getSelectionModel().select(properties.getPrinterIndex());
+            //printer.getSelectionModel().select(properties.getPrinterIndex());
         }
     }
 

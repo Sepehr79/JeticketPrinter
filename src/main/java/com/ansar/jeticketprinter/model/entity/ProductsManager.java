@@ -60,7 +60,8 @@ public class ProductsManager {
      * Calculates discount
      */
     public String getDiscount()  {
-        return products.getDiscount();
+        String discount = products.getDiscount();
+        return discount.length() == 1 ? " " + discount + " " : discount;
     }
 
     @Override
