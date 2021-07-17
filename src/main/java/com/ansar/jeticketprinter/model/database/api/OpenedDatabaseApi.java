@@ -2,6 +2,7 @@ package com.ansar.jeticketprinter.model.database.api;
 
 import com.ansar.jeticketprinter.model.database.config.ConnectionFactory;
 import com.ansar.jeticketprinter.model.entity.ProductsManager;
+import com.ansar.jeticketprinter.model.pojo.ConnectionProperties;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

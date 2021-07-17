@@ -1,4 +1,4 @@
-package com.ansar.jeticketprinter.printer;
+package com.ansar.jeticketprinter.model.pojo;
 
 import javax.xml.bind.JAXB;
 import java.io.BufferedReader;

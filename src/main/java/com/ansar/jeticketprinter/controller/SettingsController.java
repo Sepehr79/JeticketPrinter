@@ -1,7 +1,7 @@
 package com.ansar.jeticketprinter.controller;
 
 import com.ansar.jeticketprinter.model.entity.*;
-import com.ansar.jeticketprinter.printer.PrintProperties;
+import com.ansar.jeticketprinter.model.pojo.PrintProperties;
 import com.ansar.jeticketprinter.printer.ProductPaper;
 import com.ansar.jeticketprinter.printer.ProductPrinter;
 import com.ansar.jeticketprinter.view.NumberInputSpinner;

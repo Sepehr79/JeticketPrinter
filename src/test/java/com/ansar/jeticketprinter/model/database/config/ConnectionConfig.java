@@ -1,6 +1,6 @@
 package com.ansar.jeticketprinter.model.database.config;
 
-import com.ansar.jeticketprinter.model.database.api.ConnectionProperties;
+import com.ansar.jeticketprinter.model.pojo.ConnectionProperties;
 import org.junit.Test;
 
 import java.sql.Connection;

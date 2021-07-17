@@ -1,9 +1,10 @@
 package com.ansar.jeticketprinter.controller;
 
-import com.ansar.jeticketprinter.model.database.api.ConnectionProperties;
+import com.ansar.jeticketprinter.model.pojo.ConnectionProperties;
 import com.ansar.jeticketprinter.model.database.api.OpenedDatabaseApi;
 import com.ansar.jeticketprinter.model.entity.*;
-import com.ansar.jeticketprinter.printer.PrintProperties;
+import com.ansar.jeticketprinter.model.pojo.PrintProperties;
+import com.ansar.jeticketprinter.model.pojo.PrinterIndex;
 import com.ansar.jeticketprinter.printer.ProductPaper;
 import com.ansar.jeticketprinter.printer.ProductPrinter;
 import com.ansar.jeticketprinter.view.ButtonCell;
@@ -69,6 +70,7 @@ public class MainController implements Initializable {
 
     // Data
     private ConnectionProperties properties;
+    private PrinterIndex printerIndex;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -253,6 +255,8 @@ public class MainController implements Initializable {
     }
 
     private void loadData(){
+        printerIndex = PrinterIndex.fromJson();
+
         properties = ConnectionProperties.deserializeFromXml();
         address.setText(properties.getAddress());
         port.setText(properties.getPort());
@@ -268,7 +272,8 @@ public class MainController implements Initializable {
             @Override
             public void invalidated(Observable observable) {
                 int index = printer.getSelectionModel().getSelectedIndex();
-                System.out.println(index);
+                printerIndex.setIndexNumber(index);
+                PrinterIndex.toJson(printerIndex);
             }
         });
 
@@ -278,7 +283,8 @@ public class MainController implements Initializable {
             alert("هیچ پرینتری یافت نشد", "لطفا اتصال پرینتر های خودرا بررسی کنید", Alert.AlertType.ERROR);
         else{
             printer.setItems(FXCollections.observableArrayList(services));
-            //printer.getSelectionModel().select(properties.getPrinterIndex());
+            if (printerIndex.getIndexNumber() < services.length)
+                printer.getSelectionModel().select(printerIndex.getIndexNumber());
         }
     }
 

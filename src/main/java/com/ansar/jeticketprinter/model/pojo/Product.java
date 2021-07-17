@@ -1,4 +1,4 @@
-package com.ansar.jeticketprinter.model.entity;
+package com.ansar.jeticketprinter.model.pojo;
 
 import java.math.BigDecimal;
 

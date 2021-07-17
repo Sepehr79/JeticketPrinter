@@ -1,6 +1,7 @@
 package com.ansar.jeticketprinter.printer;
 
 import com.ansar.jeticketprinter.model.entity.ProductsManager;
+import com.ansar.jeticketprinter.model.pojo.PrintProperties;
 import com.github.mfathi91.time.PersianDate;
 
 import java.awt.*;

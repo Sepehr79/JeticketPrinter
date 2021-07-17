@@ -1,6 +1,7 @@
 package com.ansar.jeticketprinter.model.database.api;
 
 import com.ansar.jeticketprinter.model.entity.ProductsManager;
+import com.ansar.jeticketprinter.model.pojo.ConnectionProperties;
 import org.junit.Assert;
 import org.junit.Test;
 

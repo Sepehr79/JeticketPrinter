@@ -1,5 +1,7 @@
 package com.ansar.jeticketprinter.model.entity;
 
+import com.ansar.jeticketprinter.model.pojo.Product;
+
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.logging.Logger;

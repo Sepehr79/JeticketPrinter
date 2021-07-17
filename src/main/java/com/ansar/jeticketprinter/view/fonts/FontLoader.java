@@ -1,10 +1,9 @@
 package com.ansar.jeticketprinter.view.fonts;
 
 
-import com.ansar.jeticketprinter.printer.PrintProperties;
+import com.ansar.jeticketprinter.model.pojo.PrintProperties;
 
 import java.awt.*;
-import java.util.Objects;
 
 public class FontLoader {
 

@@ -1,4 +1,4 @@
-package com.ansar.jeticketprinter.model.database.api;
+package com.ansar.jeticketprinter.model.pojo;
 
 import com.ansar.jeticketprinter.security.PasswordDecoder;
 
