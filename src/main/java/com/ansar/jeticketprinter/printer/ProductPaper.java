@@ -62,25 +62,26 @@ public class ProductPaper implements Printable {
                         (printProperties.getDiscountX() * MM_TO_PX - g2d.getFontMetrics().stringWidth(managers.get(pageIndex * printProperties.getProductCounter() + i).getDiscount())) ,
                         (printProperties.getDiscountY() * MM_TO_PX + productLength) );
 
-               g2d.setFont(new Font("B Yekan", Font.PLAIN, printProperties.getHighPriceFont()));
-                if (!managers.get(pageIndex * printProperties.getProductCounter() + i).getHighPrice().equals("0")){
-                    g2d.drawString(managers.get(pageIndex * printProperties.getProductCounter() + i).getHighPrice(),
-                            (printProperties.getHighPriceX() * MM_TO_PX - g2d.getFontMetrics().stringWidth(managers.get(pageIndex * printProperties.getProductCounter() + i).getHighPrice())) ,
-                            (printProperties.getHighPriceY() * MM_TO_PX + productLength));
 
-                    // Draw line on high price
-                    int x1 = (int) (printProperties.getHighPriceX() * MM_TO_PX - g2d.getFontMetrics().stringWidth(managers.get(pageIndex * printProperties.getProductCounter() + i).getHighPrice()));
-                    int x2 = (int) (printProperties.getHighPriceX() * MM_TO_PX);
-                    int y = (int) (printProperties.getHighPriceY() * MM_TO_PX + productLength - (g2d.getFontMetrics().getHeight() / 6));
-                    g2d.drawLine(x1, y, x2, y);
+                // Drawing highPrice and line on it
+                String message = "";
+                if (!managers.get(pageIndex * printProperties.getProductCounter() + i).getHighPrice().equals("0")){
+                    message = managers.get(pageIndex * printProperties.getProductCounter() + i).getHighPrice();
+                    g2d.setFont(new Font("B Yekan", Font.PLAIN, printProperties.getHighPriceFont()));
                 }else {
-                    String message = "بدون قیمت";
-                    g2d.drawString((message),
-                            printProperties.getHighPriceX() * MM_TO_PX - g2d.getFontMetrics().stringWidth(message),
-                            printProperties.getHighPriceY() * MM_TO_PX + productLength);
+                    message = "بدون قیمت";
+                    g2d.setFont(new Font("B Yekan", Font.PLAIN, printProperties.getHighPriceFont() - 5));
                 }
 
+                g2d.drawString(message,
+                       (printProperties.getHighPriceX() * MM_TO_PX - g2d.getFontMetrics().stringWidth(message)) ,
+                       (printProperties.getHighPriceY() * MM_TO_PX + productLength));
 
+                // Draw line on high price
+                int x1 = (int) (printProperties.getHighPriceX() * MM_TO_PX - g2d.getFontMetrics().stringWidth(message));
+                int x2 = (int) (printProperties.getHighPriceX() * MM_TO_PX);
+                int y = (int) (printProperties.getHighPriceY() * MM_TO_PX + productLength - (g2d.getFontMetrics().getHeight() / 6));
+                g2d.drawLine(x1, y, x2, y);
 
                 g2d.setFont(new Font("B Yekan", Font.PLAIN, printProperties.getLowPriceFont()));
                 g2d.drawString(managers.get(pageIndex * printProperties.getProductCounter() + i).getLowPrice(),
