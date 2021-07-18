@@ -61,7 +61,12 @@ public class ProductsManager {
      */
     public String getDiscount()  {
         String discount = products.getDiscount();
-        return discount.length() == 1 ? " " + discount + " " : discount;
+        if (discount.length() == 1)
+            return "   " + discount + "   ";
+        else if (discount.length() == 2){
+            return " " + discount + " ";
+        }
+        return discount;
     }
 
     @Override
