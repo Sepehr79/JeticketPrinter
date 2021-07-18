@@ -69,7 +69,7 @@ public class ProductPaper implements Printable {
                     message = managers.get(pageIndex * printProperties.getProductCounter() + i).getHighPrice();
                     g2d.setFont(new Font("B Yekan", Font.PLAIN, printProperties.getHighPriceFont()));
                 }else {
-                    message = String.valueOf("بدون قیمت");
+                    message = ("بدون قیمت");
                     g2d.setFont(new Font("B Yekan", Font.PLAIN, printProperties.getHighPriceFont() - 5));
                 }
 
