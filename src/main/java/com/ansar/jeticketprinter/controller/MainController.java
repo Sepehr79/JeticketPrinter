@@ -8,10 +8,15 @@ import com.ansar.jeticketprinter.model.pojo.PrinterIndex;
 import com.ansar.jeticketprinter.printer.ProductPaper;
 import com.ansar.jeticketprinter.printer.ProductPrinter;
 import com.ansar.jeticketprinter.view.ButtonCell;
+import com.ansar.jeticketprinter.view.CounterCell;
 import com.ansar.jeticketprinter.view.ViewLoader;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.ObjectBinding;
+import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,6 +26,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
@@ -28,7 +34,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
+import javax.lang.model.type.IntersectionType;
 import javax.print.PrintService;
 import java.awt.print.PrinterAbortException;
 import java.awt.print.PrinterException;
@@ -43,6 +51,7 @@ import java.util.logging.Logger;
 public class MainController implements Initializable {
 
     private static final Logger logger = Logger.getLogger(MainController.class.getName());
+
 
     @FXML private TextField address;
     @FXML private TextField port;
@@ -64,6 +73,7 @@ public class MainController implements Initializable {
     @FXML private TableColumn<ProductsManager, String> name;
     @FXML private TableColumn<ProductsManager, String> id;
     @FXML private TableColumn<ProductsManager, Boolean> delete;
+    @FXML private TableColumn<ProductsManager, Boolean> row;
 
     // Settings window
     private static final Stage settingsWindow = new Stage();
@@ -174,7 +184,7 @@ public class MainController implements Initializable {
         Scene scene = new Scene(root);
 
         if (!settingsWindow.isShowing()){
-            settingsWindow.setTitle(("تنظیمات"));
+            settingsWindow.setTitle(String.valueOf("تنظیمات"));
             settingsWindow.setScene(scene);
             settingsWindow.setResizable(false);
             settingsWindow.show();
@@ -195,6 +205,8 @@ public class MainController implements Initializable {
         // Delete button
         delete.setCellValueFactory(p -> new SimpleBooleanProperty(p.getValue() != null));
         delete.setCellFactory(p -> new ButtonCell(table));
+
+        row.setCellFactory(p -> new CounterCell(table));
 
         // Writable
         name.setCellFactory(TextFieldTableCell.forTableColumn());

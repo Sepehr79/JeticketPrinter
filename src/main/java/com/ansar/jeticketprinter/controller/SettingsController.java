@@ -221,8 +221,8 @@ public class SettingsController implements Initializable {
     public void alert(String header, String footer, Alert.AlertType type){
         Alert alert = new Alert(type);
 
-        alert.setHeaderText(String.valueOf(header));
-        alert.setContentText(String.valueOf(footer));
+        alert.setHeaderText((header));
+        alert.setContentText((footer));
         alert.showAndWait();
     }
 

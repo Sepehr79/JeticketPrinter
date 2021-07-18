@@ -1,7 +1,6 @@
-C:\Users\Sharif\IdeaProjects\JeticketPrinter\src\main\java\com\ansar\jeticketprinter\model\entity\Product.java
 C:\Users\Sharif\IdeaProjects\JeticketPrinter\src\main\java\com\ansar\jeticketprinter\model\entity\ProductsManager.java
 C:\Users\Sharif\IdeaProjects\JeticketPrinter\src\main\java\com\ansar\jeticketprinter\security\PasswordDecoder.java
-C:\Users\Sharif\IdeaProjects\JeticketPrinter\src\main\java\com\ansar\jeticketprinter\printer\PrintProperties.java
+C:\Users\Sharif\IdeaProjects\JeticketPrinter\src\main\java\com\ansar\jeticketprinter\model\pojo\ConnectionProperties.java
 C:\Users\Sharif\IdeaProjects\JeticketPrinter\src\main\java\com\ansar\jeticketprinter\printer\ProductPrinter.java
 C:\Users\Sharif\IdeaProjects\JeticketPrinter\src\main\java\com\ansar\jeticketprinter\view\ButtonCell.java
 C:\Users\Sharif\IdeaProjects\JeticketPrinter\src\main\java\com\ansar\jeticketprinter\view\ViewLoader.java
@@ -10,10 +9,13 @@ C:\Users\Sharif\IdeaProjects\JeticketPrinter\src\main\java\com\ansar\jeticketpri
 C:\Users\Sharif\IdeaProjects\JeticketPrinter\src\main\java\com\ansar\jeticketprinter\model\database\config\ConnectionFactory.java
 C:\Users\Sharif\IdeaProjects\JeticketPrinter\src\main\java\com\ansar\jeticketprinter\model\entity\Products.java
 C:\Users\Sharif\IdeaProjects\JeticketPrinter\src\main\java\com\ansar\jeticketprinter\view\NumberInputSpinner.java
+C:\Users\Sharif\IdeaProjects\JeticketPrinter\src\main\java\com\ansar\jeticketprinter\model\pojo\PrinterIndex.java
+C:\Users\Sharif\IdeaProjects\JeticketPrinter\src\main\java\com\ansar\jeticketprinter\model\pojo\WindowProperties.java
 C:\Users\Sharif\IdeaProjects\JeticketPrinter\src\main\java\com\ansar\jeticketprinter\Main.java
-C:\Users\Sharif\IdeaProjects\JeticketPrinter\src\main\java\com\ansar\jeticketprinter\model\database\api\ConnectionProperties.java
 C:\Users\Sharif\IdeaProjects\JeticketPrinter\src\main\java\com\ansar\jeticketprinter\model\database\api\IReadable.java
 C:\Users\Sharif\IdeaProjects\JeticketPrinter\src\main\java\com\ansar\jeticketprinter\model\database\api\IWritable.java
 C:\Users\Sharif\IdeaProjects\JeticketPrinter\src\main\java\com\ansar\jeticketprinter\printer\ProductPaper.java
 C:\Users\Sharif\IdeaProjects\JeticketPrinter\src\main\java\com\ansar\jeticketprinter\controller\MainController.java
+C:\Users\Sharif\IdeaProjects\JeticketPrinter\src\main\java\com\ansar\jeticketprinter\model\pojo\Product.java
 C:\Users\Sharif\IdeaProjects\JeticketPrinter\src\main\java\com\ansar\jeticketprinter\controller\SettingsController.java
+C:\Users\Sharif\IdeaProjects\JeticketPrinter\src\main\java\com\ansar\jeticketprinter\model\pojo\PrintProperties.java
