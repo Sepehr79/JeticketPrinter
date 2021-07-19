@@ -2,13 +2,15 @@ package com.ansar.jeticketprinter.model.entity;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.Objects;
 
 public class ProductsManager {
 
     private final Products products;
 
-    private static final DecimalFormat formatter = new DecimalFormat("#,###");
+    private static final NumberFormat numberFormatter = NumberFormat.getNumberInstance(Locale.GERMAN);
 
     public ProductsManager(String barcode, String name, String highPrice, String lowPrice, String count){
         products = new Products(barcode, name, highPrice, lowPrice, new BigDecimal(count));
@@ -25,7 +27,7 @@ public class ProductsManager {
     public String getHighPrice() {
         String highPrice = products.getHighPrice();
         if (highPrice.matches(".*[0-9].*"))
-            return String.valueOf(formatter.format(new BigDecimal(products.getHighPrice())));
+            return String.valueOf(numberFormatter.format(new BigDecimal(products.getHighPrice())));
         return String.valueOf(highPrice);
     }
 
@@ -34,7 +36,7 @@ public class ProductsManager {
     }
 
     public String getLowPrice() {
-        return String.valueOf(formatter.format(new BigDecimal(products.getLowPrice())));
+        return String.valueOf(numberFormatter.format(new BigDecimal(products.getLowPrice())));
     }
 
     public void setLowPrice(String lowPrice) {
