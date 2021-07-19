@@ -184,7 +184,7 @@ public class MainController implements Initializable {
         Scene scene = new Scene(root);
 
         if (!settingsWindow.isShowing()){
-            settingsWindow.setTitle(("تنظیمات"));
+            settingsWindow.setTitle(String.valueOf("تنظیمات"));
             settingsWindow.setScene(scene);
             settingsWindow.setResizable(false);
             settingsWindow.show();
@@ -292,7 +292,7 @@ public class MainController implements Initializable {
 
         PrintService[] services = PrinterJob.lookupPrintServices();
         if (services.length < 1)
-            alert("هیچ پرینتری یافت نشد", "لطفا اتصال پرینتر های خودرا بررسی کنید", Alert.AlertType.ERROR);
+            alert(String.valueOf("هیچ پرینتری یافت نشد"), String.valueOf("لطفا اتصال پرینتر های خودرا بررسی کنید"), Alert.AlertType.ERROR);
         else{
             printer.setItems(FXCollections.observableArrayList(services));
             if (printerIndex.getIndexNumber() < services.length)

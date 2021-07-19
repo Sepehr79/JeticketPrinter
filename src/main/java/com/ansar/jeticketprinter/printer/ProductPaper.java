@@ -57,9 +57,12 @@ public class ProductPaper implements Printable {
                    x -= g2d.getFontMetrics().stringWidth(names[j]);
                }
 
+                String discountNumber = managers.get(pageIndex * printProperties.getProductCounter() + i).getDiscount().trim();
+               if (Integer.parseInt(discountNumber) < 5)
+                   discountNumber = " ";
                 g2d.setFont(new Font("B Yekan", Font.PLAIN, printProperties.getDiscountFont()));
-                g2d.drawString(managers.get(pageIndex * printProperties.getProductCounter() + i).getDiscount(),
-                        (printProperties.getDiscountX() * MM_TO_PX - g2d.getFontMetrics().stringWidth(managers.get(pageIndex * printProperties.getProductCounter() + i).getDiscount())) ,
+                g2d.drawString(discountNumber,
+                        (printProperties.getDiscountX() * MM_TO_PX - g2d.getFontMetrics().stringWidth(discountNumber)) ,
                         (printProperties.getDiscountY() * MM_TO_PX + productLength) );
 
 

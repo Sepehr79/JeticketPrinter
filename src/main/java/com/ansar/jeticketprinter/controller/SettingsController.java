@@ -95,11 +95,11 @@ public class SettingsController implements Initializable {
             // Any exception
             catch (Exception exception) {
                 // TODO working for alerting exception message later
-                alert(String.valueOf("خطایی هنگام عملیات رخ داد!"), String.valueOf("لطفا متن خطا را چک کنید"), Alert.AlertType.ERROR);
+                alert(("خطایی هنگام عملیات رخ داد!"), ("لطفا متن خطا را چک کنید"), Alert.AlertType.ERROR);
                 exception.printStackTrace();
             }
         }else {
-            alert(String.valueOf("پرینتر انتخاب نشد!"), String.valueOf("لطفا یک پرینتر را انتخاب کرده و دوباره تلاش کنید"), Alert.AlertType.WARNING);
+            alert(("پرینتر انتخاب نشد!"), ("لطفا یک پرینتر را انتخاب کرده و دوباره تلاش کنید"), Alert.AlertType.WARNING);
         }
     }
 
@@ -221,8 +221,8 @@ public class SettingsController implements Initializable {
     public void alert(String header, String footer, Alert.AlertType type){
         Alert alert = new Alert(type);
 
-        alert.setHeaderText(String.valueOf(header));
-        alert.setContentText(String.valueOf(footer));
+        alert.setHeaderText((header));
+        alert.setContentText((footer));
         alert.showAndWait();
     }
 
