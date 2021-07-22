@@ -1,4 +1,4 @@
-package com.ansar.jeticketprinter.model.entity;
+package com.ansar.jeticketprinter.model.dto;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;

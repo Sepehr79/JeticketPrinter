@@ -1,5 +1,6 @@
 package com.ansar.jeticketprinter;
 
+import com.ansar.jeticketprinter.model.dto.EntityJsonManager;
 import com.ansar.jeticketprinter.model.pojo.WindowProperties;
 import com.ansar.jeticketprinter.view.ViewLoader;
 import javafx.application.Application;
@@ -8,10 +9,14 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.awt.print.PrinterException;
+import java.util.logging.Logger;
 
 public class Main extends Application {
 
-    private WindowProperties properties;
+    private static final Logger logger = Logger.getLogger(Main.class.getName());
+
+    private static final EntityJsonManager<WindowProperties> manager = new EntityJsonManager<>();
+    private static WindowProperties properties;
 
     public static void main(String [] args) throws PrinterException {
         launch(args);
@@ -38,11 +43,16 @@ public class Main extends Application {
 
     @Override
     public void init(){
-        properties = WindowProperties.fromJson();
+        try {
+            properties = manager.deserializeFromJson(EntityJsonManager.WINDOW_PROPERTIES, WindowProperties.class);
+        } catch (InstantiationException | IllegalAccessException e) {
+            logger.info("Exception on reading window properties");
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void stop(){
-        WindowProperties.toJson(properties);
+        manager.serializeToJson(properties, EntityJsonManager.WINDOW_PROPERTIES);
     }
 }

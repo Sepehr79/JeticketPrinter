@@ -1,6 +1,6 @@
 package com.ansar.jeticketprinter.controller;
 
-import com.ansar.jeticketprinter.model.entity.*;
+import com.ansar.jeticketprinter.model.dto.*;
 import com.ansar.jeticketprinter.model.pojo.PrintProperties;
 import com.ansar.jeticketprinter.printer.ProductPaper;
 import com.ansar.jeticketprinter.printer.ProductPrinter;

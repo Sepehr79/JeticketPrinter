@@ -2,7 +2,7 @@ package com.ansar.jeticketprinter.controller;
 
 import com.ansar.jeticketprinter.model.pojo.ConnectionProperties;
 import com.ansar.jeticketprinter.model.database.api.OpenedDatabaseApi;
-import com.ansar.jeticketprinter.model.entity.*;
+import com.ansar.jeticketprinter.model.dto.*;
 import com.ansar.jeticketprinter.model.pojo.PrintProperties;
 import com.ansar.jeticketprinter.model.pojo.PrinterIndex;
 import com.ansar.jeticketprinter.printer.ProductPaper;
@@ -12,11 +12,7 @@ import com.ansar.jeticketprinter.view.CounterCell;
 import com.ansar.jeticketprinter.view.ViewLoader;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.ObjectBinding;
-import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,7 +22,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
@@ -34,9 +29,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
-import javax.lang.model.type.IntersectionType;
 import javax.print.PrintService;
 import java.awt.print.PrinterAbortException;
 import java.awt.print.PrinterException;
@@ -46,12 +39,14 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
 public class MainController implements Initializable {
-
+    // Debugging
     private static final Logger logger = Logger.getLogger(MainController.class.getName());
 
+    private static final EntityJsonManager<PrinterIndex> printerIndexManager = new EntityJsonManager<>();
 
     @FXML private TextField address;
     @FXML private TextField port;
@@ -266,8 +261,14 @@ public class MainController implements Initializable {
         return null;
     }
 
-    private void loadData(){
-        printerIndex = PrinterIndex.fromJson();
+    private void loadData()  {
+        try {
+            printerIndex = printerIndexManager.deserializeFromJson(EntityJsonManager.PRINTER_INDEX, PrinterIndex.class);
+        } catch (Exception exception) {
+            logger.info("Exception on reading printerIndex.json file");
+            exception.printStackTrace();
+            printerIndex = new PrinterIndex();
+        }
 
         properties = ConnectionProperties.deserializeFromXml();
         address.setText(properties.getAddress());
@@ -285,7 +286,7 @@ public class MainController implements Initializable {
             public void invalidated(Observable observable) {
                 int index = printer.getSelectionModel().getSelectedIndex();
                 printerIndex.setIndexNumber(index);
-                PrinterIndex.toJson(printerIndex);
+                printerIndexManager.serializeToJson(printerIndex, EntityJsonManager.PRINTER_INDEX);
             }
         });
 

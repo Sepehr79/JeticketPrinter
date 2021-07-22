@@ -1,4 +1,4 @@
-package com.ansar.jeticketprinter.model.entity;
+package com.ansar.jeticketprinter.model.dto;
 
 import com.ansar.jeticketprinter.model.pojo.PrintProperties;
 import org.junit.Assert;
