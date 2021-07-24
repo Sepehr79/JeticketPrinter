@@ -20,4 +20,8 @@ public class ViewLoader {
         return FXMLLoader.load(Objects.requireNonNull(ViewLoader.class.getResource("Settings.fxml")));
     }
 
+    public static Parent getIntervalTab() throws IOException {
+        return FXMLLoader.load(Objects.requireNonNull(ViewLoader.class.getResource("IntervalTab.fxml")));
+    }
+
 }
