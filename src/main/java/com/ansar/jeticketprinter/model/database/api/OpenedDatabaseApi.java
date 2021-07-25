@@ -1,10 +1,9 @@
 package com.ansar.jeticketprinter.model.database.api;
 
 import com.ansar.jeticketprinter.model.database.config.ConnectionFactory;
-import com.ansar.jeticketprinter.model.dto.DateTimeProperties;
 import com.ansar.jeticketprinter.model.dto.ProductsManager;
 import com.ansar.jeticketprinter.model.pojo.ConnectionProperties;
-import com.github.mfathi91.time.PersianDate;
+import com.ansar.jeticketprinter.model.pojo.IntervalProduct;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -58,12 +57,9 @@ public class OpenedDatabaseApi implements IReadable {
             selectStatement.setString(4, properties.getAnbar().trim());
 
             intervalSelectStatement = connection.prepareStatement("select K.Name1 ,H.A_Code, H.K_Code, H.Price_Consumer, H.Price_Forosh, H.Price_Finish, H.ChangePrice, H.tarikh from History_Price H join KalaId K on H.K_Code = K.K_Code where\n" +
-                    " ((YEAR(H.tarikh) >= YEAR(?) and YEAR(H.tarikh) <= YEAR(?)) and\n" +
-                    " (MONTH(H.tarikh) >= MONTH(?) and MONTH(H.tarikh) <= MONTH(?)) and\n" +
-                    " (DAY(H.tarikh) >= DAY(?) and DAY(H.tarikh) <= DAY(?)) and \n" +
-                    " (DATEPART(HOUR, H.tarikh) >= DATEPART(HOUR, ?) and DATEPART(HOUR, H.tarikh) <= DATEPART(HOUR, ?)) and\n" +
-                    " (DATEPART(MINUTE, H.tarikh) >= DATEPART(MINUTE, ?) and DATEPART(MINUTE, H.tarikh) <= DATEPART(MINUTE, ?))) and H.A_Code = ?;");
-            intervalSelectStatement.setString(11, properties.getAnbar().trim());
+                    " H.tarikh between ? and ?\n" +
+                    " and H.A_Code = ?;");
+            intervalSelectStatement.setString(3, properties.getAnbar().trim());
 
             //updatePriceForoshStatement = connection.prepareStatement("update Anbar set Price_Forosh = ? where K_Code = ? and A_Code = ?");
             //updatePriceForoshStatement.setString(3, properties.getAnbar());
@@ -113,26 +109,12 @@ public class OpenedDatabaseApi implements IReadable {
         throw new SQLException("Cant execute query: connection is closed");
     }
 
-    public List<ProductsManager> getProductsManager(DateTimeProperties properties) throws SQLException {
-        List<ProductsManager> managers = new ArrayList<>();
+    public List<IntervalProduct> getProductsManager(String fromDate, String toDate) throws SQLException {
+        List<IntervalProduct> managers = new ArrayList<>();
         if (isOpened){
-            logger.info("From date: " + properties.getFromDate());
-            logger.info("To date:" + properties.getToDate());
-            logger.info("From time:" + properties.getFromTime());
-            logger.info("To time:" + properties.getToTime());
 
-            intervalSelectStatement.setString(1, properties.getFromDate());
-            intervalSelectStatement.setString(2, properties.getToDate());
-            intervalSelectStatement.setString(3, properties.getFromDate());
-            intervalSelectStatement.setString(4, properties.getToDate());
-            intervalSelectStatement.setString(5, properties.getFromDate());
-            intervalSelectStatement.setString(6, properties.getToDate());
-            intervalSelectStatement.setString(7, properties.getFromTime());
-            intervalSelectStatement.setString(8, properties.getToTime());
-            intervalSelectStatement.setString(9, properties.getFromTime());
-            intervalSelectStatement.setString(10, properties.getToTime());
-
-            logger.info(intervalSelectStatement.toString());
+            intervalSelectStatement.setString(1, fromDate);
+            intervalSelectStatement.setString(2, toDate);
 
             ResultSet resultSet = intervalSelectStatement.executeQuery();
 
@@ -141,18 +123,14 @@ public class OpenedDatabaseApi implements IReadable {
                 String highPrice = (resultSet.getString("Price_Consumer") != null)? resultSet.getString("Price_Consumer"): "0";
                 String lowPrice = resultSet.getString("Price_Forosh") != null ? resultSet.getString("Price_Forosh"): "0";
                 String id = resultSet.getString("K_Code") != null ? resultSet.getString("K_Code"): "0";
+                String date = resultSet.getString("tarikh");
 
-                ProductsManager manager = new ProductsManager(id, name, highPrice, lowPrice, "1");
-                managers.add(manager);
+                //String name, String priceConsumer, String priceForosh, String id, String date
+                IntervalProduct product = new IntervalProduct(name, highPrice, lowPrice, id, date);
+                managers.add(product);
             }
 
         }
-        logger.info("===================>" + managers.size());
-        for (ProductsManager manager: managers){
-            logger.info("manager: " + manager.getName());
-            logger.info("manager: " + manager.getBarcode());
-        }
-
         return managers;
     }
 

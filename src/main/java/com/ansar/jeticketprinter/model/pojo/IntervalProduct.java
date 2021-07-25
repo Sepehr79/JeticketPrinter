@@ -1,5 +1,10 @@
 package com.ansar.jeticketprinter.model.pojo;
 
+import com.github.mfathi91.time.PersianDate;
+import sun.util.resources.LocaleData;
+
+import java.time.LocalDate;
+
 public class IntervalProduct {
 
     private String name;
@@ -29,7 +34,7 @@ public class IntervalProduct {
     }
 
     public String getPriceConsumer() {
-        return priceConsumer;
+        return priceConsumer.split("\\.")[0];
     }
 
     public void setPriceConsumer(String priceConsumer) {
@@ -37,7 +42,7 @@ public class IntervalProduct {
     }
 
     public String getPriceForosh() {
-        return priceForosh;
+        return priceForosh.split("\\.")[0];
     }
 
     public void setPriceForosh(String priceForosh) {
@@ -53,7 +58,11 @@ public class IntervalProduct {
     }
 
     public String getDate() {
-        return date;
+        String gregorianDate = date.split(" ")[0];
+        String time = date.split(" ")[1].substring(0, 5);
+
+        PersianDate persianDate = PersianDate.fromGregorian(LocalDate.parse(gregorianDate));
+        return persianDate.toString().replace("-" , "/") + " " + time;
     }
 
     public void setDate(String date) {

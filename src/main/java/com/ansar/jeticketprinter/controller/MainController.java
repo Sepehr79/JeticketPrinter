@@ -198,7 +198,7 @@ public class MainController implements Initializable {
 
         // Delete button
         delete.setCellValueFactory(p -> new SimpleBooleanProperty(p.getValue() != null));
-        delete.setCellFactory(p -> new ButtonCell(table));
+        delete.setCellFactory(p -> new ButtonCell<ProductsManager>(table));
 
         row.setCellFactory(p -> new CounterCell(table));
 

@@ -1,9 +1,9 @@
 package com.ansar.jeticketprinter.controller;
 
 import com.ansar.jeticketprinter.model.database.api.OpenedDatabaseApi;
-import com.ansar.jeticketprinter.model.dto.DateTimeProperties;
-import com.ansar.jeticketprinter.model.dto.ProductsManager;
+import com.ansar.jeticketprinter.model.dto.DateConvertor;
 import com.ansar.jeticketprinter.model.pojo.ConnectionProperties;
+import com.ansar.jeticketprinter.model.pojo.IntervalProduct;
 import com.ansar.jeticketprinter.view.ButtonCell;
 import com.ansar.jeticketprinter.view.DateTextFiled;
 import com.ansar.jeticketprinter.view.TimeTextField;
@@ -23,12 +23,14 @@ import java.util.ResourceBundle;
 
 public class IntervalTabController implements Initializable {
 
-    @FXML private TableView<ProductsManager> table;
-    @FXML private TableColumn<ProductsManager, Boolean> delete;
-    @FXML private TableColumn<ProductsManager, String> priceConsumer;
-    @FXML private TableColumn<ProductsManager, String> priceForosh;
-    @FXML private TableColumn<ProductsManager, String> name;
-    @FXML private TableColumn<ProductsManager, String> id;
+
+    @FXML private TableView<IntervalProduct> table;
+    @FXML private TableColumn<IntervalProduct, Boolean> delete;
+    @FXML private TableColumn<IntervalProduct, String> priceConsumer;
+    @FXML private TableColumn<IntervalProduct, String> priceForosh;
+    @FXML private TableColumn<IntervalProduct, String> name;
+    @FXML private TableColumn<IntervalProduct, String> id;
+    @FXML private TableColumn<IntervalProduct, String> date;
 
     @FXML private TextField anbar;
     @FXML private GridPane gridPane;
@@ -46,14 +48,16 @@ public class IntervalTabController implements Initializable {
     }
 
     public void search(ActionEvent actionEvent){
+        final String fromDateString = DateConvertor.jalalyToGregorian(fromDate.getText()) + " " + fromTime.getText();
+        final String toDateString = DateConvertor.jalalyToGregorian(toDate.getText()) + " " + toTime.getText();
+
         ConnectionProperties connectionProperties = ConnectionProperties.deserializeFromXml();
-        DateTimeProperties dateTimeProperties = getDateTimeProperties();
         connectionProperties.setAnbar(anbar.getText());
 
         OpenedDatabaseApi api = OpenedDatabaseApi.getInstance();
         try {
             api.openConnection(connectionProperties);
-            table.getItems().addAll(api.getProductsManager(dateTimeProperties));
+            table.getItems().addAll(api.getProductsManager(fromDateString, toDateString));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }finally {
@@ -65,31 +69,24 @@ public class IntervalTabController implements Initializable {
     }
 
     private void loadGridPane(){
-        gridPane.add(toDate, 3, 1);
-        gridPane.add(fromDate, 1, 1);
-        gridPane.add(fromTime, 1, 2);
-        gridPane.add(toTime, 3, 2);
-    }
-
-    private DateTimeProperties getDateTimeProperties(){
-        String fromDateString = fromDate.getText();
-        String toDateString = toDate.getText();
-        String fromTimeString = fromTime.getText();
-        String toTimeString = toTime.getText();
-
-        return new DateTimeProperties(fromDateString, toDateString, fromTimeString, toTimeString);
+        gridPane.add(toDate, 5, 0);
+        gridPane.add(fromDate, 2, 0);
+        gridPane.add(fromTime, 1, 0);
+        gridPane.add(toTime, 4, 0);
     }
 
     private void mapColumns(){
-        name.setCellValueFactory(new PropertyValueFactory<ProductsManager, String>("name"));
-        id.setCellValueFactory(new PropertyValueFactory<ProductsManager, String>("barcode"));
-        priceConsumer.setCellValueFactory(new PropertyValueFactory<ProductsManager, String>("highPrice"));
-        priceForosh.setCellValueFactory(new PropertyValueFactory<ProductsManager, String>("lowPrice"));
+        name.setCellValueFactory(new PropertyValueFactory<IntervalProduct, String>("name"));
+        id.setCellValueFactory(new PropertyValueFactory<IntervalProduct, String>("id"));
+        priceConsumer.setCellValueFactory(new PropertyValueFactory<IntervalProduct, String>("priceConsumer"));
+        priceForosh.setCellValueFactory(new PropertyValueFactory<IntervalProduct, String>("priceForosh"));
+        date.setCellValueFactory(new PropertyValueFactory<IntervalProduct, String>("date"));
         delete.setSortable(false);
+
 
         // Delete button
         delete.setCellValueFactory(p -> new SimpleBooleanProperty(p.getValue() != null));
-        delete.setCellFactory(p -> new ButtonCell(table));
+        delete.setCellFactory(p -> new ButtonCell<IntervalProduct>(table));
     }
 
     public void deleteAll(ActionEvent actionEvent) {

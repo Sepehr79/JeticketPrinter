@@ -7,10 +7,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableView;
 
-public class ButtonCell extends TableCell<ProductsManager, Boolean> {
+public class ButtonCell<T> extends TableCell<T, Boolean> {
     final Button cellButton = new Button(("×"));
 
-    public ButtonCell(TableView<ProductsManager> tblView) {
+    public ButtonCell(TableView<T> tblView) {
 
         cellButton.setOnAction(new EventHandler<ActionEvent>() {
 

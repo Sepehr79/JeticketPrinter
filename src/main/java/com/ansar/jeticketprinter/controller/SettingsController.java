@@ -228,7 +228,6 @@ public class SettingsController implements Initializable {
 
     private void saveData(){
         PrintProperties printProperties = getPrintProperties();
-
         PrintProperties.serializeToXml(printProperties);
     }
 
