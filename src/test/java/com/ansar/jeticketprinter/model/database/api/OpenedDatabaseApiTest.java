@@ -1,11 +1,13 @@
 package com.ansar.jeticketprinter.model.database.api;
 
+import com.ansar.jeticketprinter.model.dto.DateTimeProperties;
 import com.ansar.jeticketprinter.model.dto.ProductsManager;
 import com.ansar.jeticketprinter.model.pojo.ConnectionProperties;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Set;
 
 public class OpenedDatabaseApiTest {
@@ -107,4 +109,25 @@ public class OpenedDatabaseApiTest {
         api.closeConnection();
     }
     */
+
+    @Test
+    public void testGetIntervalTimeProducts() throws SQLException {
+
+        ConnectionProperties properties = ConnectionProperties.deserializeFromXml();
+        properties.setAnbar("110");
+
+        DateTimeProperties dateTimeProperties = new DateTimeProperties();
+        dateTimeProperties.setFromTime("00:00");
+        dateTimeProperties.setToTime("23:59");
+
+        dateTimeProperties.setFromDate("1398/05/03");
+        dateTimeProperties.setToDate("1400/05/03");
+
+        OpenedDatabaseApi api = OpenedDatabaseApi.getInstance();
+        api.openConnection(properties);
+
+        List<ProductsManager> managers = api.getProductsManager(dateTimeProperties);
+
+        System.out.println(managers.size());
+    }
 }

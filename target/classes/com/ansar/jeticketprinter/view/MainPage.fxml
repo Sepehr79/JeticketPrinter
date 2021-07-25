@@ -8,6 +8,6 @@
 <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1121.0" stylesheets="@css/style.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
   <tabs>
     <fx:include source="MainTab.fxml" />
-    <fx:include source="IntervalTab.fxml"/>
+   <!-- <fx:include source="IntervalTab.fxml"/>!-->
   </tabs>
 </TabPane>

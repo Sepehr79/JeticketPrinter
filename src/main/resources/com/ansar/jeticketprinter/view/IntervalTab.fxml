@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
 <!--maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0"-->
 
-
-
-        <Tab text="گزارش" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ansar.jeticketprinter.controller.IntervalTabController" >
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ansar.jeticketprinter.controller.IntervalTabController">
+    <tabs>
+        <Tab text="گزارش">
             <SplitPane>
             <items>
                <SplitPane dividerPositions="0.6603641456582632" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
@@ -17,11 +18,11 @@
                         <children>
                            <TableView fx:id="table" layoutX="233.0" layoutY="86.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                              <columns>
-                               <TableColumn fx:id="delete" prefWidth="75.0" text="حذف" />
-                                 <TableColumn fx:id="priceConsumer" prefWidth="75.0" text="قیمت مصرف کننده" />
-                                 <TableColumn fx:id="priceForosh" prefWidth="75.0" text="قیمت فروشگاه" />
-                                 <TableColumn fx:id="name" prefWidth="75.0" text="نام" />
-                                 <TableColumn fx:id="id" prefWidth="75.0" text="بارکد" />
+                                 <TableColumn fx:id="priceConsumer" prefWidth="75.0" style="-fx-alignment: center;" text="قیمت مصرف کننده" />
+                                 <TableColumn fx:id="priceForosh" prefWidth="75.0" style="-fx-alignment: center;" text="قیمت فروشگاه" />
+                                 <TableColumn fx:id="name" prefWidth="75.0" style="-fx-alignment: center;" text="نام" />
+                                 <TableColumn fx:id="id" prefWidth="75.0" style="-fx-alignment: center;" text="بارکد" />
+                               <TableColumn fx:id="delete" prefWidth="75.0" style="-fx-alignment: center;" text="حذف" />
                              </columns>
                               <columnResizePolicy>
                                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -39,32 +40,34 @@
                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                              </columnConstraints>
                              <rowConstraints>
+                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                              </rowConstraints>
                               <children>
-                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="از تاریخ" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="از تاریخ" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                     <font>
                                        <Font name="B Yekan" size="30.0" />
                                     </font>
                                  </Text>
-                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="تا تاریخ" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="تا تاریخ" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                                     <font>
                                        <Font name="B Yekan" size="30.0" />
                                     </font>
                                  </Text>
-                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="از ساعت" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="از ساعت" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                                     <font>
                                        <Font name="B Yekan" size="30.0" />
                                     </font>
                                  </Text>
-                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="تا ساعت" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="تا ساعت" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                                     <font>
                                        <Font name="B Yekan" size="30.0" />
                                     </font>
                                  </Text>
-                                 <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2">
+                                 <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4">
                                     <children>
                                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                           <children>
@@ -74,6 +77,12 @@
                                        </HBox>
                                     </children>
                                  </StackPane>
+                                 <TextField fx:id="anbar" alignment="CENTER" promptText="انبار" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER">
+                                    <GridPane.margin>
+                                       <Insets left="40.0" right="40.0" />
+                                    </GridPane.margin>
+                                 </TextField>
+                                 <Button mnemonicParsing="false" onAction="#deleteAll" text="پاک کردن" GridPane.halignment="CENTER" />
                               </children>
                            </GridPane>
                         </children>
@@ -82,3 +91,5 @@
                </SplitPane>
             </items></SplitPane>
         </Tab>
+    </tabs>
+</TabPane>

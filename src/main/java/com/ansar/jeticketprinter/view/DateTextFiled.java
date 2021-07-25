@@ -1,8 +1,6 @@
 package com.ansar.jeticketprinter.view;
 
 import com.github.mfathi91.time.PersianDate;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;

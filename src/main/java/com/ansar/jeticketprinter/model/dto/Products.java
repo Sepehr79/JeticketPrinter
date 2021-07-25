@@ -122,4 +122,9 @@ public class Products {
 
         return String.valueOf(calculating.intValue());
     }
+
+    @Override
+    public String toString() {
+        return "Products{}";
+    }
 }

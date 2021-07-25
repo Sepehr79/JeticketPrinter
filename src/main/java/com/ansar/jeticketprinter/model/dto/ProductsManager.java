@@ -88,4 +88,11 @@ public class ProductsManager {
     public int hashCode() {
         return Objects.hash(products.getBarcode());
     }
+
+    @Override
+    public String toString() {
+        return "ProductsManager{" +
+                "products=" + products +
+                '}';
+    }
 }
