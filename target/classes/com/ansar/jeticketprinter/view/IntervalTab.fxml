@@ -6,12 +6,11 @@
 
 <!--maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0"-->
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="600.0" prefWidth="800.0" styleClass="persianFont" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ansar.jeticketprinter.controller.IntervalTabController">
-    <tabs>
-        <Tab text="گزارش">
-            <SplitPane>
+
+        <Tab closable="false" text="گزارش"  xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" styleClass="persianFont" fx:controller="com.ansar.jeticketprinter.controller.IntervalTabController" >
+            <SplitPane styleClass="persianFont" stylesheets="@css/style.css">
             <items>
-               <SplitPane dividerPositions="0.15512265512265513" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+               <SplitPane  nodeOrientation="RIGHT_TO_LEFT" prefHeight="-Infinity" prefWidth="-Infinity" dividerPositions="0.15512265512265513" orientation="VERTICAL">
                  <items>
                    <AnchorPane maxHeight="50.0" minHeight="50.0" prefHeight="50.0" prefWidth="800.0">
                         <children>
@@ -75,5 +74,4 @@
                </SplitPane>
             </items></SplitPane>
         </Tab>
-    </tabs>
-</TabPane>
+

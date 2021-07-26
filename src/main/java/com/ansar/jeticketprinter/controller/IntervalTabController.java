@@ -48,6 +48,8 @@ public class IntervalTabController implements Initializable {
     }
 
     public void search(ActionEvent actionEvent){
+        table.getItems().clear();
+
         final String fromDateString = DateConvertor.jalalyToGregorian(fromDate.getText()) + " " + fromTime.getText();
         final String toDateString = DateConvertor.jalalyToGregorian(toDate.getText()) + " " + toTime.getText();
 

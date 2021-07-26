@@ -24,19 +24,19 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = ViewLoader.getIntervalTab();
+        Parent root = ViewLoader.getMainPage();
         primaryStage.setScene(new Scene(root));
 
-//        primaryStage.setWidth(properties.getWidth());
-//        primaryStage.setHeight(properties.getHeight());
-//
-//        primaryStage.widthProperty().addListener(((observable, oldValue, newValue) -> {
-//            properties.setWidth(newValue.doubleValue());
-//        }));
-//
-//        primaryStage.heightProperty().addListener((observable, oldValue, newValue) -> {
-//            properties.setHeight(newValue.doubleValue());
-//        });
+        primaryStage.setWidth(properties.getWidth());
+        primaryStage.setHeight(properties.getHeight());
+
+        primaryStage.widthProperty().addListener(((observable, oldValue, newValue) -> {
+            properties.setWidth(newValue.doubleValue());
+        }));
+
+        primaryStage.heightProperty().addListener((observable, oldValue, newValue) -> {
+            properties.setHeight(newValue.doubleValue());
+        });
 
         primaryStage.show();
     }
