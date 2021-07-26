@@ -11,6 +11,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -33,6 +34,9 @@ public class IntervalTabController implements Initializable {
 
     @FXML private TextField anbar;
     @FXML private GridPane gridPane;
+
+    @FXML private Button sendToMainPage;
+
 
     private static final DateTextFiled fromDate = new DateTextFiled();
     private static final DateTextFiled toDate = new DateTextFiled();
@@ -92,5 +96,14 @@ public class IntervalTabController implements Initializable {
 
     public void deleteAll(ActionEvent actionEvent) {
         table.getItems().clear();
+    }
+
+    ///////////////////////////////// Getters ///////////////////////////////////////////////
+    public Button getSendToMainPage() {
+        return sendToMainPage;
+    }
+
+    public TableView<IntervalProduct> getTable() {
+        return table;
     }
 }

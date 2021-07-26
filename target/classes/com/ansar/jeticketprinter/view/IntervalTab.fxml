@@ -48,7 +48,7 @@
                                  <TextField fx:id="anbar" alignment="CENTER" promptText="انبار" />
                                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#search" text="جست و جو" />
                                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#deleteAll" text="پاک کردن" />
-                                 <Button mnemonicParsing="false" onAction="#sendToMain" prefHeight="35.0" prefWidth="209.0" text="ارسال به صفحه اصلی" />
+                                 <Button mnemonicParsing="false" onAction="#sendToMain" prefHeight="35.0" prefWidth="209.0" text="ارسال به صفحه اصلی" fx:id="sendToMainPage" />
                               </children>
                            </HBox>
                         </children>

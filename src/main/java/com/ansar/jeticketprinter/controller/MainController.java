@@ -373,8 +373,12 @@ public class MainController implements Initializable {
         }
     }
 
-
     public void updateIndex(MouseEvent mouseEvent) {
         System.out.println("Update");
+    }
+
+    ///////////////////////////////Getters/////////////////////////////////////////////////
+    public TableView<ProductsManager> getTableView(){
+        return table;
     }
 }
