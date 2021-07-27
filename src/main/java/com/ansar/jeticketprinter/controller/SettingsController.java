@@ -4,6 +4,7 @@ import com.ansar.jeticketprinter.model.dto.*;
 import com.ansar.jeticketprinter.model.pojo.PrintProperties;
 import com.ansar.jeticketprinter.printer.ProductPaper;
 import com.ansar.jeticketprinter.printer.ProductPrinter;
+import com.ansar.jeticketprinter.view.DialogViewer;
 import com.ansar.jeticketprinter.view.NumberInputSpinner;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -95,11 +96,11 @@ public class SettingsController implements Initializable {
             // Any exception
             catch (Exception exception) {
                 // TODO working for alerting exception message later
-                alert(("خطایی هنگام عملیات رخ داد!"), ("لطفا متن خطا را چک کنید"), Alert.AlertType.ERROR);
+                DialogViewer.showDialog(("خطایی هنگام عملیات رخ داد!"), ("لطفا متن خطا را چک کنید"), Alert.AlertType.ERROR);
                 exception.printStackTrace();
             }
         }else {
-            alert(("پرینتر انتخاب نشد!"), ("لطفا یک پرینتر را انتخاب کرده و دوباره تلاش کنید"), Alert.AlertType.WARNING);
+            DialogViewer.showDialog(("پرینتر انتخاب نشد!"), ("لطفا یک پرینتر را انتخاب کرده و دوباره تلاش کنید"), Alert.AlertType.WARNING);
         }
     }
 
@@ -213,17 +214,6 @@ public class SettingsController implements Initializable {
             printProperties.setPaperType(PrintProperties.PaperType.A4);
 
         return printProperties;
-    }
-
-    /**
-     * Show message to the user
-     */
-    public void alert(String header, String footer, Alert.AlertType type){
-        Alert alert = new Alert(type);
-
-        alert.setHeaderText((header));
-        alert.setContentText((footer));
-        alert.showAndWait();
     }
 
     private void saveData(){

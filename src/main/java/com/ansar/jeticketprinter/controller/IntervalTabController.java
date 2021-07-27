@@ -6,20 +6,20 @@ import com.ansar.jeticketprinter.model.pojo.ConnectionProperties;
 import com.ansar.jeticketprinter.model.pojo.IntervalProduct;
 import com.ansar.jeticketprinter.view.ButtonCell;
 import com.ansar.jeticketprinter.view.DateTextFiled;
+import com.ansar.jeticketprinter.view.DialogViewer;
 import com.ansar.jeticketprinter.view.TimeTextField;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.geometry.NodeOrientation;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.DateTimeException;
 import java.util.ResourceBundle;
 
 public class IntervalTabController implements Initializable {
@@ -51,10 +51,8 @@ public class IntervalTabController implements Initializable {
     }
 
     public void search(ActionEvent actionEvent){
-        table.getItems().clear();
 
-        final String fromDateString = DateConvertor.jalalyToGregorian(fromDate.getText()) + " " + fromTime.getText();
-        final String toDateString = DateConvertor.jalalyToGregorian(toDate.getText()) + " " + toTime.getText();
+        table.getItems().clear();
 
         ConnectionProperties connectionProperties = ConnectionProperties.deserializeFromXml();
         connectionProperties.setAnbar(anbar.getText());
@@ -62,10 +60,15 @@ public class IntervalTabController implements Initializable {
         OpenedDatabaseApi api = OpenedDatabaseApi.getInstance();
         try {
             api.openConnection(connectionProperties);
-            table.getItems().addAll(api.getProductsManager(fromDateString, toDateString));
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }finally {
+            table.getItems().addAll(api.getProductsManager(DateConvertor.jalalyToGregorian(fromDate.getText()) + " " + fromTime.getText(),
+                    DateConvertor.jalalyToGregorian(toDate.getText()) + " " + toTime.getText()));
+
+        } catch (SQLException exception) {
+            DialogViewer.showDialog("خطا", "اتصال با دیتابیس برقرار نیست لطفا تنظیمات اتصال را بررسی کنید", Alert.AlertType.ERROR);
+            exception.printStackTrace();
+        }catch (DateTimeException exception){
+            DialogViewer.showDialog("خطا", "تاریخ وارد شده صحیح نمی باشد", Alert.AlertType.ERROR);
+        } finally {
             api.closeConnection();
         }
     }

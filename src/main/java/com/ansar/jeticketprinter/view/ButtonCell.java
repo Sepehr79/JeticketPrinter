@@ -17,7 +17,6 @@ public class ButtonCell<T> extends TableCell<T, Boolean> {
             @Override
             public void handle(ActionEvent t) {
                 int selectIndex = getTableRow().getIndex();
-
                 tblView.getItems().remove(selectIndex);
             }
         });

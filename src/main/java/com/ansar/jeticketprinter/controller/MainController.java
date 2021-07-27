@@ -9,6 +9,7 @@ import com.ansar.jeticketprinter.printer.ProductPaper;
 import com.ansar.jeticketprinter.printer.ProductPrinter;
 import com.ansar.jeticketprinter.view.ButtonCell;
 import com.ansar.jeticketprinter.view.CounterCell;
+import com.ansar.jeticketprinter.view.DialogViewer;
 import com.ansar.jeticketprinter.view.ViewLoader;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -31,6 +32,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import javax.print.PrintService;
+import javax.tools.DiagnosticListener;
 import java.awt.print.PrinterAbortException;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
@@ -129,18 +131,21 @@ public class MainController implements Initializable {
         if (printService != null){
             ProductPrinter printer = new ProductPrinter(new ProductPaper(managers, printProperties), printService);
             try {
-                printer.print();
+                if (managers.size() > 1000)
+                    DialogViewer.showDialog("اخطار", "لطفا تعداد محصولات کمتر از 1000 را انتخاب کنید", Alert.AlertType.WARNING);
+                else
+                    printer.print();
             }catch (PrinterAbortException exception){
                 // When printing canceled
                 logger.info("Printer aborted");
                 exception.printStackTrace();
             } catch (PrinterException exception) {
                 // When any exception
-                alert("خطایی در اتصال با پرینتر رخ داد", "لطفا با توسعه دهنده تماس بگیرید", Alert.AlertType.ERROR);
+                DialogViewer.showDialog("خطایی در اتصال با پرینتر رخ داد", "لطفا با توسعه دهنده تماس بگیرید", Alert.AlertType.ERROR);
                 exception.printStackTrace();
             }
         }else
-            alert("هیچ پرینتری انتخاب نشده است", "لطفا ابتدا یک پرینتر را انتخاب کرده و دوباره تلاش کنید", Alert.AlertType.WARNING);
+            DialogViewer.showDialog("هیچ پرینتری انتخاب نشده است", "لطفا ابتدا یک پرینتر را انتخاب کرده و دوباره تلاش کنید", Alert.AlertType.WARNING);
 
 
     }
@@ -156,9 +161,9 @@ public class MainController implements Initializable {
             try {
                 api.openConnection(properties);
 
-                alert("پیام", "اتصال موفقیت آمیز بود", Alert.AlertType.INFORMATION);
+                DialogViewer.showDialog("پیام", "اتصال موفقیت آمیز بود", Alert.AlertType.INFORMATION);
             } catch (SQLException throwables) {
-                alert("پیام", "اتصال برقرار نشد لطفا تنظیمات خود را چک کنید", Alert.AlertType.ERROR);
+                DialogViewer.showDialog("پیام", "اتصال برقرار نشد لطفا تنظیمات خود را چک کنید", Alert.AlertType.ERROR);
             }finally {
                 api.closeConnection();
             }
@@ -215,7 +220,7 @@ public class MainController implements Initializable {
                 event.getRowValue().setHighPrice(event.getNewValue());
             }catch (IllegalArgumentException exception){
                 exception.printStackTrace();
-                alert("Illegal input error!", "Please enter a valid number.", Alert.AlertType.ERROR);
+                DialogViewer.showDialog("Illegal input error!", "Please enter a valid number.", Alert.AlertType.ERROR);
             }
             event.getTableView().refresh();
         });
@@ -226,7 +231,7 @@ public class MainController implements Initializable {
                 event.getRowValue().setLowPrice(event.getNewValue());
             }catch (IllegalArgumentException exception){
                 exception.printStackTrace();
-                alert("Illegal input error!", "Please enter a valid number.", Alert.AlertType.ERROR);
+                DialogViewer.showDialog("Illegal input error!", "Please enter a valid number.", Alert.AlertType.ERROR);
             }
             event.getTableView().refresh();
         });
@@ -292,7 +297,7 @@ public class MainController implements Initializable {
 
         PrintService[] services = PrinterJob.lookupPrintServices();
         if (services.length < 1)
-            alert(String.valueOf("هیچ پرینتری یافت نشد"), String.valueOf("لطفا اتصال پرینتر های خودرا بررسی کنید"), Alert.AlertType.ERROR);
+            DialogViewer.showDialog(String.valueOf("هیچ پرینتری یافت نشد"), String.valueOf("لطفا اتصال پرینتر های خودرا بررسی کنید"), Alert.AlertType.ERROR);
         else{
             printer.setItems(FXCollections.observableArrayList(services));
             if (printerIndex.getIndexNumber() < services.length)
@@ -325,13 +330,6 @@ public class MainController implements Initializable {
 //        }
 //    }
 
-    private void alert(String header, String footer, Alert.AlertType type){
-        Alert alert = new Alert(type);
-
-        alert.setHeaderText(String.valueOf(header));
-        alert.setContentText(String.valueOf(footer));
-        alert.showAndWait();
-    }
 
     /**
      * Read properties from input field and update table
@@ -352,8 +350,6 @@ public class MainController implements Initializable {
                 // Read products based on their brocades
                 Set<ProductsManager> products = api.getProductsById(barcodes);
 
-                //table.getItems().clear();
-
                 // Add new products to the current table
                 table.getItems().addAll(products);
 
@@ -361,7 +357,7 @@ public class MainController implements Initializable {
             } catch (SQLException exception) {
                 // When properties not true
                 logger.info("Exception on opening connection");
-                alert("خطا در اتصال", "لطفا تنظیمات اتصال خود را چک کنید", Alert.AlertType.ERROR);
+                DialogViewer.showDialog("خطا در اتصال", "لطفا تنظیمات اتصال خود را چک کنید", Alert.AlertType.ERROR);
                 exception.printStackTrace();
             }finally {
                 api.closeConnection();
@@ -369,7 +365,7 @@ public class MainController implements Initializable {
             // Save properties
             ConnectionProperties.serializeToXml(properties);
         }else {
-            alert("فیلد خالی", "لطفا تمام ورودی ها را تکمیل کنید", Alert.AlertType.ERROR);
+            DialogViewer.showDialog("فیلد خالی", "لطفا تمام ورودی ها را تکمیل کنید", Alert.AlertType.ERROR);
         }
     }
 
