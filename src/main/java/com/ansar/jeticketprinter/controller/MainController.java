@@ -174,7 +174,7 @@ public class MainController implements Initializable {
      * Open settings window
      */
     public void openSettings(ActionEvent actionEvent) throws IOException {
-        Parent root = ViewLoader.getSettingsPage();
+        Parent root = ViewLoader.getPage(ViewLoader.SETTING_PAGE);
         Scene scene = new Scene(root);
 
         if (!settingsWindow.isShowing()){

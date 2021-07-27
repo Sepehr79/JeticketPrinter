@@ -8,24 +8,15 @@ import java.util.Objects;
 
 public class ViewLoader {
 
+    public static final String MAIN_PAGE = "MainPage.fxml";
+    public static final String SETTING_PAGE = "Settings.fxml";
+
     private ViewLoader(){
 
     }
 
-    public static Parent getMainPage() throws IOException {
-        return FXMLLoader.load(Objects.requireNonNull(ViewLoader.class.getResource("MainPage.fxml")));
-    }
-
-    public static Parent getSettingsPage() throws IOException {
-        return FXMLLoader.load(Objects.requireNonNull(ViewLoader.class.getResource("Settings.fxml")));
-    }
-
-    public static Parent getIntervalTab() throws IOException {
-        return FXMLLoader.load(Objects.requireNonNull(ViewLoader.class.getResource("IntervalTab.fxml")));
-    }
-
-    public static Parent getMainTab() throws IOException {
-        return FXMLLoader.load(Objects.requireNonNull(ViewLoader.class.getResource("MainTab.fxml")));
+    public static Parent getPage(String pageName) throws IOException {
+        return FXMLLoader.load(Objects.requireNonNull(ViewLoader.class.getResource(pageName)));
     }
 
 }

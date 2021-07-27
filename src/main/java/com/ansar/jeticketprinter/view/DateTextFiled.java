@@ -41,8 +41,5 @@ public class DateTextFiled extends TextField  {
                     setText(oldValue);
             }
         });
-
     }
-
-
 }

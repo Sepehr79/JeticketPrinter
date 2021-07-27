@@ -24,7 +24,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = ViewLoader.getMainPage();
+        Parent root = ViewLoader.getPage(ViewLoader.MAIN_PAGE);
         primaryStage.setScene(new Scene(root));
 
         primaryStage.setWidth(properties.getWidth());
