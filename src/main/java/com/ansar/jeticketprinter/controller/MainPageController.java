@@ -12,7 +12,6 @@ import java.util.ResourceBundle;
 public class MainPageController implements Initializable {
 
     @FXML private IntervalTabController intevalTabController;
-
     @FXML private MainController mainTabController;
 
     @Override
@@ -27,7 +26,6 @@ public class MainPageController implements Initializable {
 
                 managers.add(manager);
             });
-
             mainTabController.getTableView().getItems().addAll(managers);
         });
     }

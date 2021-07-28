@@ -2,12 +2,10 @@ package com.ansar.jeticketprinter.controller;
 
 import com.ansar.jeticketprinter.model.database.api.OpenedDatabaseApi;
 import com.ansar.jeticketprinter.model.dto.DateConvertor;
+import com.ansar.jeticketprinter.model.dto.ProductsManager;
 import com.ansar.jeticketprinter.model.pojo.ConnectionProperties;
 import com.ansar.jeticketprinter.model.pojo.IntervalProduct;
-import com.ansar.jeticketprinter.view.ButtonCell;
-import com.ansar.jeticketprinter.view.DateTextFiled;
-import com.ansar.jeticketprinter.view.DialogViewer;
-import com.ansar.jeticketprinter.view.TimeTextField;
+import com.ansar.jeticketprinter.view.*;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,6 +29,7 @@ public class IntervalTabController implements Initializable {
     @FXML private TableColumn<IntervalProduct, String> name;
     @FXML private TableColumn<IntervalProduct, String> id;
     @FXML private TableColumn<IntervalProduct, String> date;
+    @FXML private TableColumn<IntervalProduct, Boolean> row;
 
     @FXML private TextField anbar;
     @FXML private GridPane gridPane;
@@ -91,6 +90,7 @@ public class IntervalTabController implements Initializable {
         date.setCellValueFactory(new PropertyValueFactory<IntervalProduct, String>("date"));
         delete.setSortable(false);
 
+        row.setCellFactory(p -> new CounterCell<IntervalProduct>(table));
 
         // Delete button
         delete.setCellValueFactory(p -> new SimpleBooleanProperty(p.getValue() != null));

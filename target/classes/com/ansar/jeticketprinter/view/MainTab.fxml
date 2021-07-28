@@ -119,7 +119,7 @@
                     </children></AnchorPane>
                 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                     <children>
-                        <TableView fx:id="table" editable="true" layoutX="14.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="-14.0" AnchorPane.topAnchor="0.0">
+                        <TableView styleClass="persianFont" fx:id="table" nodeOrientation="RIGHT_TO_LEFT" editable="true" layoutX="14.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <columns>
                                 <TableColumn fx:id="row" maxWidth="2500.0" minWidth="5.0" prefWidth="20.0" style="-fx-alignment: center;" text="ردیف" styleClass="persianFont" />
                                 <TableColumn fx:id="id" prefWidth="257.5999755859375" sortable="false" style="-fx-alignment: center;" text="بارکد" styleClass="persianFont" />

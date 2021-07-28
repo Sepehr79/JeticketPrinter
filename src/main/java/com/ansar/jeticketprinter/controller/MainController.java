@@ -109,7 +109,8 @@ public class MainController implements Initializable {
 
     public void search(ActionEvent actionEvent) {
         try {
-            searchResultFrom(barcodes);
+            if (!barcodes.getText().equals(""))
+                searchResultFrom(barcodes);
         }catch (NullPointerException exception){
             logger.info("Null pointer cause no arg on barcodes label");
         }
@@ -205,7 +206,7 @@ public class MainController implements Initializable {
         delete.setCellValueFactory(p -> new SimpleBooleanProperty(p.getValue() != null));
         delete.setCellFactory(p -> new ButtonCell<ProductsManager>(table));
 
-        row.setCellFactory(p -> new CounterCell(table));
+        row.setCellFactory(p -> new CounterCell<ProductsManager>(table));
 
         // Writable
         name.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -214,24 +215,26 @@ public class MainController implements Initializable {
             event.getTableView().refresh();
         });
 
+
         highPrice.setCellFactory(TextFieldTableCell.forTableColumn());
+        lowPrice.setCellFactory(TextFieldTableCell.forTableColumn());
+
         highPrice.setOnEditCommit(event -> {
             try {
                 event.getRowValue().setHighPrice(event.getNewValue());
             }catch (IllegalArgumentException exception){
                 exception.printStackTrace();
-                DialogViewer.showDialog("Illegal input error!", "Please enter a valid number.", Alert.AlertType.ERROR);
+                DialogViewer.showDialog("ورودی اشتباه", "لطفا یک عدد صحیح را وارد کنید", Alert.AlertType.ERROR);
             }
             event.getTableView().refresh();
         });
 
-        lowPrice.setCellFactory(TextFieldTableCell.forTableColumn());
         lowPrice.setOnEditCommit(event -> {
             try {
                 event.getRowValue().setLowPrice(event.getNewValue());
             }catch (IllegalArgumentException exception){
                 exception.printStackTrace();
-                DialogViewer.showDialog("Illegal input error!", "Please enter a valid number.", Alert.AlertType.ERROR);
+                DialogViewer.showDialog("ورودی اشتباه", "لطفا یک عدد صحیح را وارد کنید", Alert.AlertType.ERROR);
             }
             event.getTableView().refresh();
         });

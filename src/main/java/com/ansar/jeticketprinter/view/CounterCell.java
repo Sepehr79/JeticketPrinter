@@ -4,11 +4,11 @@ import com.ansar.jeticketprinter.model.dto.ProductsManager;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableView;
 
-public class CounterCell extends TableCell<ProductsManager, Boolean> {
+public class CounterCell<T> extends TableCell<T, Boolean> {
 
-    private final TableView<ProductsManager> tableView;
+    private final TableView<T> tableView;
 
-    public CounterCell(TableView<ProductsManager> tableView) {
+    public CounterCell(TableView<T> tableView) {
         this.tableView = tableView;
     }
 
