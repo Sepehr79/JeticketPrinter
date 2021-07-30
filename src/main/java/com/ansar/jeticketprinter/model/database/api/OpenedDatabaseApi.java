@@ -56,9 +56,9 @@ public class OpenedDatabaseApi implements IReadable {
                     "on P.ID1 = T.K_Code where ((ID1 = ? and K_Code_B = '0') or K_Code_B = ? or Barcode = ?) and A_Code = ?;");
             selectStatement.setString(4, properties.getAnbar().trim());
 
-            intervalSelectStatement = connection.prepareStatement("select K.Name1 ,H.A_Code, H.K_Code, H.Price_Consumer, H.Price_Forosh, H.Price_Finish, H.ChangePrice, H.tarikh from History_Price H join KalaId K on H.K_Code = K.K_Code where\n" +
-                    " H.tarikh between ? and ?\n" +
-                    " and H.A_Code = ? and H.changePrice in (1, 5);");
+            intervalSelectStatement = connection.prepareStatement("select T.K_Code, T.Name1, T.Price_Consumer, T.Price_Forosh, T.A_Code, F.tarikh from \n" +
+                    "(select k.name1 , A.A_Code , k.k_code, A.Price_Consumer, A.Price_Forosh from KalaId k join Anbar A on k.K_Code = A.K_Code) T join \n" +
+                    "(select distinct k_code , tarikh from History_Price where tarikh between ? and ?) F on T.K_Code = F.K_Code and T.A_Code = ?;");
             intervalSelectStatement.setString(3, properties.getAnbar().trim());
 
             //updatePriceForoshStatement = connection.prepareStatement("update Anbar set Price_Forosh = ? where K_Code = ? and A_Code = ?");

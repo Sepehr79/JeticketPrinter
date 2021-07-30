@@ -4,6 +4,7 @@ import com.github.mfathi91.time.PersianDate;
 import sun.util.resources.LocaleData;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class IntervalProduct {
 
@@ -67,5 +68,18 @@ public class IntervalProduct {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        IntervalProduct product = (IntervalProduct) o;
+        return name.equals(product.name) && priceConsumer.equals(product.priceConsumer) && priceForosh.equals(product.priceForosh) && id.equals(product.id) && date.equals(product.date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, priceConsumer, priceForosh, id, date);
     }
 }

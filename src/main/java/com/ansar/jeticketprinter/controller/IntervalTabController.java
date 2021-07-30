@@ -2,7 +2,6 @@ package com.ansar.jeticketprinter.controller;
 
 import com.ansar.jeticketprinter.model.database.api.OpenedDatabaseApi;
 import com.ansar.jeticketprinter.model.dto.DateConvertor;
-import com.ansar.jeticketprinter.model.dto.ProductsManager;
 import com.ansar.jeticketprinter.model.pojo.ConnectionProperties;
 import com.ansar.jeticketprinter.model.pojo.IntervalProduct;
 import com.ansar.jeticketprinter.view.*;
@@ -10,7 +9,6 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.NodeOrientation;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
@@ -18,6 +16,7 @@ import javafx.scene.layout.GridPane;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.DateTimeException;
+import java.util.HashSet;
 import java.util.ResourceBundle;
 
 public class IntervalTabController implements Initializable {
@@ -59,8 +58,8 @@ public class IntervalTabController implements Initializable {
         OpenedDatabaseApi api = OpenedDatabaseApi.getInstance();
         try {
             api.openConnection(connectionProperties);
-            table.getItems().addAll(api.getProductsManager(DateConvertor.jalalyToGregorian(fromDate.getText()) + " " + fromTime.getText(),
-                    DateConvertor.jalalyToGregorian(toDate.getText()) + " " + toTime.getText()));
+            table.getItems().addAll(new HashSet<>(api.getProductsManager(DateConvertor.jalalyToGregorian(fromDate.getText()) + " " + fromTime.getText(),
+                    DateConvertor.jalalyToGregorian(toDate.getText()) + " " + toTime.getText())));
 
         } catch (SQLException exception) {
             DialogViewer.showDialog("خطا", "اتصال با دیتابیس برقرار نیست لطفا تنظیمات اتصال را بررسی کنید", Alert.AlertType.ERROR);
