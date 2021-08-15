@@ -2,15 +2,19 @@ package com.ansar.jeticketprinter.controller;
 
 import com.ansar.jeticketprinter.model.database.api.OpenedDatabaseApi;
 import com.ansar.jeticketprinter.model.dto.DateConvertor;
+import com.ansar.jeticketprinter.model.dto.EntityJsonManager;
 import com.ansar.jeticketprinter.model.pojo.ConnectionProperties;
 import com.ansar.jeticketprinter.model.pojo.IntervalProduct;
 import com.ansar.jeticketprinter.view.*;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 
 import java.net.URL;
@@ -20,6 +24,7 @@ import java.util.HashSet;
 import java.util.ResourceBundle;
 
 public class IntervalTabController implements Initializable {
+
 
     @FXML private TableView<IntervalProduct> table;
     @FXML private TableColumn<IntervalProduct, Boolean> delete;
@@ -35,6 +40,7 @@ public class IntervalTabController implements Initializable {
 
     @FXML private Button sendToMainPage;
 
+    @FXML private Button searchingButton;
 
     private static final DateTextFiled fromDate = new DateTextFiled();
     private static final DateTextFiled toDate = new DateTextFiled();
@@ -49,36 +55,50 @@ public class IntervalTabController implements Initializable {
     }
 
     public void search(ActionEvent actionEvent){
-
-        table.getItems().clear();
-
-        ConnectionProperties connectionProperties = ConnectionProperties.deserializeFromXml();
-        connectionProperties.setAnbar(anbar.getText());
-
-        OpenedDatabaseApi api = OpenedDatabaseApi.getInstance();
-        try {
-            api.openConnection(connectionProperties);
-            table.getItems().addAll(new HashSet<>(api.getProductsManager(DateConvertor.jalalyToGregorian(fromDate.getText()) + " " + fromTime.getText(),
-                    DateConvertor.jalalyToGregorian(toDate.getText()) + " " + toTime.getText())));
-
-        } catch (SQLException exception) {
-            DialogViewer.showDialog("خطا", "اتصال با دیتابیس برقرار نیست لطفا تنظیمات اتصال را بررسی کنید", Alert.AlertType.ERROR);
-            exception.printStackTrace();
-        }catch (DateTimeException exception){
-            DialogViewer.showDialog("خطا", "تاریخ وارد شده صحیح نمی باشد", Alert.AlertType.ERROR);
-        } finally {
-            api.closeConnection();
-        }
+        updateTable();
     }
 
     public void sendToMain(ActionEvent actionEvent) {
     }
 
     private void loadGridPane(){
+        gridPane.add(fromTime, 5, 0);
+        gridPane.add(toTime, 3, 0);
         gridPane.add(fromDate, 2, 0);
-        gridPane.add(fromTime, 1, 0);
-        gridPane.add(toDate, 5, 0);
-        gridPane.add(toTime, 4, 0);
+        gridPane.add(toDate, 0, 0);
+
+        fromTime.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode() == KeyCode.ENTER)
+                    toTime.requestFocus();
+            }
+        });
+
+        toTime.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode() == KeyCode.ENTER)
+                    anbar.requestFocus();
+            }
+        });
+
+        anbar.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode() == KeyCode.ENTER)
+                    searchingButton.requestFocus();
+            }
+        });
+
+        searchingButton.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode() == KeyCode.ENTER){
+                    updateTable();
+                }
+            }
+        });
     }
 
     private void mapColumns(){
@@ -107,5 +127,27 @@ public class IntervalTabController implements Initializable {
 
     public TableView<IntervalProduct> getTable() {
         return table;
+    }
+
+    private void updateTable(){
+        table.getItems().clear();
+
+        ConnectionProperties connectionProperties = ConnectionProperties.deserializeFromXml();
+        connectionProperties.setAnbar(anbar.getText());
+
+        OpenedDatabaseApi api = OpenedDatabaseApi.getInstance();
+        try {
+            api.openConnection(connectionProperties);
+            table.getItems().addAll(new HashSet<>(api.getProductsManager(DateConvertor.jalalyToGregorian(fromDate.getText()) + " " + fromTime.getText(),
+                    DateConvertor.jalalyToGregorian(toDate.getText()) + " " + toTime.getText())));
+
+        } catch (SQLException exception) {
+            DialogViewer.showDialog("خطا", "اتصال با دیتابیس برقرار نیست لطفا تنظیمات اتصال را بررسی کنید", Alert.AlertType.ERROR);
+            exception.printStackTrace();
+        }catch (DateTimeException exception){
+            DialogViewer.showDialog("خطا", "تاریخ وارد شده صحیح نمی باشد", Alert.AlertType.ERROR);
+        } finally {
+            api.closeConnection();
+        }
     }
 }

@@ -10,6 +10,7 @@ public class ViewLoader {
 
     public static final String MAIN_PAGE = "MainPage.fxml";
     public static final String SETTING_PAGE = "Settings.fxml";
+    public static final String INTERVAL_PAGE = "IntervalTab.fxml";
 
     private ViewLoader(){
 
