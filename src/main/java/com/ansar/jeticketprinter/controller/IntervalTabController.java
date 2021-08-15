@@ -75,9 +75,9 @@ public class IntervalTabController implements Initializable {
     }
 
     private void loadGridPane(){
-        gridPane.add(toDate, 5, 0);
         gridPane.add(fromDate, 2, 0);
         gridPane.add(fromTime, 1, 0);
+        gridPane.add(toDate, 5, 0);
         gridPane.add(toTime, 4, 0);
     }
 
