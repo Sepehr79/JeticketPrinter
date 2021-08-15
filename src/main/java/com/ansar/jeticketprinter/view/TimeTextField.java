@@ -36,8 +36,10 @@ public class TimeTextField extends TextField {
             public void handle(KeyEvent event) {
                 if (event.getCode() == KeyCode.RIGHT && getCaretPosition() == 2)
                     positionCaret(3);
-                if (event.getCode() == KeyCode.LEFT & getCaretPosition() == 4)
+                if (event.getCode() == KeyCode.LEFT && getCaretPosition() == 4)
                     positionCaret(3);
+                if (event.getCode() == KeyCode.LEFT && getCaretPosition() == 1)
+                    positionCaret(2);
 
                 if (event.getText().matches("[0-9]") && getCaretPosition() > 0){
                     int index = getCaretPosition();
@@ -56,6 +58,8 @@ public class TimeTextField extends TextField {
             public void handle(MouseEvent event) {
                 if (getCaretPosition() == 3)
                     positionCaret(4);
+                if (getCaretPosition() == 0)
+                    positionCaret(1);
             }
         });
     }
