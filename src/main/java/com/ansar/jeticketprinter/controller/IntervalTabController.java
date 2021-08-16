@@ -2,13 +2,11 @@ package com.ansar.jeticketprinter.controller;
 
 import com.ansar.jeticketprinter.model.database.api.OpenedDatabaseApi;
 import com.ansar.jeticketprinter.model.dto.DateConvertor;
-import com.ansar.jeticketprinter.model.dto.EntityJsonManager;
 import com.ansar.jeticketprinter.model.pojo.ConnectionProperties;
 import com.ansar.jeticketprinter.model.pojo.IntervalProduct;
 import com.ansar.jeticketprinter.view.*;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -25,6 +23,7 @@ import java.util.ResourceBundle;
 
 public class IntervalTabController implements Initializable {
 
+    @FXML private Tab intervalTab;
 
     @FXML private TableView<IntervalProduct> table;
     @FXML private TableColumn<IntervalProduct, Boolean> delete;
@@ -48,6 +47,9 @@ public class IntervalTabController implements Initializable {
     private static final TimeTextField fromTime = new TimeTextField("00:00");
     private static final TimeTextField toTime = new TimeTextField("23:59");
 
+    private static boolean fromTimeFirstClick = false;
+    private static boolean toTimeFirstClick = false;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         loadGridPane();
@@ -67,37 +69,24 @@ public class IntervalTabController implements Initializable {
         gridPane.add(fromDate, 2, 0);
         gridPane.add(toDate, 0, 0);
 
-        fromTime.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if (event.getCode() == KeyCode.ENTER)
-                    toTime.requestFocus();
-            }
+        fromTime.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.ENTER)
+                toTime.requestFocus();
         });
 
-        toTime.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if (event.getCode() == KeyCode.ENTER)
-                    anbar.requestFocus();
-            }
+        toTime.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.ENTER)
+                anbar.requestFocus();
         });
 
-        anbar.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if (event.getCode() == KeyCode.ENTER)
-                    searchingButton.requestFocus();
-            }
+        anbar.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.ENTER)
+                searchingButton.requestFocus();
         });
 
-        searchingButton.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if (event.getCode() == KeyCode.ENTER){
-                    updateTable();
-                }
-            }
+        searchingButton.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.ENTER)
+                updateTable();
         });
     }
 
@@ -149,5 +138,9 @@ public class IntervalTabController implements Initializable {
         } finally {
             api.closeConnection();
         }
+    }
+
+    public TimeTextField getFromTime() {
+        return fromTime;
     }
 }

@@ -74,12 +74,12 @@ public class IntervalProduct {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        IntervalProduct product = (IntervalProduct) o;
-        return name.equals(product.name) && priceConsumer.equals(product.priceConsumer) && priceForosh.equals(product.priceForosh) && id.equals(product.id) && date.equals(product.date);
+        IntervalProduct that = (IntervalProduct) o;
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, priceConsumer, priceForosh, id, date);
+        return Objects.hash(id);
     }
 }

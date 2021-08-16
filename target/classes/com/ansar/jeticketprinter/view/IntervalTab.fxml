@@ -7,7 +7,7 @@
 <!--maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0"-->
 
 
-        <Tab closable="false" styleClass="persianFont" fx:controller="com.ansar.jeticketprinter.controller.IntervalTabController" text="گزارش" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+        <Tab fx:id="intervalTab" closable="false" styleClass="persianFont" fx:controller="com.ansar.jeticketprinter.controller.IntervalTabController" text="گزارش" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
             <SplitPane styleClass="persianFont" stylesheets="@css/style.css">
             <items>
                <SplitPane dividerPositions="0.15512265512265513" nodeOrientation="RIGHT_TO_LEFT" orientation="VERTICAL" prefHeight="-Infinity" prefWidth="-Infinity">

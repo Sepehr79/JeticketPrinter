@@ -127,6 +127,7 @@ public class OpenedDatabaseApi implements IReadable {
 
                 //String name, String priceConsumer, String priceForosh, String id, String date
                 IntervalProduct product = new IntervalProduct(name, highPrice, lowPrice, id, date);
+                managers.remove(product);
                 managers.add(product);
             }
 

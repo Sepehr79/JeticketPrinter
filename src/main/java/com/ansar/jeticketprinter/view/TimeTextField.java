@@ -62,10 +62,17 @@ public class TimeTextField extends TextField {
                     positionCaret(1);
             }
         });
+
+        this.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            if (this.getSelectedText().length() == 5)
+                this.positionCaret(1);
+            if (event.getCode() == KeyCode.ENTER)
+                this.requestFocus();
+        });
     }
 
     private boolean matchesTimeFormat(String text){
-        return text.matches("[0-2]?[0-9]?:[0-5]?[0-9]?");
+        return text.matches("[0-2][0-9]:[0-5][0-9]");
     }
 
 }

@@ -383,4 +383,8 @@ public class MainController implements Initializable {
     public TableView<ProductsManager> getTableView(){
         return table;
     }
+
+    public TextField getBarcode() {
+        return barcode;
+    }
 }

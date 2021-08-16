@@ -1,14 +1,11 @@
 package com.ansar.jeticketprinter.view;
 
 import com.github.mfathi91.time.PersianDate;
-import javafx.beans.InvalidationListener;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
-import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
-import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -75,8 +72,12 @@ public class DateTextFiled extends TextField  {
                     positionCaret(6);
                 if (getCaretPosition() == 8)
                     positionCaret(9);
-
             }
+        });
+
+        this.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            if (this.getSelectedText().length() == 10)
+                this.positionCaret(1);
         });
 
     }
