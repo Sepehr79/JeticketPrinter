@@ -28,7 +28,7 @@
                                           <Font name="B Yekan" size="16.0" />
                                        </font>
                                     </Text>
-                                    <RadioButton fx:id="nameSearchingStart" contentDisplay="CENTER" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="ابتدا" textAlignment="CENTER">
+                                    <RadioButton selected="true" fx:id="nameSearchingStart" contentDisplay="CENTER" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="ابتدا" textAlignment="CENTER">
                                        <font>
                                           <Font name="B Yekan" size="14.0" />
                                        </font>

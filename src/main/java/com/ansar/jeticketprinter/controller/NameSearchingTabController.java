@@ -6,6 +6,7 @@ import com.ansar.jeticketprinter.model.pojo.ConnectionProperties;
 import com.ansar.jeticketprinter.model.pojo.SearchingType;
 import com.ansar.jeticketprinter.view.ButtonCell;
 import com.ansar.jeticketprinter.view.CounterCell;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -95,10 +96,20 @@ public class NameSearchingTabController implements Initializable {
         if (managers != null){
             table.getItems().clear();
             table.getItems().addAll(managers);
+
+            if (table.getItems().size() > 0)
+                Platform.runLater(() -> {
+                    table.requestFocus();
+                    table.getSelectionModel().selectFirst();
+                });
         }
     }
 
     public TableView<ProductsManager> getTable() {
         return table;
+    }
+
+    public Button getSendToMainPage() {
+        return sendToMainPage;
     }
 }

@@ -2,10 +2,10 @@
 
 <?import javafx.scene.control.*?>
 
-<TabPane fx:controller="com.ansar.jeticketprinter.controller.MainPageController" nodeOrientation="RIGHT_TO_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1121.0" stylesheets="@css/style.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<TabPane fx:id="mainPage" fx:controller="com.ansar.jeticketprinter.controller.MainPageController" nodeOrientation="RIGHT_TO_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1121.0" stylesheets="@css/style.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
   <tabs>
     <fx:include fx:id="mainTab" source="MainTab.fxml"  />
-    <fx:include fx:id="intevalTab" source="IntervalTab.fxml"/>
     <fx:include fx:id="nameSearchingTab" source="nameSearchingTab.fxml"/>
+    <fx:include fx:id="intevalTab" source="IntervalTab.fxml"/>
   </tabs>
 </TabPane>

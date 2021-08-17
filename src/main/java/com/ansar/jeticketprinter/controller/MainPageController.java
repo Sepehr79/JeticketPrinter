@@ -2,12 +2,13 @@ package com.ansar.jeticketprinter.controller;
 
 import com.ansar.jeticketprinter.model.dto.ProductsManager;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyCode;
 
-import java.awt.event.KeyEvent;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.ResourceBundle;
 
 public class MainPageController implements Initializable {
 
+    @FXML private TabPane mainPage;
     @FXML private Tab nameSearchingTab;
     @FXML private Tab mainTab;
     @FXML private Tab intevalTab;
@@ -42,9 +44,14 @@ public class MainPageController implements Initializable {
             if (event.getCode() == KeyCode.ENTER){
                 ProductsManager productManager = nameSearchingTabController.getTable().getSelectionModel().getSelectedItem();
                 mainTabController.getTableView().getItems().add(productManager);
+                nameSearchingTabController.getTable().getItems().remove(productManager);
             }
         });
 
+        nameSearchingTabController.getSendToMainPage().setOnAction( event -> {
+            ObservableList<ProductsManager> managers = nameSearchingTabController.getTable().getItems();
+            mainTabController.getTableView().getItems().addAll(managers);
+        });
 
         intevalTab.selectedProperty().addListener(observable -> {
             if (intevalTab.isSelected())
