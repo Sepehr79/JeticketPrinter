@@ -4,6 +4,7 @@ import com.ansar.jeticketprinter.model.database.config.ConnectionFactory;
 import com.ansar.jeticketprinter.model.dto.ProductsManager;
 import com.ansar.jeticketprinter.model.pojo.ConnectionProperties;
 import com.ansar.jeticketprinter.model.pojo.IntervalProduct;
+import com.ansar.jeticketprinter.model.pojo.SearchingType;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,17 +17,15 @@ public class OpenedDatabaseApi implements IReadable {
 
     private static final Logger logger = Logger.getLogger(OpenedDatabaseApi.class.getName());
 
-//    public static final Integer UPDATE_NAME = 1;
-//    public static final Integer UPDATE_PRICE_FOROSH = 2;
-//    public static final Integer UPDATE_PRICE_CONSUMER = 3;
-
     private Connection connection;
 
     private PreparedStatement selectStatement;
     private PreparedStatement intervalSelectStatement;
-//    private PreparedStatement updateNameStatement;
-//    private PreparedStatement updatePriceForoshStatement;
-//    private PreparedStatement updatePriceConsumerStatement;
+    private PreparedStatement searchByNameStartingStatement;
+    private PreparedStatement searchByNameMiddleStatement;
+    private PreparedStatement searchByNameEndingStatement;
+
+    private String anbar;
 
     private boolean isOpened = false;
 
@@ -61,13 +60,28 @@ public class OpenedDatabaseApi implements IReadable {
                     "(select distinct k_code, A_Code , tarikh, ChangePrice from History_Price where tarikh between ? and ?) F on T.K_Code = F.K_Code and T.A_Code = ? and F.A_Code = T.A_Code and (F.ChangePrice = 1 or F.ChangePrice = 5);");
             intervalSelectStatement.setString(3, properties.getAnbar().trim());
 
-            //updatePriceForoshStatement = connection.prepareStatement("update Anbar set Price_Forosh = ? where K_Code = ? and A_Code = ?");
-            //updatePriceForoshStatement.setString(3, properties.getAnbar());
+            searchByNameStartingStatement = connection.prepareStatement("select ID1, K_Code_B, A_Code, Name1, Price_Consumer, Price_Forosh,Barcode, K_Qty1 from(\n" +
+                    "select kalaid.K_Code as ID1 ,A_Code, Name1, Barcode, Price_Consumer, price_forosh from kalaid join Anbar on KalaId.K_Code = Anbar.K_Code\n" +
+                    ") P\n" +
+                    "join\n" +
+                    "(select k_Code, '0' as K_Code_B, 1 as K_Qty1 from KalaId left join (select K_Code as ID ,'0' as k_code_B, 1 as K_Qty1 from TblBasket_Kala) P on K_Code = P.ID\n" +
+                    "union all\n" +
+                    "select K_Code as ID2,  K_Code_B, K_Qty1 from TblBasket_Kala) T\n" +
+                    "on P.ID1 = T.K_Code where Name1 like ? and A_Code = ?");
 
-            //updatePriceConsumerStatement = connection.prepareStatement("update anbar set Price_Consumer = ? where K_Code = ? and A_Code = ?");
-            //updatePriceConsumerStatement.setString(3, properties.getAnbar());
+            searchByNameStartingStatement.setString(2, properties.getAnbar().trim());
 
-            //updateNameStatement = connection.prepareStatement("update kalaid set name1 = ? where K_Code = ?");
+            searchByNameMiddleStatement = connection.prepareStatement("select ID1, K_Code_B, A_Code, Name1, Price_Consumer, Price_Forosh,Barcode, K_Qty1 from(\n" +
+                    "select kalaid.K_Code as ID1 ,A_Code, Name1, Barcode, Price_Consumer, price_forosh from kalaid join Anbar on KalaId.K_Code = Anbar.K_Code\n" +
+                    ") P\n" +
+                    "join\n" +
+                    "(select k_Code, '0' as K_Code_B, 1 as K_Qty1 from KalaId left join (select K_Code as ID ,'0' as k_code_B, 1 as K_Qty1 from TblBasket_Kala) P on K_Code = P.ID\n" +
+                    "union all\n" +
+                    "select K_Code as ID2,  K_Code_B, K_Qty1 from TblBasket_Kala) T\n" +
+                    "on P.ID1 = T.K_Code where Name1 like ? and A_Code = ?; ");
+            searchByNameMiddleStatement.setString(2, properties.getAnbar().trim());
+
+            anbar = properties.getAnbar().trim();
 
             isOpened = true;
         }
@@ -135,6 +149,57 @@ public class OpenedDatabaseApi implements IReadable {
         return managers;
     }
 
+    public Set<ProductsManager> searchProductsByName(String name, SearchingType searchingType) throws SQLException {
+        Set<ProductsManager> productsManagers = new HashSet<>();
+        ResultSet resultSet = null;
+        if (isOpened){
+            switch (searchingType){
+                case START:
+                    searchByNameStartingStatement.setString(1, name + "%");
+                    resultSet = searchByNameStartingStatement.executeQuery();
+                    break;
+                case MIDDLE:
+                    searchByNameMiddleStatement.setString(1, "%" + name + "%");
+                    resultSet = searchByNameMiddleStatement.executeQuery();
+                    break;
+                case ALL:
+                    resultSet = searchByNames(name);
+                    break;
+            }
+
+            while (resultSet.next()){
+                String productName = resultSet.getString("name1") == null ? "" : resultSet.getString("name1");
+                String barcode = resultSet.getString("ID1") == null ? "" : resultSet.getString("ID1");
+                String priceForosh = resultSet.getString("Price_Forosh") == null ? "0": resultSet.getString("Price_Forosh");
+                String priceConsumer = resultSet.getString("Price_Consumer") == null ? "0":  resultSet.getString("Price_Consumer");
+                String count = resultSet.getString("K_qty1") == null ? "1" : resultSet.getString("K_qty1");
+
+                ProductsManager manager = new ProductsManager(barcode, productName, priceConsumer, priceForosh, count);
+                productsManagers.add(manager);
+            }
+
+        }
+        return productsManagers;
+    }
+
+    private ResultSet searchByNames(String names) throws SQLException {
+        StringBuilder searchingQuery = new StringBuilder("select ID1, K_Code_B, A_Code, Name1, Price_Consumer, Price_Forosh,Barcode, K_Qty1 from(\n" +
+                "select kalaid.K_Code as ID1 ,A_Code, Name1, Barcode, Price_Consumer, price_forosh from kalaid join Anbar on KalaId.K_Code = Anbar.K_Code\n" +
+                ") P\n" +
+                "join\n" +
+                "(select k_Code, '0' as K_Code_B, 1 as K_Qty1 from KalaId left join (select K_Code as ID ,'0' as k_code_B, 1 as K_Qty1 from TblBasket_Kala) P on K_Code = P.ID\n" +
+                "union all\n" +
+                "select K_Code as ID2,  K_Code_B, K_Qty1 from TblBasket_Kala) T\n" +
+                "on P.ID1 = T.K_Code where Name1 like '%");
+        String[] arrNames = names.split(" ");
+        for (String name: arrNames){
+            searchingQuery.append(name).append("%");
+        }
+        searchingQuery.append("'").append("and A_code = ").append(anbar);
+
+        return connection.prepareStatement(searchingQuery.toString()).executeQuery();
+    }
+
     public void closeConnection(){
         // If connection is opened
         if (isOpened){
@@ -148,58 +213,5 @@ public class OpenedDatabaseApi implements IReadable {
             }
         }
     }
-
-
-    /*
-    @Deprecated
-    private Integer updateName(String newName, String id) throws SQLException {
-        if (isOpened){
-            updateNameStatement.setString(1, newName);
-            updateNameStatement.setString(2, id);
-
-            return updateNameStatement.executeUpdate();
-        }
-        return 0;
-    }
-
-    @Deprecated
-    private int updatePriceForosh(String newPrice, String id) throws SQLException {
-        if (isOpened){
-            updatePriceForoshStatement.setString(1, newPrice);
-            updatePriceForoshStatement.setString(2, id);
-
-            return updatePriceForoshStatement.executeUpdate();
-        }
-        return 0;
-    }
-
-    @Deprecated
-    private int updatePriceConsumer(String newPrice, String id) throws SQLException {
-        if (isOpened){
-            updatePriceConsumerStatement.setString(1, newPrice);
-            updatePriceConsumerStatement.setString(2, id);
-
-            return updatePriceConsumerStatement.executeUpdate();
-        }
-        return 0;
-    }
-
-    @Override
-    @Deprecated
-    public Integer update(Integer updateType, String newValue, String id) throws SQLException {
-        switch (updateType){
-            case 1:
-                return updateName(newValue, id);
-            case 2:
-                return updatePriceForosh(newValue, id);
-            case 3:
-                return updatePriceConsumer(newValue, id);
-        }
-        return 0;
-    }
-
-
-     */
-
 
 }

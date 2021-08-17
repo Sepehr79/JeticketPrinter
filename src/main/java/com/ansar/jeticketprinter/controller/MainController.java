@@ -195,7 +195,6 @@ public class MainController implements Initializable {
 
     }
 
-
     private void mapColumnsToProduct(){
         // Readable
         name.setCellValueFactory(new PropertyValueFactory<ProductsManager, String>("name"));
@@ -310,33 +309,6 @@ public class MainController implements Initializable {
                 printer.getSelectionModel().select(printerIndex.getIndexNumber());
         }
     }
-
-    /*
-     * Update fields in database
-     * @param updateType type of update(NAME_UPDATE, UPDATE_PRICE_FOROSH, UPDATE_PRICE_CONSUMER)
-     * @param newValue newValue of field
-     * @param id primary key
-     */
-//    @Deprecated
-//    private void update(Integer updateType, String newValue, String id){
-//        OpenedDatabaseApi api = OpenedDatabaseApi.getInstance();
-//
-//        try {
-//            api.openConnection(readProperties());
-//
-//            logger.info("Rows updated:" +
-//                    "------------------------------------------------------------------------------> "
-//                    + api.update(updateType, newValue, id));
-//        } catch (SQLException exception) {
-//            logger.info("Exception on SQL processing");
-//            alert("Connection problem!", "Please check your connection fields.");
-//            exception.printStackTrace();
-//        }finally {
-//            api.closeConnection();
-//        }
-//    }
-
-
     /**
      * Read properties from input field and update table
      * @param textInputControl (TextFiled or TextArea)

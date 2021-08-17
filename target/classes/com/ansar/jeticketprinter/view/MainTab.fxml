@@ -19,9 +19,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Tab closable="false" styleClass="persianFont" text="پرینتر"  xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ansar.jeticketprinter.controller.MainController">
+<Tab xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ansar.jeticketprinter.controller.MainController" closable="false" styleClass="persianFont" text="پرینتر">
     <content>
-        <SplitPane nodeOrientation="RIGHT_TO_LEFT" orientation="VERTICAL" prefHeight="-Infinity" prefWidth="-Infinity">
+        <SplitPane dividerPositions="0.5" nodeOrientation="RIGHT_TO_LEFT" orientation="VERTICAL" prefHeight="-Infinity" prefWidth="-Infinity">
             <items>
                 <AnchorPane maxHeight="140.0" minHeight="140.0" prefHeight="140.0">
                     <children>
@@ -119,11 +119,11 @@
                     </children></AnchorPane>
                 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                     <children>
-                        <TableView styleClass="persianFont" fx:id="table" nodeOrientation="RIGHT_TO_LEFT" editable="true" layoutX="14.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <TableView fx:id="table" editable="true" layoutX="14.0" nodeOrientation="RIGHT_TO_LEFT" styleClass="persianFont" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <columns>
-                                <TableColumn fx:id="row" maxWidth="2500.0" minWidth="5.0" prefWidth="20.0" style="-fx-alignment: center;" text="ردیف" styleClass="persianFont" />
-                                <TableColumn fx:id="id" prefWidth="257.5999755859375" sortable="false" style="-fx-alignment: center;" text="بارکد" styleClass="persianFont" />
-                                <TableColumn fx:id="name" maxWidth="10000.0" prefWidth="111.4000244140625" style="-fx-alignment: center;" text="نام" styleClass="persianFont" />
+                                <TableColumn fx:id="row" maxWidth="2500.0" minWidth="5.0" prefWidth="20.0" style="-fx-alignment: center;" styleClass="persianFont" text="ردیف" />
+                                <TableColumn fx:id="id" prefWidth="257.5999755859375" sortable="false" style="-fx-alignment: center;" styleClass="persianFont" text="بارکد" />
+                                <TableColumn fx:id="name" maxWidth="10000.0" prefWidth="111.4000244140625" style="-fx-alignment: center;" styleClass="persianFont" text="نام" />
                                 <TableColumn fx:id="highPrice" maxWidth="3500.0" minWidth="30.0" prefWidth="127.5999755859375" style="-fx-alignment: center;" styleClass="persianFont" text="قیمت مصرف کننده" />
                                 <TableColumn fx:id="lowPrice" maxWidth="3500.0" minWidth="30.0" prefWidth="163.79998779296875" style="-fx-alignment: center;" styleClass="persianFont" text="قیمت فروشگاه" />
                                 <TableColumn fx:id="discount" maxWidth="2000.0" minWidth="50.0" prefWidth="700.0" style="-fx-alignment: center;" styleClass="persianFont" text="درصد تخفیف" />

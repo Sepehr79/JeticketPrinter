@@ -3,6 +3,7 @@ package com.ansar.jeticketprinter.model.database.api;
 import com.ansar.jeticketprinter.model.dto.ProductsManager;
 import com.ansar.jeticketprinter.model.pojo.ConnectionProperties;
 import com.ansar.jeticketprinter.model.pojo.IntervalProduct;
+import com.ansar.jeticketprinter.model.pojo.SearchingType;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -75,41 +76,6 @@ public class OpenedDatabaseApiTest {
         api.closeConnection();
     }
 
-    /*
-    @Test
-    public void testChangeName() throws SQLException {
-        OpenedDatabaseApi api = OpenedDatabaseApi.getInstance();
-
-        api.openConnection(properties);
-
-        System.out.println(api.update(OpenedDatabaseApi.UPDATE_NAME ,"اسکاچ سوپر", "1122339003022"));
-
-        api.closeConnection();
-    }
-
-    @Test
-    public void testUpdatePriceForosh() throws SQLException {
-        OpenedDatabaseApi api = OpenedDatabaseApi.getInstance();
-
-        api.openConnection(properties);
-
-        System.out.println(api.update(OpenedDatabaseApi.UPDATE_PRICE_FOROSH ,"44000", "1122339003022"));
-
-        api.closeConnection();
-    }
-
-    @Test
-    public void testUpdatePriceConsumer() throws SQLException {
-        OpenedDatabaseApi api = OpenedDatabaseApi.getInstance();
-
-        api.openConnection(properties);
-
-        System.out.println(api.update(OpenedDatabaseApi.UPDATE_PRICE_CONSUMER ,"50000", "1122339003022"));
-
-        api.closeConnection();
-    }
-    */
-
     @Test
     public void testGetIntervalTimeProducts() throws SQLException {
 
@@ -122,5 +88,16 @@ public class OpenedDatabaseApiTest {
         List<IntervalProduct> managers = api.getProductsManager("2011-8-20 20:59", "2021-8-20 00:59");
 
         System.out.println(managers.size());
+    }
+
+    @Test
+    public void testSearchByName() throws SQLException {
+        OpenedDatabaseApi api = OpenedDatabaseApi.getInstance();
+        api.openConnection(properties);
+
+        Set<ProductsManager> managers = api.searchProductsByName("ر س", SearchingType.ALL);
+
+        System.out.println(managers.size());
+        api.closeConnection();
     }
 }

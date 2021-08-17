@@ -1,6 +1,5 @@
 package com.ansar.jeticketprinter.view;
 
-import com.ansar.jeticketprinter.model.dto.ProductsManager;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableView;
 

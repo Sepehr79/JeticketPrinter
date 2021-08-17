@@ -1,6 +1,5 @@
 package com.ansar.jeticketprinter.view;
 
-import com.ansar.jeticketprinter.model.dto.ProductsManager;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
