@@ -13,12 +13,12 @@ public class DialogViewer {
 
     public static void showDialog(String header, String message, Alert.AlertType type){
         Alert alert = new Alert(type);
-        alert.setTitle("پیام");
-        alert.setHeaderText(header);
-        alert.setContentText(message);
+        alert.setTitle(String.valueOf(("پیام")));
+        alert.setHeaderText(String.valueOf(header));
+        alert.setContentText(String.valueOf(message));
         alert.getDialogPane().setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
         alert.getDialogPane().setStyle("-fx-font-family: 'B Yekan';-fx-font-size: 20");
-        ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("تایید");
+        ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText(String.valueOf("تایید"));
 
         alert.showAndWait();
     }

@@ -12,6 +12,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -39,6 +41,11 @@ public class NameSearchingTabController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         mapColumnsToProduct();
+
+        search.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.ENTER)
+                searchProducts();
+        });
     }
     private void mapColumnsToProduct() {
         // Readable
@@ -68,7 +75,7 @@ public class NameSearchingTabController implements Initializable {
         table.getItems().clear();
     }
 
-    private void searchProducts(){
+    public void searchProducts(){
         SearchingType searchingType = null;
         if (nameSearchingStart.isSelected())
             searchingType = SearchingType.START;
@@ -111,5 +118,17 @@ public class NameSearchingTabController implements Initializable {
 
     public Button getSendToMainPage() {
         return sendToMainPage;
+    }
+
+    public TextField getName() {
+        return name;
+    }
+
+    public TextField getAnbar() {
+        return anbar;
+    }
+
+    public Button getSearch() {
+        return search;
     }
 }

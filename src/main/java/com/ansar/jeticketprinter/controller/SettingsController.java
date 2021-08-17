@@ -100,7 +100,7 @@ public class SettingsController implements Initializable {
                 exception.printStackTrace();
             }
         }else {
-            DialogViewer.showDialog(("پرینتر انتخاب نشد!"), ("لطفا یک پرینتر را انتخاب کرده و دوباره تلاش کنید"), Alert.AlertType.WARNING);
+            DialogViewer.showDialog(String.valueOf("پرینتر انتخاب نشد!"), String.valueOf("لطفا یک پرینتر را انتخاب کرده و دوباره تلاش کنید"), Alert.AlertType.WARNING);
         }
     }
 

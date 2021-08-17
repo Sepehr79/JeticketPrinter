@@ -10,6 +10,7 @@ C:\Users\KUCESS\Downloads\JeticketPrinter\src\main\java\com\ansar\jeticketprinte
 C:\Users\KUCESS\Downloads\JeticketPrinter\src\main\java\com\ansar\jeticketprinter\model\database\api\IWritable.java
 C:\Users\KUCESS\Downloads\JeticketPrinter\src\main\java\com\ansar\jeticketprinter\controller\MainController.java
 C:\Users\KUCESS\Downloads\JeticketPrinter\src\main\java\com\ansar\jeticketprinter\model\pojo\PrinterIndex.java
+C:\Users\KUCESS\Downloads\JeticketPrinter\src\main\java\com\ansar\jeticketprinter\model\pojo\SearchingType.java
 C:\Users\KUCESS\Downloads\JeticketPrinter\src\main\java\com\ansar\jeticketprinter\view\DateTextFiled.java
 C:\Users\KUCESS\Downloads\JeticketPrinter\src\main\java\com\ansar\jeticketprinter\model\database\api\OpenedDatabaseApi.java
 C:\Users\KUCESS\Downloads\JeticketPrinter\src\main\java\com\ansar\jeticketprinter\view\CounterCell.java
@@ -20,6 +21,7 @@ C:\Users\KUCESS\Downloads\JeticketPrinter\src\main\java\com\ansar\jeticketprinte
 C:\Users\KUCESS\Downloads\JeticketPrinter\src\main\java\com\ansar\jeticketprinter\controller\SettingsController.java
 C:\Users\KUCESS\Downloads\JeticketPrinter\src\main\java\com\ansar\jeticketprinter\model\dto\Products.java
 C:\Users\KUCESS\Downloads\JeticketPrinter\src\main\java\com\ansar\jeticketprinter\printer\ProductPaper.java
+C:\Users\KUCESS\Downloads\JeticketPrinter\src\main\java\com\ansar\jeticketprinter\controller\NameSearchingTabController.java
 C:\Users\KUCESS\Downloads\JeticketPrinter\src\main\java\com\ansar\jeticketprinter\view\DialogViewer.java
 C:\Users\KUCESS\Downloads\JeticketPrinter\src\main\java\com\ansar\jeticketprinter\model\pojo\IntervalProduct.java
 C:\Users\KUCESS\Downloads\JeticketPrinter\src\main\java\com\ansar\jeticketprinter\model\dto\DateConvertor.java

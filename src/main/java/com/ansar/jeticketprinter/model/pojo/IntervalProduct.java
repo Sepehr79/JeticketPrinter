@@ -1,7 +1,6 @@
 package com.ansar.jeticketprinter.model.pojo;
 
 import com.github.mfathi91.time.PersianDate;
-import sun.util.resources.LocaleData;
 
 import java.time.LocalDate;
 import java.util.Objects;

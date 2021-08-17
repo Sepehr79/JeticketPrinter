@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -53,6 +54,16 @@ public class MainPageController implements Initializable {
             mainTabController.getTableView().getItems().addAll(managers);
         });
 
+        nameSearchingTabController.getName().addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.ENTER)
+                nameSearchingTabController.getAnbar().requestFocus();
+        });
+
+        nameSearchingTabController.getAnbar().addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.ENTER)
+                nameSearchingTabController.getSearch().requestFocus();
+        });
+
         intevalTab.selectedProperty().addListener(observable -> {
             if (intevalTab.isSelected())
                 Platform.runLater(()->{intevalTabController.getFromTime().requestFocus();});
@@ -62,5 +73,11 @@ public class MainPageController implements Initializable {
             if (mainTab.isSelected())
                 Platform.runLater(()->{mainTabController.getBarcode().requestFocus();});
         });
+
+        nameSearchingTab.selectedProperty().addListener(observable -> {
+            if (nameSearchingTab.isSelected())
+                Platform.runLater(()->{nameSearchingTabController.getName().requestFocus();});
+        });
+        //nameSearchingTabController
     }
 }
