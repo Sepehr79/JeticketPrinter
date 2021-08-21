@@ -89,25 +89,7 @@
                                           <Font name="B Yekan" size="20.0" />
                                        </font>
                                     </Text>
-                                    <RadioButton fx:id="nameSearchingStart" contentDisplay="CENTER" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="ابتدا" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-                                       <font>
-                                          <Font name="B Yekan" size="15.0" />
-                                       </font>
-                                       <toggleGroup>
-                                          <ToggleGroup fx:id="nameSearching" />
-                                       </toggleGroup>
-                                    </RadioButton>
-                                    <RadioButton fx:id="nameSearchingMiddle" contentDisplay="CENTER" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="حد وسط" toggleGroup="$nameSearching" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-                                       <font>
-                                          <Font name="B Yekan" size="15.0" />
-                                       </font>
-                                    </RadioButton>
-                                    <RadioButton fx:id="nameSearchingAll" contentDisplay="CENTER" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="همه" toggleGroup="$nameSearching" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-                                       <font>
-                                          <Font name="B Yekan" size="15.0" />
-                                       </font>
-                                    </RadioButton>
-                                    <TextField fx:id="nameSearchingTextField" onKeyPressed="#openSearchingNameTab" alignment="CENTER" promptText="نام" GridPane.columnSpan="3" GridPane.rowIndex="2">
+                                    <TextField onKeyPressed="#openSearchingNameTabKey" fx:id="nameSearchingTextField" onMouseClicked="#openSearchingNameTab" alignment="CENTER" promptText="نام" GridPane.columnSpan="3" GridPane.rowIndex="2">
                                        <font>
                                           <Font name="B Yekan" size="15.0" />
                                        </font>

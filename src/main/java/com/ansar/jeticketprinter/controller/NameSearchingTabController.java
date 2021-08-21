@@ -22,6 +22,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 public class NameSearchingTabController implements Initializable {
+
     public TextField name;
     public Button search;
     public Button sendToMainPage;
@@ -33,10 +34,20 @@ public class NameSearchingTabController implements Initializable {
     public TableColumn<ProductsManager, String> productPriceForoshColumn;
     public TableColumn<ProductsManager, Boolean> productDeleteColumn;
 
+    public RadioButton nameSearchingStart;
+    public RadioButton nameSearchingMiddle;
+    public RadioButton nameSearchingAll;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         mapColumnsToProduct();
         configEvents();
+
+        name.setOnKeyPressed(event -> {
+          Platform.runLater(() ->{
+              searchProducts(identifySearchingType());
+          });
+        });
     }
     private void mapColumnsToProduct() {
         // Readable
@@ -56,7 +67,7 @@ public class NameSearchingTabController implements Initializable {
 
 
     public void doSearch(ActionEvent actionEvent) {
-        searchProducts();
+        searchProducts(identifySearchingType());
     }
 
     public void sendToMainPage(ActionEvent actionEvent) {
@@ -66,7 +77,7 @@ public class NameSearchingTabController implements Initializable {
         table.getItems().clear();
     }
 
-    public void searchProducts(){
+    public void searchProducts(SearchingType type){
 
         String name = this.name.getText();
 
@@ -75,7 +86,7 @@ public class NameSearchingTabController implements Initializable {
         Set<ProductsManager> managers = null;
         try {
             api.openConnection(properties);
-            managers = api.searchProductsByName(name, SearchingType.ALL);
+            managers = api.searchProductsByName(name, type);
             api.closeConnection();
         } catch (SQLException throwables) {
             DialogViewer.showDialog(
@@ -91,7 +102,6 @@ public class NameSearchingTabController implements Initializable {
 
             if (table.getItems().size() > 0)
                 Platform.runLater(() -> {
-                    table.requestFocus();
                     table.getSelectionModel().selectFirst();
                 });
         }
@@ -121,8 +131,18 @@ public class NameSearchingTabController implements Initializable {
 
         search.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.ENTER)
-                searchProducts();
+                searchProducts(identifySearchingType());
         });
+    }
+
+    private SearchingType identifySearchingType(){
+        SearchingType searchingType = SearchingType.START;
+        if (nameSearchingMiddle.isSelected())
+            searchingType = SearchingType.MIDDLE;
+        else if (nameSearchingAll.isSelected())
+            searchingType = SearchingType.ALL;
+
+        return searchingType;
     }
 
 }

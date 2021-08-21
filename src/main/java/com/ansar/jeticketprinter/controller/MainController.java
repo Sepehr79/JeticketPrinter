@@ -5,18 +5,21 @@ import com.ansar.jeticketprinter.model.database.api.OpenedDatabaseApi;
 import com.ansar.jeticketprinter.model.dto.*;
 import com.ansar.jeticketprinter.model.pojo.PrintProperties;
 import com.ansar.jeticketprinter.model.pojo.PrinterIndex;
+import com.ansar.jeticketprinter.model.pojo.SearchingType;
 import com.ansar.jeticketprinter.printer.ProductPaper;
 import com.ansar.jeticketprinter.printer.ProductPrinter;
 import com.ansar.jeticketprinter.view.ButtonCell;
 import com.ansar.jeticketprinter.view.CounterCell;
 import com.ansar.jeticketprinter.view.DialogViewer;
 import com.ansar.jeticketprinter.view.ViewLoader;
+import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -59,10 +62,6 @@ public class MainController implements Initializable {
     @FXML private CheckBox connectionSettings;
     @FXML private GridPane connectionView;
 
-    public RadioButton nameSearchingStart;
-    public ToggleGroup nameSearching;
-    public RadioButton nameSearchingMiddle;
-    public RadioButton nameSearchingAll;
     public TextField nameSearchingTextField;
 
     @FXML private TableView<ProductsManager> table;
@@ -174,23 +173,13 @@ public class MainController implements Initializable {
         ConnectionProperties.serializeToXml(properties);
     }
 
-    public void openSearchingNameTab(KeyEvent keyEvent) throws IOException {
-        if (!nameSearchingWindow.isShowing()){
-            // Save properties
-            ConnectionProperties properties = readProperties();
-            ConnectionProperties.serializeToXml(properties);
-
-            Scene scene = new Scene(ViewLoader.getPage(ViewLoader.NAME_SEARCHING_PAGE));
-            nameSearchingWindow.setScene(scene);
-            nameSearchingWindow.show();
-            nameSearchingWindow.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-                if (event.getCode() == KeyCode.ESCAPE)
-                    nameSearchingWindow.close();
-            });
-            nameSearchingTextField.clear();
-        }
+    public void openSearchingNameTab(MouseEvent mouseEvent) throws IOException {
+        openSearchingName();
     }
 
+    public void openSearchingNameTabKey(KeyEvent keyEvent) throws IOException {
+        openSearchingName();
+    }
     ///// End of events /////
 
     /**
@@ -372,5 +361,46 @@ public class MainController implements Initializable {
 
     public TextField getBarcode() {
         return barcode;
+    }
+
+    private void deselect(TextField textField) {
+        Platform.runLater(() -> {
+            if (textField.getText().length() > 0 &&
+                    textField.selectionProperty().get().getEnd() == 0) {
+                deselect(textField);
+            }else{
+                textField.selectEnd();
+                textField.deselect();
+            }
+        });
+    }
+
+    private void openSearchingName() throws IOException {
+        if (!nameSearchingWindow.isShowing()){
+            // Save properties
+            ConnectionProperties properties = readProperties();
+            ConnectionProperties.serializeToXml(properties);
+
+            Scene scene = ViewLoader.getNameSearchingScene();
+            nameSearchingWindow.setScene(scene);
+            nameSearchingWindow.show();
+            nameSearchingWindow.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+                if (event.getCode() == KeyCode.ESCAPE)
+                    nameSearchingWindow.close();
+            });
+
+            FXMLLoader loader = (FXMLLoader) scene.getUserData();
+            NameSearchingTabController nameSearchingTabController = loader.getController();
+
+            nameSearchingTabController.getTable().setOnKeyPressed(event -> {
+                if (event.getCode() == KeyCode.ENTER){
+                    ProductsManager productsManager = nameSearchingTabController.getTable().getSelectionModel().getSelectedItem();
+                    this.table.getItems().add(productsManager);
+                    nameSearchingWindow.close();
+                }
+            });
+
+            nameSearchingTextField.clear();
+        }
     }
 }
