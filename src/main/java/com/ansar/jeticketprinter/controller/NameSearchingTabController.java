@@ -6,6 +6,7 @@ import com.ansar.jeticketprinter.model.pojo.ConnectionProperties;
 import com.ansar.jeticketprinter.model.pojo.SearchingType;
 import com.ansar.jeticketprinter.view.ButtonCell;
 import com.ansar.jeticketprinter.view.CounterCell;
+import com.ansar.jeticketprinter.view.DialogViewer;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
@@ -21,13 +22,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 public class NameSearchingTabController implements Initializable {
-
-    public RadioButton nameSearchingStart;
-    public ToggleGroup nameSearchingGroup;
-    public RadioButton nameSearchingMiddle;
-    public RadioButton nameSearchingAll;
     public TextField name;
-    public TextField anbar;
     public Button search;
     public Button sendToMainPage;
     public TableView<ProductsManager> table;
@@ -41,11 +36,7 @@ public class NameSearchingTabController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         mapColumnsToProduct();
-
-        search.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-            if (event.getCode() == KeyCode.ENTER)
-                searchProducts();
-        });
+        configEvents();
     }
     private void mapColumnsToProduct() {
         // Readable
@@ -76,28 +67,22 @@ public class NameSearchingTabController implements Initializable {
     }
 
     public void searchProducts(){
-        SearchingType searchingType = null;
-        if (nameSearchingStart.isSelected())
-            searchingType = SearchingType.START;
-        else if (nameSearchingMiddle.isSelected())
-            searchingType = SearchingType.MIDDLE;
-        else
-            searchingType = SearchingType.ALL;
 
         String name = this.name.getText();
-        String anbar = this.anbar.getText();
 
         ConnectionProperties properties = ConnectionProperties.deserializeFromXml();
-        properties.setAnbar(anbar);
-
         OpenedDatabaseApi api = OpenedDatabaseApi.getInstance();
         Set<ProductsManager> managers = null;
         try {
             api.openConnection(properties);
-            managers = api.searchProductsByName(name, searchingType);
+            managers = api.searchProductsByName(name, SearchingType.ALL);
             api.closeConnection();
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            DialogViewer.showDialog(
+                    "اخطار",
+                    "اتصال با دیتابیس ممکن نیست لطفا تنظیمات اتصال را بررسی کنید",
+                    Alert.AlertType.ERROR
+            );
         }
 
         if (managers != null){
@@ -124,11 +109,20 @@ public class NameSearchingTabController implements Initializable {
         return name;
     }
 
-    public TextField getAnbar() {
-        return anbar;
-    }
-
     public Button getSearch() {
         return search;
     }
+
+    private void configEvents(){
+        name.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.ENTER)
+                search.requestFocus();
+        });
+
+        search.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.ENTER)
+                searchProducts();
+        });
+    }
+
 }

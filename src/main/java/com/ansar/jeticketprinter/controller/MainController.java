@@ -11,14 +11,11 @@ import com.ansar.jeticketprinter.view.ButtonCell;
 import com.ansar.jeticketprinter.view.CounterCell;
 import com.ansar.jeticketprinter.view.DialogViewer;
 import com.ansar.jeticketprinter.view.ViewLoader;
-import com.sun.javafx.scene.input.ExtendedInputMethodRequests;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -31,11 +28,8 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-import javafx.util.StringConverter;
 
 import javax.print.PrintService;
-import javax.tools.DiagnosticListener;
 import java.awt.print.PrinterAbortException;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
@@ -44,7 +38,6 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
 public class MainController implements Initializable {
@@ -52,6 +45,7 @@ public class MainController implements Initializable {
     private static final Logger logger = Logger.getLogger(MainController.class.getName());
 
     private static final EntityJsonManager<PrinterIndex> printerIndexManager = new EntityJsonManager<>();
+
 
     @FXML private TextField address;
     @FXML private TextField port;
@@ -65,6 +59,11 @@ public class MainController implements Initializable {
     @FXML private CheckBox connectionSettings;
     @FXML private GridPane connectionView;
 
+    public RadioButton nameSearchingStart;
+    public ToggleGroup nameSearching;
+    public RadioButton nameSearchingMiddle;
+    public RadioButton nameSearchingAll;
+    public TextField nameSearchingTextField;
 
     @FXML private TableView<ProductsManager> table;
     @FXML private TableColumn<ProductsManager, String> discount;
@@ -77,6 +76,7 @@ public class MainController implements Initializable {
 
     // Settings window
     private static final Stage settingsWindow = new Stage();
+    private static final Stage nameSearchingWindow = new Stage();
 
     // Data
     private ConnectionProperties properties;
@@ -117,7 +117,6 @@ public class MainController implements Initializable {
         }catch (NullPointerException exception){
             logger.info("Null pointer cause no arg on barcodes label");
         }
-
     }
 
     public void printResult(ActionEvent actionEvent) {
@@ -175,7 +174,22 @@ public class MainController implements Initializable {
         ConnectionProperties.serializeToXml(properties);
     }
 
+    public void openSearchingNameTab(KeyEvent keyEvent) throws IOException {
+        if (!nameSearchingWindow.isShowing()){
+            // Save properties
+            ConnectionProperties properties = readProperties();
+            ConnectionProperties.serializeToXml(properties);
 
+            Scene scene = new Scene(ViewLoader.getPage(ViewLoader.NAME_SEARCHING_PAGE));
+            nameSearchingWindow.setScene(scene);
+            nameSearchingWindow.show();
+            nameSearchingWindow.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+                if (event.getCode() == KeyCode.ESCAPE)
+                    nameSearchingWindow.close();
+            });
+            nameSearchingTextField.clear();
+        }
+    }
 
     ///// End of events /////
 
