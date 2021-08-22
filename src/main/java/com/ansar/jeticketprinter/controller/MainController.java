@@ -18,6 +18,7 @@ import javafx.beans.Observable;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -42,6 +43,7 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class MainController implements Initializable {
     // Debugging
@@ -62,7 +64,7 @@ public class MainController implements Initializable {
     @FXML private CheckBox connectionSettings;
     @FXML private GridPane connectionView;
 
-    public TextField nameSearchingTextField;
+    @FXML private TextField nameSearchingTextField;
 
     @FXML private TableView<ProductsManager> table;
     @FXML private TableColumn<ProductsManager, String> discount;
@@ -174,11 +176,11 @@ public class MainController implements Initializable {
     }
 
     public void openSearchingNameTab(MouseEvent mouseEvent) throws IOException {
-        openSearchingName();
+        openSearchingName(mouseEvent);
     }
 
     public void openSearchingNameTabKey(KeyEvent keyEvent) throws IOException {
-        openSearchingName();
+        openSearchingName(keyEvent);
     }
     ///// End of events /////
 
@@ -375,7 +377,7 @@ public class MainController implements Initializable {
         });
     }
 
-    private void openSearchingName() throws IOException {
+    private void openSearchingName(Event action) throws IOException {
         if (!nameSearchingWindow.isShowing()){
             // Save properties
             ConnectionProperties properties = readProperties();
@@ -392,12 +394,23 @@ public class MainController implements Initializable {
             FXMLLoader loader = (FXMLLoader) scene.getUserData();
             NameSearchingTabController nameSearchingTabController = loader.getController();
 
+            if (action instanceof KeyEvent){
+                nameSearchingTabController.getName().setText((((KeyEvent) action).getText()));
+            }
+            nameSearchingTabController.getName().requestFocus();
+            deselect(nameSearchingTabController.getName());
+
             nameSearchingTabController.getTable().setOnKeyPressed(event -> {
                 if (event.getCode() == KeyCode.ENTER){
                     ProductsManager productsManager = nameSearchingTabController.getTable().getSelectionModel().getSelectedItem();
                     this.table.getItems().add(productsManager);
                     nameSearchingWindow.close();
                 }
+            });
+
+            nameSearchingTabController.getSendToMainPage().addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
+                List<ProductsManager> managers = new ArrayList<>(nameSearchingTabController.table.getItems());
+                table.getItems().addAll(managers);
             });
 
             nameSearchingTextField.clear();

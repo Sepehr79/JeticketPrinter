@@ -153,13 +153,18 @@ public class OpenedDatabaseApi implements IReadable {
         Set<ProductsManager> productsManagers = new HashSet<>();
         ResultSet resultSet = null;
         if (isOpened){
+            String inserting = "";
             switch (searchingType){
                 case START:
-                    searchByNameStartingStatement.setString(1, name + "%");
+                    inserting = name + "%";
+                    System.out.println(inserting);
+                    searchByNameStartingStatement.setString(1, inserting);
                     resultSet = searchByNameStartingStatement.executeQuery();
                     break;
                 case MIDDLE:
-                    searchByNameMiddleStatement.setString(1, "%" + name + "%");
+                    inserting = "%" + name + "%";
+                    System.out.println(inserting);
+                    searchByNameMiddleStatement.setString(1, inserting);
                     resultSet = searchByNameMiddleStatement.executeQuery();
                     break;
                 case ALL:

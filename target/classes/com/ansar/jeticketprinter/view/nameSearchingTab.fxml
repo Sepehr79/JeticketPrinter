@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="528.0" prefWidth="777.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ansar.jeticketprinter.controller.NameSearchingTabController">
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="744.0" prefWidth="1362.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ansar.jeticketprinter.controller.NameSearchingTabController">
                <children>
                   <SplitPane dividerPositions="0.5" nodeOrientation="RIGHT_TO_LEFT" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
@@ -62,8 +62,8 @@
                               <TableView fx:id="table" layoutX="270.0" layoutY="46.0" prefHeight="200.0" prefWidth="686.0" styleClass="persianFont" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columns>
                                   <TableColumn fx:id="productCounterColumn" maxWidth="80.0" minWidth="80.0" style="-fx-alignment: center;" text="ردیف" />
-                                  <TableColumn fx:id="productBarcodeColumn" prefWidth="75.0" style="-fx-alignment: center;" text="بارکد" />
-                                    <TableColumn fx:id="productNameColumn" prefWidth="75.0" style="-fx-alignment: center;" text="نام" />
+                                  <TableColumn fx:id="productBarcodeColumn" prefWidth="92.0" style="-fx-alignment: center;" text="بارکد" />
+                                    <TableColumn fx:id="productNameColumn" maxWidth="15000.0" prefWidth="15000.0" style="-fx-alignment: center;" text="نام" />
                                     <TableColumn fx:id="productPriceConsumerColumn" prefWidth="75.0" style="-fx-alignment: center;" text="قیمت مشتری" />
                                     <TableColumn fx:id="productPriceForoshColumn" prefWidth="162.4000244140625" style="-fx-alignment: center;" text="قیمت فروش" />
                                     <TableColumn fx:id="productDeleteColumn" maxWidth="80.0" minWidth="80.0" style="-fx-alignment: center;" text="حذف" />

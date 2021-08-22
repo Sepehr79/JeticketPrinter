@@ -23,8 +23,6 @@ import java.util.ResourceBundle;
 
 public class IntervalTabController implements Initializable {
 
-    @FXML private Tab intervalTab;
-
     @FXML private TableView<IntervalProduct> table;
     @FXML private TableColumn<IntervalProduct, Boolean> delete;
     @FXML private TableColumn<IntervalProduct, String> priceConsumer;

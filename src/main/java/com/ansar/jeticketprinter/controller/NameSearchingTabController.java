@@ -66,8 +66,14 @@ public class NameSearchingTabController implements Initializable {
     }
 
 
-    public void doSearch(ActionEvent actionEvent) {
-        searchProducts(identifySearchingType());
+    public void doSearch(KeyEvent actionEvent) {
+        if (actionEvent.getCode() == KeyCode.DOWN){
+            table.requestFocus();
+            table.getSelectionModel().selectFirst();
+        } else {
+            searchProducts(identifySearchingType());
+        }
+
     }
 
     public void sendToMainPage(ActionEvent actionEvent) {
@@ -125,7 +131,10 @@ public class NameSearchingTabController implements Initializable {
 
     private void configEvents(){
         name.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-            if (event.getCode() == KeyCode.ENTER)
+            if (event.getCode() == KeyCode.DOWN){
+                table.requestFocus();
+                table.getSelectionModel().selectFirst();
+            }else if (event.getCode() == KeyCode.ENTER)
                 search.requestFocus();
         });
 
