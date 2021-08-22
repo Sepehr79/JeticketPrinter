@@ -4,6 +4,8 @@ import com.ansar.jeticketprinter.model.database.api.OpenedDatabaseApi;
 import com.ansar.jeticketprinter.model.dto.ProductsManager;
 import com.ansar.jeticketprinter.model.pojo.ConnectionProperties;
 import com.ansar.jeticketprinter.model.pojo.SearchingType;
+import com.ansar.jeticketprinter.thread.IThreadService;
+import com.ansar.jeticketprinter.thread.ThreadService;
 import com.ansar.jeticketprinter.view.ButtonCell;
 import com.ansar.jeticketprinter.view.CounterCell;
 import com.ansar.jeticketprinter.view.DialogViewer;
@@ -44,9 +46,12 @@ public class NameSearchingTabController implements Initializable {
         configEvents();
 
         name.setOnKeyPressed(event -> {
-          Platform.runLater(() ->{
-              searchProducts(identifySearchingType());
-          });
+          new ThreadService(new IThreadService() {
+              @Override
+              public void doSome() {
+                  searchProducts(identifySearchingType());
+              }
+          }).run();
         });
     }
     private void mapColumnsToProduct() {
